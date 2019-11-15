@@ -1,5 +1,17 @@
 @extends('layouts.app')
+@section('title')
+    <title>Diary Login</title>
+    @endsection
+@section('register-link')
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('registerGet') }}">{{ __('Register') }}</a>
+    </li>
+    @endsection
 @section('content')
+    @if(isset(Auth::user()->email))
+        <script>window.location='/dHome';</script>
+
+    @else
     <div class="container h-100">
         <div class="row justify-content-center h-100">
             <div class="card-wrapper">
@@ -66,4 +78,5 @@
             </div>
 
         </div>
+    @endif
 @endsection

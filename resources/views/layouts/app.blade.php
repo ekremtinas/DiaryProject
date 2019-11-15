@@ -8,17 +8,21 @@
     <link rel="stylesheet" href="/components/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="/components/css/bootstrap-grid.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="/components/css/bootstrap-reboot.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <title>Diary Login</title>
+    @yield('title')
+
 </head>
 <body>
 
 <div id="app">
     @include('layouts.header')
 
-    <main class="py-4">
+    <main class="py-0">
         @yield('content')
     </main>
 </div>
 <script src="https://code.jquery.com/jquery-3.4.1.js"  integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+<script src="/components/js/bootstrap.js"  ></script>
+<script src="/components/js/bootstrap.bundle.js" ></script>
+@yield('script')
 </body>
 </html>

@@ -13,6 +13,9 @@
 //Login Route
 Route::get('/dLogin','Login\GetLoginController@index')->name('loginGet');
 Route::post('/dLogin','Login\PostLoginController@index')->name('loginPost');
+//Register Route
+Route::get('/dRegister','Register\GetRegisterController@index')->name('registerGet');
+Route::post('/dRegister','Register\PostRegisterController@index')->name('registerPost');
 //Diary Home
 Route::get('/dHome','GetHomeController@index')->name('homeGet');
 Route::get('/dLogout','GetHomeController@logout')->name('homeLogout');

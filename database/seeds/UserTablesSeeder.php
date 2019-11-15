@@ -15,7 +15,7 @@ class UserTablesSeeder extends Seeder
         User::create([
             'name' => 'Ekrem Tınas',
             'email' => 'ekremtinas@gmail.com',
-            'password' =>'123456789',
+            'password' =>Hash::make('password'),
             'remember_token' => 'asdas',
         ]);
     }
