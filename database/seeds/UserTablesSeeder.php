@@ -3,6 +3,7 @@
 use Illuminate\Database\Seeder;
 use App\User;
 
+
 class UserTablesSeeder extends Seeder
 {
     /**
@@ -12,6 +13,7 @@ class UserTablesSeeder extends Seeder
      */
     public function run()
     {
+
         User::create([
             'name' => 'Ekrem Tınas',
             'email' => 'ekremtinas@gmail.com',

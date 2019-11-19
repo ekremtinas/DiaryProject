@@ -110,17 +110,20 @@
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/public/components/js" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/public/components/tui-calendar/js" />
+    <property name="nodejs_package_manager_path" value="npm" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\xampp\htdocs\Diary\public\components\js" />
-      <recent name="C:\xampp\htdocs\Diary\resources\views\layout" />
-      <recent name="C:\xampp\htdocs\Diary\public" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\xampp\htdocs\Diary\resources\views\Login" />
       <recent name="C:\xampp\htdocs\Diary\app\Http\Controllers\Login" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\xampp\htdocs\Diary\public\components\tui-calendar\js" />
+      <recent name="C:\xampp\htdocs\Diary\public\components\tui-calendar\css" />
+      <recent name="C:\xampp\htdocs\Diary\public\components\tui-calendar" />
+      <recent name="C:\xampp\htdocs\Diary\public\components\js" />
+      <recent name="C:\xampp\htdocs\Diary\resources\views\layout" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -155,6 +158,10 @@
       <workItem from="1573648714242" duration="7858000" />
       <workItem from="1573665886097" duration="5448000" />
       <workItem from="1573769754290" duration="8808000" />
+      <workItem from="1574006175638" duration="1228000" />
+      <workItem from="1574082338161" duration="465000" />
+      <workItem from="1574166267124" duration="4185000" />
+      <workItem from="1574172030286" duration="9549000" />
     </task>
     <servers />
   </component>
@@ -166,7 +173,9 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
           </value>
         </entry>
       </map>

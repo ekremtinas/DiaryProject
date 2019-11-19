@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-md navbar-light bg-white shadow-lg ">
+<nav class="navbar navbar-expand-md navbar-light bg-white ">
     <div class="container">
         <a class="navbar-brand" href="{{ url('dHome') }}">
             <img width="100db" src="/components/img/diaryLogo.png" alt="logo">
@@ -30,9 +30,10 @@
 
                         <div id="logout-div"  class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item" href="{{ route('homeLogout') }}">Logout</a>
-
+                            <a class="dropdown-item" href="#">Profile</a>
 
                         </div>
+
                     </li>
                 @endguest
             </ul>
@@ -41,7 +42,7 @@
 </nav>
 @section('script')
     <script>
-        $('#dropdown').click(function () {
+        $('#dropdown').toggleMenu(function () {
             $('#logout-div').show('slow');
         });
 
