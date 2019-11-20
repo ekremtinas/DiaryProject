@@ -11,7 +11,7 @@ class PostRegisterController extends Controller
 {
    public function index(Request $request)
    {
-       try {
+
            $this->validate($request, [
                'email' => 'required|email',
                'password' => 'required|confirmed|alphaNum|min:6',
@@ -25,6 +25,7 @@ class PostRegisterController extends Controller
                'password' => $password,
                'name' => $request->get('name'),
            );
+       try {
            User::create($user_data);
 
            return back()->with('success','User Saved Success');
