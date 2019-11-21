@@ -110,20 +110,20 @@
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/public/components" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/public/components/fullcalendar" />
     <property name="nodejs_package_manager_path" value="npm" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\xampp\htdocs\Diary\public\components" />
-      <recent name="C:\xampp\htdocs\Diary\public\components\css" />
-      <recent name="C:\xampp\htdocs\Diary\public\components\tui-calendar\js" />
-      <recent name="C:\xampp\htdocs\Diary\public\components\tui-calendar\css" />
-      <recent name="C:\xampp\htdocs\Diary\public\components\tui-calendar" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\xampp\htdocs\Diary\resources\views\Login" />
       <recent name="C:\xampp\htdocs\Diary\app\Http\Controllers\Login" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\xampp\htdocs\Diary\public\components\fullcalendar" />
+      <recent name="C:\xampp\htdocs\Diary\public\components\fullcalendar\js" />
+      <recent name="C:\xampp\htdocs\Diary\public\components\fullcalendar\daygrid" />
+      <recent name="C:\xampp\htdocs\Diary\public\components\fullcalendar\core" />
+      <recent name="C:\xampp\htdocs\Diary\public\components" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -162,7 +162,8 @@
       <workItem from="1574082338161" duration="465000" />
       <workItem from="1574166267124" duration="4185000" />
       <workItem from="1574172030286" duration="9549000" />
-      <workItem from="1574244441864" duration="11516000" />
+      <workItem from="1574244441864" duration="11868000" />
+      <workItem from="1574347048997" duration="7749000" />
     </task>
     <servers />
   </component>

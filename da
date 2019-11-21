@@ -1,0 +1,23 @@
+[33mcommit 781e04764b75e5f38d0518012ad76bb02738b17c[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m)[m
+Author: *Ekrem <ekremtinas@gmail.com>
+Date:   Wed Nov 20 16:27:47 2019 +0300
+
+    Login ve Register sayfasının tasarımında iyileştirmeler yapıldı password input'u için show ve hide olacak şekilde göz iconu yerleştirildi. ---- Versiyon 3.1 --- Tasarımda İyileştirmeler , JQuery ile Password Hide ve Show
+
+[33mcommit 9e5714b34be82a79111b5914e9fd52535be55999[m
+Author: *Ekrem <ekremtinas@gmail.com>
+Date:   Wed Nov 20 02:48:18 2019 +0300
+
+    Home sayfası blade iskeletine göre oluşturuldu ve içerisine ToastUI scheduler'i yerleştirildi Ayrıca MySQL kullanımdan çıkarılıp PostgreSQL 12  kullanıma alınıp login,register işlemlerini ve veritabanı işlemlerini başarıyla yapıldı ---- Versiyon 3 --- Veritabanı Değişimi , ToastUI Eklenmesi
+
+[33mcommit 81691d2fc6b6903eac9134c4cc4c7d148fac4f8e[m
+Author: *Ekrem <ekremtinas@gmail.com>
+Date:   Fri Nov 15 03:45:35 2019 +0300
+
+    Login Sayfası için giriş işlemleri yapıldı.Register işlemleri için register sayfası tasarlanıp register işlemleri ypıldı validasyon mesajları alındı. ----- Versiyon 2
+
+[33mcommit 0188eb089e710b8aae1261e198b0fd9bb49f2a78[m
+Author: *Ekrem <ekremtinas@gmail.com>
+Date:   Wed Nov 13 21:49:06 2019 +0300
+
+    Diary Projesinin Login Sayfasının Authentication işlemlerini yapıldığı ancak henüz girişin yapılamadığı hata alındığı version   --- Versiyon 1

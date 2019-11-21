@@ -7,123 +7,206 @@
         <script>window.location='/dLogin';</script>
 
     @else
-    <div class="container-fluid h-100 mt-5">
+        <div class="container w-75 h-50" id='top'>
+            <div class="mb-3">  Locales: <select class="custom-select-sm col-1 custom-select" id="locale-selector"></select>
+            </div>
+            <div class='left' hidden>
 
-        <div class="mt-4 " id="lnb">
-            <div class="lnb-new-schedule">
-                <button id="btn-new-schedule" type="button" class="btn btn-default btn-block lnb-new-schedule-btn" data-toggle="modal">
-                    New schedule</button>
-            </div>
-            <div id="lnb-calendars" class="lnb-calendars">
-                <div>
-                    <div class="lnb-calendars-item">
-                        <label>
-                            <input class="tui-full-calendar-checkbox-square" type="checkbox" value="all" checked>
-                            <span></span>
-                            <strong>View all</strong>
-                        </label>
-                    </div>
+                <div id='theme-system-selector' class='selector'>
+                    Theme System:
+
+                    <select hidden>
+                        <option value='bootstrap' selected>Bootstrap 4</option>
+                        <option value='standard'>unthemed</option>
+                    </select>
                 </div>
-                <div id="calendarList" class="lnb-calendars-d1">
+
+                <div data-theme-system="bootstrap" class='selector' style='display:none'>
+                    Theme Name:
+
+                    <select hidden>
+                        <option value='' selected>Default</option>
+                        <option value='cerulean'>Cerulean</option>
+                        <option value='cosmo'>Cosmo</option>
+                        <option value='cyborg'>Cyborg</option>
+                        <option value='darkly'>Darkly</option>
+                        <option value='flatly'>Flatly</option>
+                        <option selected  value='journal'>Journal</option>
+                        <option value='litera'>Litera</option>
+                        <option value='lumen'>Lumen</option>
+                        <option value='lux'>Lux</option>
+                        <option value='materia'>Materia</option>
+                        <option value='minty'>Minty</option>
+                        <option value='pulse'>Pulse</option>
+                        <option value='sandstone'>Sandstone</option>
+                        <option value='simplex'>Simplex</option>
+                        <option value='sketchy'>Sketchy</option>
+                        <option value='slate'>Slate</option>
+                        <option value='solar'>Solar</option>
+                        <option value='spacelab'>Spacelab</option>
+                        <option value='superhero'>Superhero</option>
+                        <option value='united'>United</option>
+                        <option value='yeti'>Yeti</option>
+                    </select>
                 </div>
+
+                <span id='loading' style='display:none'>loading theme...</span>
+
             </div>
-            <div class="lnb-footer">
-                © NHN Corp.
-            </div>
+
+
+
+            <div class='clear'></div>
+
+
+        <div  id='calendar'></div>
         </div>
-        <div class="mt-3 ml-1" id="right">
-            <div id="menu">
-            <span class="dropdown">
-                <button id="dropdownMenu-calendarType" class="btn btn-default btn-sm dropdown-toggle" type="button" data-toggle="dropdown"
-                        aria-haspopup="true" aria-expanded="true">
-                    <i id="calendarTypeIcon" class="calendar-icon ic_view_month" style="margin-right: 4px;"></i>
-                    <span id="calendarTypeName">Dropdown</span>&nbsp;
-                    <i class="calendar-icon tui-full-calendar-dropdown-arrow"></i>
-                </button>
-                <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu-calendarType">
-                    <li role="presentation">
-                        <a class="dropdown-menu-title" role="menuitem" data-action="toggle-daily">
-                            <i class="calendar-icon ic_view_day"></i>Daily
-                        </a>
-                    </li>
-                    <li role="presentation">
-                        <a class="dropdown-menu-title" role="menuitem" data-action="toggle-weekly">
-                            <i class="calendar-icon ic_view_week"></i>Weekly
-                        </a>
-                    </li>
-                    <li role="presentation">
-                        <a class="dropdown-menu-title" role="menuitem" data-action="toggle-monthly">
-                            <i class="calendar-icon ic_view_month"></i>Month
-                        </a>
-                    </li>
-                    <li role="presentation">
-                        <a class="dropdown-menu-title" role="menuitem" data-action="toggle-weeks2">
-                            <i class="calendar-icon ic_view_week"></i>2 weeks
-                        </a>
-                    </li>
-                    <li role="presentation">
-                        <a class="dropdown-menu-title" role="menuitem" data-action="toggle-weeks3">
-                            <i class="calendar-icon ic_view_week"></i>3 weeks
-                        </a>
-                    </li>
-                    <li role="presentation" class="dropdown-divider"></li>
-                    <li role="presentation">
-                        <a role="menuitem" data-action="toggle-workweek">
-                            <input type="checkbox" class="tui-full-calendar-checkbox-square" value="toggle-workweek" checked>
-                            <span class="checkbox-title"></span>Show weekends
-                        </a>
-                    </li>
-                    <li role="presentation">
-                        <a role="menuitem" data-action="toggle-start-day-1">
-                            <input type="checkbox" class="tui-full-calendar-checkbox-square" value="toggle-start-day-1">
-                            <span class="checkbox-title"></span>Start Week on Monday
-                        </a>
-                    </li>
-                    <li role="presentation">
-                        <a role="menuitem" data-action="toggle-narrow-weekend">
-                            <input type="checkbox" class="tui-full-calendar-checkbox-square" value="toggle-narrow-weekend">
-                            <span class="checkbox-title"></span>Narrower than weekdays
-                        </a>
-                    </li>
-                </ul>
-            </span>
-                <span id="menu-navi">
-                <button type="button" class="btn btn-default btn-sm move-today " data-action="move-today">Today</button>
-                <button type="button" class="btn btn-default btn-sm move-day" data-action="move-prev">
-                    <i class="calendar-icon ic-arrow-line-left " data-action="move-prev"></i>
-                </button>
-                <button type="button" class="btn btn-default btn-sm move-day" data-action="move-next">
-                    <i class="calendar-icon ic-arrow-line-right" data-action="move-next"></i>
-                </button>
-            </span>
-                <span id="renderRange" class="render-range"></span>
-            </div>
-            <div class="mt-3 ml-5" id="calendar"></div>
-        </div>
-    </div>
         @endif
 @endsection
 @section('css')
+    <link href='https://use.fontawesome.com/releases/v5.0.6/css/all.css' rel='stylesheet'>
+    <link href='/components/fullcalendar/packages/core/main.css' rel='stylesheet' />
+    <link href='/components/fullcalendar/packages/bootstrap/main.css' rel='stylesheet' />
+    <link href='/components/fullcalendar/packages/timegrid/main.css' rel='stylesheet' />
+    <link href='/components/fullcalendar/packages/daygrid/main.css' rel='stylesheet' />
+    <link href='/components/fullcalendar/packages/list/main.css' rel='stylesheet' />
+    <style>
 
-    <link rel="stylesheet" type="text/css" href="https://uicdn.toast.com/tui.time-picker/latest/tui-time-picker.css">
-    <link rel="stylesheet" type="text/css" href="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.css">
-    <link rel="stylesheet" type="text/css" href="/components/tui-calendar/css/tui-calendar.css">
-    <link rel="stylesheet" type="text/css" href="/components/tui-calendar/css/default.css">
-    <link rel="stylesheet" type="text/css" href="/components/tui-calendar/css/css/icons.css">
+
+
+    </style>
     @endsection
 @section('script')
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-            crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-    <script src="https://uicdn.toast.com/tui.code-snippet/latest/tui-code-snippet.min.js"></script>
-    <script src="https://uicdn.toast.com/tui.dom/v3.0.0/tui-dom.js"></script>
-    <script src="https://uicdn.toast.com/tui.time-picker/latest/tui-time-picker.min.js"></script>
-    <script src="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/chance/1.0.13/chance.min.js"></script>
-    <script src="/components/tui-calendar/js/tui-calendar.js"></script>
-    <script src="/components/tui-calendar/js/data/calendars.js"></script>
-    <script src="/components/tui-calendar/js/data/schedules.js"></script>
-    <!-- <script src="./js/theme/dooray.js"></script> -->
-    <script src="/components/tui-calendar/js/app.js"></script>
+
+    <script src='/components/fullcalendar/packages/core/main.js'></script>
+    <script src='/components/fullcalendar/packages/interaction/main.js'></script>
+    <script src='/components/fullcalendar/packages/bootstrap/main.js'></script>
+    <script src='/components/fullcalendar/packages/daygrid/main.js'></script>
+    <script src='/components/fullcalendar/packages/timegrid/main.js'></script>
+    <script src='/components/fullcalendar/packages/list/main.js'></script>
+    <script src='/components/fullcalendar/js/theme-chooser.js'></script>
+    <script src='/components/fullcalendar/packages/core/locales-all.js'></script>
+    <script>
+
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var calendarEl = document.getElementById('calendar');
+            var calendar;
+            var initialLocaleCode = 'en';
+            var localeSelectorEl = document.getElementById('locale-selector');
+
+            initThemeChooser({
+
+                init: function(themeSystem) {
+                    calendar = new FullCalendar.Calendar(calendarEl, {
+                        plugins: [ 'bootstrap', 'interaction', 'dayGrid', 'timeGrid', 'list' ],
+                        themeSystem: themeSystem,
+                        header: {
+                            left: 'prevYear,prev,next,nextYear today',
+                            center: 'title',
+                            right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
+                        },
+                        defaultDate: '2019-08-12',
+                        weekNumbers: true,
+                        navLinks: true, // can click day/week names to navigate views
+                        editable: true,
+                        eventLimit: true, // allow "more" link when too many events
+                        selectable: true,
+                        selectMirror: true,
+                        select: function(arg) {
+                            var title = prompt('Olay başlığı:');
+                            if (title) {
+                                calendar.addEvent({
+                                    title: title,
+                                    start: arg.start,
+                                    end: arg.end,
+                                    allDay: arg.allDay
+                                })
+                            }
+                            calendar.unselect()
+                        },
+                        events: [
+                            {
+                                title: 'All Day Event',
+                                start: '2019-08-01'
+                            },
+                            {
+                                title: 'Long Event',
+                                start: '2019-08-07',
+                                end: '2019-08-10'
+                            },
+                            {
+                                groupId: 999,
+                                title: 'Repeating Event',
+                                start: '2019-08-09T16:00:00'
+                            },
+                            {
+                                groupId: 999,
+                                title: 'Repeating Event',
+                                start: '2019-08-16T16:00:00'
+                            },
+                            {
+                                title: 'Conference',
+                                start: '2019-08-11',
+                                end: '2019-08-13'
+                            },
+                            {
+                                title: 'Meeting',
+                                start: '2019-08-12T10:30:00',
+                                end: '2019-08-12T12:30:00'
+                            },
+                            {
+                                title: 'Lunch',
+                                start: '2019-08-12T12:00:00'
+                            },
+                            {
+                                title: 'Meeting',
+                                start: '2019-08-12T14:30:00'
+                            },
+                            {
+                                title: 'Happy Hour',
+                                start: '2019-08-12T17:30:00'
+                            },
+                            {
+                                title: 'Dinner',
+                                start: '2019-08-12T20:00:00'
+                            },
+                            {
+                                title: 'Birthday Party',
+                                start: '2019-08-13T07:00:00'
+                            },
+                            {
+                                title: 'Click for Google',
+                                url: 'http://google.com/',
+                                start: '2019-08-28'
+                            }
+                        ]
+                    });
+                    calendar.render();
+                    // build the locale selector's options
+                    calendar.getAvailableLocaleCodes().forEach(function(localeCode) {
+                        var optionEl = document.createElement('option');
+                        optionEl.value = localeCode;
+                        optionEl.selected = localeCode == initialLocaleCode;
+                        optionEl.innerText = localeCode;
+                        localeSelectorEl.appendChild(optionEl);
+                    });
+
+                    // when the selected option changes, dynamically change the calendar option
+                    localeSelectorEl.addEventListener('change', function() {
+                        if (this.value) {
+                            calendar.setOption('locale', this.value);
+                        }
+                    });
+                },
+
+                change: function(themeSystem) {
+                    calendar.setOption('themeSystem', themeSystem);
+                }
+
+            });
+
+        });
+
+    </script>
     @endsection
