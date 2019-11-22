@@ -30,7 +30,7 @@
 
                         <div id="logout-div"   class="dropdown-menu dropdown-menu-right rounded-pill shadow-lg pl-3 pr-3 mt-4" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item btn-sm list-group-item-danger rounded-pill" href="{{ route('homeLogout') }}">Logout</a>
-                            <a class="dropdown-item btn-sm list-group-item-success rounded-pill" href="#">Profile</a>
+                            <a class="dropdown-item btn-sm list-group-item-success rounded-pill" href="{{ route('userProfileGet') }}">Profile</a>
 
                         </div>
 

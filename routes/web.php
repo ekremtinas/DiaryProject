@@ -19,3 +19,6 @@ Route::post('/dRegister','Register\PostRegisterController@index')->name('registe
 //Diary Home
 Route::get('/dHome','GetHomeController@index')->name('homeGet');
 Route::get('/dLogout','GetHomeController@logout')->name('homeLogout');
+//Diary User Profile
+Route::get('/userProfile','Profile\GetProfileController@index')->name('userProfileGet');
+Route::post('/userProfile','Profile\PostProfileController@index')->name('userProfilePost');

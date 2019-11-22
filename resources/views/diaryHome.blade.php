@@ -61,6 +61,59 @@
 
         <div  id='calendar'></div>
         </div>
+
+        <div class="modal fade" id="ModalAdd" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" >
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Event title</h5>
+                        <button type="button" class="close btn-sm" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body  ">
+                        <div class="form-group">
+                            <label for="title" class="col-sm-4 control-label  btn-sm ">Title</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="title" class="form-control btn-sm h-50" id="title" placeholder="Title">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="color" class="col-sm-4 control-label btn-sm">Color</label>
+                            <div class="col-sm-10">
+                                <select name="color" class="form-control btn-sm h-50" id="color">
+                                    <option value="">Choose</option>
+                                    <option style="color:#0071c5;" value="#0071c5">&#9724; Dark blue</option>
+                                    <option style="color:#40E0D0;" value="#40E0D0">&#9724; Turquoise</option>
+                                    <option style="color:#008000;" value="#008000">&#9724; Green</option>
+                                    <option style="color:#FFD700;" value="#FFD700">&#9724; Yellow</option>
+                                    <option style="color:#FF8C00;" value="#FF8C00">&#9724; Orange</option>
+                                    <option style="color:#FF0000;" value="#FF0000">&#9724; Red</option>
+                                    <option style="color:#000;" value="#000">&#9724; Black</option>
+
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="start" class="col-sm-4 control-label btn-sm">Start date</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="start" class="form-control btn-sm h-50" id="start" readonly>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="end" class="col-sm-4 control-label btn-sm">End date</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="end" class="form-control btn-sm h-50" id="end" readonly>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn  btn-outline-secondary btn-sm" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-outline-primary btn-sm">Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
         @endif
 @endsection
 @section('css')
@@ -85,6 +138,7 @@
     <script src='/components/fullcalendar/packages/timegrid/main.js'></script>
     <script src='/components/fullcalendar/packages/list/main.js'></script>
     <script src='/components/fullcalendar/js/theme-chooser.js'></script>
+    <script src='/components/fullcalendar/js/moment.min.js'></script>
     <script src='/components/fullcalendar/packages/core/locales-all.js'></script>
     <script>
 
@@ -101,12 +155,13 @@
                     calendar = new FullCalendar.Calendar(calendarEl, {
                         plugins: [ 'bootstrap', 'interaction', 'dayGrid', 'timeGrid', 'list' ],
                         themeSystem: themeSystem,
+
                         header: {
-                            left: 'prevYear,prev,next,nextYear today',
+                            left: 'prevYear,prev,next,nextYear today custom',
                             center: 'title',
                             right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
                         },
-                        defaultDate: '2019-08-12',
+                        defaultDate: '2019-11-12',
                         weekNumbers: true,
                         navLinks: true, // can click day/week names to navigate views
                         editable: true,
@@ -114,71 +169,64 @@
                         selectable: true,
                         selectMirror: true,
                         select: function(arg) {
-                            var title = prompt('Olay başlığı:');
-                            if (title) {
-                                calendar.addEvent({
-                                    title: title,
-                                    start: arg.start,
-                                    end: arg.end,
-                                    allDay: arg.allDay
-                                })
-                            }
-                            calendar.unselect()
+                            $('#ModalAdd #start').val(moment(start).format('YYYY-MM-DD HH:mm:ss'));
+                            $('#ModalAdd #end').val(moment(end).format('YYYY-MM-DD HH:mm:ss'));
+                            $('#ModalAdd').modal('show');
                         },
                         events: [
                             {
                                 title: 'All Day Event',
-                                start: '2019-08-01'
+                                start: '2019-11-01'
                             },
                             {
                                 title: 'Long Event',
-                                start: '2019-08-07',
-                                end: '2019-08-10'
+                                start: '2019-11-07',
+                                end: '2019-11-10'
                             },
                             {
                                 groupId: 999,
                                 title: 'Repeating Event',
-                                start: '2019-08-09T16:00:00'
+                                start: '2019-11-09T16:00:00'
                             },
                             {
                                 groupId: 999,
                                 title: 'Repeating Event',
-                                start: '2019-08-16T16:00:00'
+                                start: '2019-1-16T16:00:00'
                             },
                             {
                                 title: 'Conference',
-                                start: '2019-08-11',
-                                end: '2019-08-13'
+                                start: '2019-11-11',
+                                end: '2019-11-13'
                             },
                             {
                                 title: 'Meeting',
-                                start: '2019-08-12T10:30:00',
-                                end: '2019-08-12T12:30:00'
+                                start: '2019-11-12T10:30:00',
+                                end: '2019-11-12T12:30:00'
                             },
                             {
                                 title: 'Lunch',
-                                start: '2019-08-12T12:00:00'
+                                start: '2019-11-12T12:00:00'
                             },
                             {
                                 title: 'Meeting',
-                                start: '2019-08-12T14:30:00'
+                                start: '2019-11-12T14:30:00'
                             },
                             {
                                 title: 'Happy Hour',
-                                start: '2019-08-12T17:30:00'
+                                start: '2019-11-12T17:30:00'
                             },
                             {
                                 title: 'Dinner',
-                                start: '2019-08-12T20:00:00'
+                                start: '2019-11-12T20:00:00'
                             },
                             {
                                 title: 'Birthday Party',
-                                start: '2019-08-13T07:00:00'
+                                start: '2019-11-13T07:00:00'
                             },
                             {
                                 title: 'Click for Google',
                                 url: 'http://google.com/',
-                                start: '2019-08-28'
+                                start: '2019-11-28'
                             }
                         ]
                     });
@@ -199,6 +247,7 @@
                         }
                     });
                 },
+
 
                 change: function(themeSystem) {
                     calendar.setOption('themeSystem', themeSystem);
