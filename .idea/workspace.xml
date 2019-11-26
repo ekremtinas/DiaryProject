@@ -14,6 +14,13 @@
       <executable />
     </execution>
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="CSS File" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
@@ -111,6 +118,7 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/public/components/fullcalendar/js" />
+    <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="nodejs_package_manager_path" value="npm" />
   </component>
   <component name="RecentsManager">
@@ -164,7 +172,11 @@
       <workItem from="1574172030286" duration="9549000" />
       <workItem from="1574244441864" duration="11868000" />
       <workItem from="1574347048997" duration="8532000" />
-      <workItem from="1574377192271" duration="6756000" />
+      <workItem from="1574377192271" duration="7476000" />
+      <workItem from="1574425632469" duration="3265000" />
+      <workItem from="1574462258629" duration="7088000" />
+      <workItem from="1574720837742" duration="6759000" />
+      <workItem from="1574765852012" duration="15259000" />
     </task>
     <servers />
   </component>

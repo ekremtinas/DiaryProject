@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-md navbar-light bg-white @yield('shadow') rounded-pill">
-    <div class="container">
+    <div id="nav-container" class="container">
         <a class="navbar-brand" href="{{ url('dHome') }}">
             <img width="100db" src="/components/img/diaryLogo.png" alt="logo">
         </a>
@@ -12,9 +12,9 @@
             <ul class="navbar-nav mr-auto">
 
             </ul>
-
+            <div id="dropdown-main" class="dropdown-main rounded-pill  border shadow-main">
             <!-- Right Side Of Navbar -->
-            <ul class="navbar-nav ml-auto">
+            <ul class="navbar-nav ml-auto ">
                 <!-- Authentication Links -->
                 @guest
 
@@ -24,7 +24,7 @@
                     @endif
                 @else
                     <li id="dropdown" class="nav-item dropdown ">
-                        <a id="navbarDropdown" class="nav-link dropdown-toggle btn-block btn-sm rounded-pill border-top-0 " href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                        <a id="navbarDropdown" class="nav-link dropdown-toggle btn-block btn-sm rounded-pill border-top-0 " href="#" role="button"  aria-haspopup="true" aria-expanded="false" v-pre>
                             {{ Auth::user()->name }} <span class="caret"></span>
                         </a>
 
@@ -36,17 +36,16 @@
 
                     </li>
                 @endguest
-            </ul>
+            </ul></div>
         </div>
     </div>
 </nav>
+
 @section('script')
     <script>
 
-        $('#dropdown').toggleMenu(function () {
 
-            $('#logout-div').show('slow');
-        });
+
 
     </script>
     @endsection

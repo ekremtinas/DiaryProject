@@ -3,7 +3,7 @@
     <title>Diary Login</title>
     @endsection
 @section('shadow')
-    shadow-lg
+    shadow-main
     @endsection
 @section('register-link')
     <li class="nav-item">
@@ -15,13 +15,14 @@
         <script>window.location='/dHome';</script>
 
     @else
-    <div class="container h-100">
+
+    <div id="container" class="container h-100">
         <div class="row justify-content-center h-100">
             <div class="card-wrapper">
-                <div class="brand">
+                <div id="image" class="brand">
                     <img width="300db" src="/components/img/diaryLogo.png" alt="logo">
                 </div>
-                <div class="card fat shadow-lg rounded-lg border-light   w-100 ">
+                <div id="form" class="card fat  rounded-lg border-light shadow-main  w-100 ">
                     <div class="card-body ">
                         <h4 class="card-title text-center ">Login</h4>
 
@@ -37,21 +38,22 @@
                             @csrf
                             <div class="form-group btn-group-sm  ">
                                 <label class="btn-sm" for="email">{{ __('E Mail:') }}</label>
-                                <input id="email" type="text" class="form-control btn-sm  border-light shadow rounded-pill @error('email') is-invalid @enderror"  value="{{ old('email') }}" required autocomplete="email" autofocus placeholder="E Mail" required="required" name="email"  >
+                                <input id="email" type="text" class="form-control btn-sm  border-light shadow-main rounded-pill @error('email') is-invalid @enderror "  value="{{ old('email') }}" required  autocomplete="off"   placeholder="E Mail" required="required" name="email"  >
                                 @error('email')
                                 <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
+
                             </div>
 
                             <div class="form-group btn-group-sm has-feedback has-success  " id="show_hide_password" >
                                 <label class="btn-sm" for="password">{{ __('Password:') }}
                                 </label>
-                                <div class="input-group">
-                                <input id="password" type="password" class="form-control btn-sm  border-light rounded-pill  shadow @error('password') is-invalid @enderror" name="password" required autocomplete="current-password" placeholder="Password" aria-describedby="button-addon2">
+                                <div class="input-group ">
+                                <input id="password" type="password" class="form-control btn-sm  border-light rounded-pill  shadow-main @error('password') is-invalid @enderror" name="password" required autocomplete="current-password" placeholder="Password" aria-describedby="button-addon2">
                                     <div class="input-group-append  ">
-                                     <a class=" btn btn-sm btn-danger border-light rounded-pill h-100" href=""><i class="fa fa-eye-slash" aria-hidden="true"></i></a>
+                                     <a id="password-show" class=" btn btn-sm btn-danger border-light rounded-pill h-100  shadow-main " href=""><i class="fa fa-eye-slash" aria-hidden="true"></i></a>
                                     </div>
                                 </div>
 
@@ -64,7 +66,7 @@
 
 
                             <div class="form-group h-25 ml-3 btn-sm ">
-                                <div class="custom-switch custom-control">
+                                <div class="custom-switch custom-control ">
                                     <input class="custom-control-input    " type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
                                     <label for="remember" class="custom-control-label   ">Remember Me</label>
                                 </div>
@@ -74,14 +76,10 @@
 
 
                             <div class="form-group m-0">
-                                <button type="submit" class="btn  btn-block btn-outline-danger border-light rounded-pill">
+                                <button type="submit" class="btn  btn-block btn-outline-danger border-light rounded-pill shadow-main">
                                     Login
                                 </button>
-                                @if (Route::has('password.request'))
-                                    <a class="btn btn-link" hidden href="{{ route('password.request') }}">
-                                        {{ __('Forgot Your Password?') }}
-                                    </a>
-                                @endif
+
                             </div>
 
 
@@ -91,14 +89,49 @@
             </div>
 
         </div>
+
+
+
     @endif
 @endsection
 @section('css')
+    <style>
+
+        #email:focus {
+
+           box-shadow :none !important;
+        }
+        #password:focus {
+
+            box-shadow :none !important;
+
+        }
+
+    </style>
             @endsection
 @section('script')
     <script>
+
+        $(document).ready(function () {
+            //Form'u odaklamak için tıklanan inputlara göre diğer tarafların flu olmasını sağlar.
+            $(':input,#password-show').focus(function(){
+
+                $("#nav-container:not('#dropdown-main')").css("-webkit-filter", "blur(3px)");
+                    $("#image").css("-webkit-filter", "blur(3px)");
+                    $("form").css("-webkit-filter", "blur(0px)");
+                });
+                $(':input,#password-show').blur(function () {
+
+                    $("#nav-container:not('#dropdown-main')").css("-webkit-filter", "blur(0px)");
+                    $("#image").css("-webkit-filter", "blur(0px)");
+                    $("form").css("-webkit-filter", "blur(0px)");
+                });
+        });
+
+        //Password input'u için eye ve eye-slash iconlarını ekleyen password show content'i
             $(document).ready(function() {
-            $("#show_hide_password a").on('click', function(event) {
+
+                $("#show_hide_password a").on('click', function(event) {
             event.preventDefault();
             if($('#show_hide_password input').attr("type") == "text"){
                      $('#show_hide_password input').attr('type', 'password');
@@ -111,6 +144,24 @@
                      $('#show_hide_password i').addClass( "fa-eye" );
             }
             });
+
+
+            });
+            $(document).ready(function () {
+               $('#email').on('keyup',function () {
+                   var email = $(this).val();
+                   var filter = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
+                  if(filter.test(email))
+                  {
+                      $('#email').addClass( "is-valid" );
+                      $('#email').removeClass( "is-invalid" );
+                  }
+                  else{
+                      $('#email').addClass( "is-invalid" );
+                      $('#email').removeClass( "is-valid" );
+                   }
+
+               }) ;
             });
     </script>
     @endsection

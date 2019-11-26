@@ -3,7 +3,7 @@
     <title>Diary Register</title>
 @endsection
 @section('shadow')
-    shadow-lg
+    shadow-main
 @endsection
 @section('login-link')
     <li class="nav-item">
@@ -21,7 +21,7 @@
                     <div class="brand">
                         <img width="300db" src="/components/img/diaryLogo.png" alt="logo">
                     </div>
-                    <div class="card fat shadow-lg rounded-lg border-light   w-100">
+                    <div class="card fat shadow-main rounded-lg border-light   w-100">
                         <div class="card-body">
                             <h4 class="card-title text-center">Register</h4>
 
@@ -45,7 +45,7 @@
                                 @csrf
                                 <div class="form-group btn-group-sm  ">
                                     <label class="btn-sm" for="name">{{ __('Full Name:') }}</label>
-                                    <input id="name" type="text" class="form-control btn-sm  border-light shadow rounded-pill @error('name') is-invalid @enderror"  value="{{ old('name') }}" required autocomplete="name" autofocus placeholder="Full Name" required="required" name="name"  >
+                                    <input id="name" type="text" class="form-control btn-sm  border-light shadow-main rounded-pill @error('name') is-invalid @enderror"  value="{{ old('name') }}" required autocomplete="off" autofocus placeholder="Full Name" required="required" name="name"  >
                                     @error('name')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -54,7 +54,7 @@
                                 </div>
                                 <div class="form-group btn-group-sm  ">
                                     <label class="btn-sm" for="email">{{ __('E Mail:') }}</label>
-                                    <input id="email" type="text" class="form-control btn-sm  border-light shadow rounded-pill @error('email') is-invalid @enderror"  value="{{ old('email') }}" required autocomplete="email" autofocus placeholder="E Mail" required="required" name="email"  >
+                                    <input id="email" type="text" class="form-control btn-sm  border-light shadow-main rounded-pill @error('email') is-invalid @enderror"  value="{{ old('email') }}" required autocomplete="off" autofocus placeholder="E Mail" required="required" name="email"  >
                                     @error('email')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -66,7 +66,7 @@
                                     <label class="btn-sm" for="password">{{ __('Password:') }}
                                     </label>
 
-                                        <input id="password" type="password" class="form-control btn-sm  border-light rounded-pill  shadow @error('password') is-invalid @enderror" name="password" required autocomplete="current-password" placeholder="Password" aria-describedby="button-addon2">
+                                        <input id="password" type="password" class="form-control btn-sm  border-light rounded-pill shadow-main @error('password') is-invalid @enderror" name="password" required autocomplete="current-password" placeholder="Password" aria-describedby="button-addon2">
 
 
 
@@ -80,9 +80,9 @@
                                     <label class="btn-sm" for="password_confirmation">{{ __('Confirm Password:') }}
                                     </label>
                                 <div class="input-group">
-                                    <input id="password_confirmation" type="password" class="form-control btn-sm  border-light rounded-pill  shadow @error('password_confirmation') is-invalid @enderror" name="password_confirmation" required autocomplete="current-password" placeholder="Confirm Password">
+                                    <input id="password_confirmation" type="password" class="form-control btn-sm  border-light rounded-pill  shadow-main @error('password_confirmation') is-invalid @enderror" name="password_confirmation" required autocomplete="current-password" placeholder="Confirm Password">
                                     <div class="input-group-append  ">
-                                        <a class=" btn btn-sm btn-danger border-light rounded-pill h-100" href=""><i class="fa fa-eye-slash" aria-hidden="true"></i></a>
+                                        <a class=" btn btn-sm btn-danger border-light rounded-pill h-100 shadow-main" href=""><i class="fa fa-eye-slash" aria-hidden="true"></i></a>
                                     </div>
                                 </div>
                                     @error('password_confirmation')
@@ -95,7 +95,7 @@
 
 
                                 <div class="form-group m-0">
-                                    <button type="submit" class="btn  btn-block btn-outline-danger  border-light rounded-pill">
+                                    <button type="submit" class="btn  btn-block btn-outline-danger shadow-main border-light rounded-pill">
                                        Register
                                     </button>
                                     @if (Route::has('password.request'))
@@ -115,6 +115,26 @@
     @endif
 
 @endsection
+            @section('css')
+                <style>
+                    #name:focus {
+
+                        box-shadow: none !important;
+                    }
+                    #email:focus {
+
+                        box-shadow: none !important;
+                    }
+                    #password:focus {
+
+                        box-shadow: none !important;
+                    }
+                    #password_confirmation:focus {
+
+                        box-shadow: none !important;
+                    }
+                </style>
+                @endsection
             @section('script')
                 <script>
                     $(document).ready(function() {

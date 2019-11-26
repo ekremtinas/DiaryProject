@@ -1,4 +1,10 @@
 @extends('layouts.app')
+@section('title')
+    <title>Diary User Profile</title>
+@endsection
+@section('shadow')
+    shadow-lg
+@endsection
 @section('content')
     <div class="container h-100">
         <div class="row justify-content-center h-100 ">
