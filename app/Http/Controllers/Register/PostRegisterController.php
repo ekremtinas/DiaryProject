@@ -16,6 +16,7 @@ class PostRegisterController extends Controller
                'email' => 'required|email',
                'password' => 'required|confirmed|alphaNum|min:6',
                'name' => 'required',
+               'country' => 'required',
            ]);
            $password=$request->get('password');
            $password=Hash::make($password);
@@ -24,6 +25,7 @@ class PostRegisterController extends Controller
                'email' => $request->get('email'),
                'password' => $password,
                'name' => $request->get('name'),
+               'country' => $request->get('country'),
            );
        try {
            User::create($user_data);

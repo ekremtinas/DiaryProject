@@ -19,8 +19,8 @@
     <div id="container" class="container h-100">
         <div class="row justify-content-center h-100">
             <div class="card-wrapper">
-                <div id="image" class="brand">
-                    <img width="300db" src="/components/img/diaryLogo.png" alt="logo">
+                <div style="width:350px " id="image" class="brand text-center">
+                    <img width="250db" src="/components/img/diaryLogo.png" alt="logo">
                 </div>
                 <div id="form" class="card fat  rounded-lg border-light shadow-main  w-100 ">
                     <div class="card-body ">
@@ -97,15 +97,11 @@
 @section('css')
     <style>
 
-        #email:focus {
+       input:focus {
 
            box-shadow :none !important;
         }
-        #password:focus {
 
-            box-shadow :none !important;
-
-        }
 
     </style>
             @endsection
@@ -116,13 +112,13 @@
             //Form'u odaklamak için tıklanan inputlara göre diğer tarafların flu olmasını sağlar.
             $(':input,#password-show').focus(function(){
 
-                $("#nav-container:not('#dropdown-main')").css("-webkit-filter", "blur(3px)");
+                $("nav:not('#dropdown-main')").css("-webkit-filter", "blur(3px)");
                     $("#image").css("-webkit-filter", "blur(3px)");
                     $("form").css("-webkit-filter", "blur(0px)");
                 });
                 $(':input,#password-show').blur(function () {
 
-                    $("#nav-container:not('#dropdown-main')").css("-webkit-filter", "blur(0px)");
+                    $("nav:not('#dropdown-main')").css("-webkit-filter", "blur(0px)");
                     $("#image").css("-webkit-filter", "blur(0px)");
                     $("form").css("-webkit-filter", "blur(0px)");
                 });
@@ -147,6 +143,8 @@
 
 
             });
+            // Email için canlı doğrulama işlemi için
+            // Start
             $(document).ready(function () {
                $('#email').on('keyup',function () {
                    var email = $(this).val();
@@ -163,5 +161,6 @@
 
                }) ;
             });
+            // End
     </script>
     @endsection
