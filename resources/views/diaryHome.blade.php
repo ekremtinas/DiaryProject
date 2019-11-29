@@ -2,17 +2,14 @@
 @section('title')
     <title>Diary Home</title>
 @endsection
-@section('locale')
-    <select class="custom-select-sm col-1 custom-select" id="locale-selector"></select>
-    @endsection
 @section('content')
     @if(!isset(Auth::user()->email))
         <script>window.location='/dLogin';</script>
 
     @else
-
         <div class="container w-75 h-50" id='top'>
-
+            <div class="mb-3">  Locales: <select class="custom-select-sm col-1 custom-select" id="locale-selector"></select>
+            </div>
             <div class='left' hidden>
 
                 <div id='theme-system-selector' class='selector'>
@@ -117,58 +114,6 @@
                 </div>
             </div>
         </div>
-        <div class="modal fade" id="ModalEdit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" >
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Diary Edit</h5>
-                        <button type="button" class="close btn-sm" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body  ">
-                        <div class="form-group">
-                            <label for="title" class="col-sm-4 control-label  btn-sm ">Title</label>
-                            <div class="col-sm-10">
-                                <input type="text" name="title" class="form-control btn-sm h-50" id="title" placeholder="Title">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="color" class="col-sm-4 control-label btn-sm">Color</label>
-                            <div class="col-sm-10">
-                                <select name="color" class="form-control btn-sm h-50" id="color">
-                                    <option value="">Choose</option>
-                                    <option style="color:#0071c5;" value="#0071c5">&#9724; Dark blue</option>
-                                    <option style="color:#40E0D0;" value="#40E0D0">&#9724; Turquoise</option>
-                                    <option style="color:#008000;" value="#008000">&#9724; Green</option>
-                                    <option style="color:#FFD700;" value="#FFD700">&#9724; Yellow</option>
-                                    <option style="color:#FF8C00;" value="#FF8C00">&#9724; Orange</option>
-                                    <option style="color:#FF0000;" value="#FF0000">&#9724; Red</option>
-                                    <option style="color:#000;" value="#000">&#9724; Black</option>
-
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="start" class="col-sm-4 control-label btn-sm">Start date</label>
-                            <div class="col-sm-10">
-                                <input type="text" name="start" class="form-control btn-sm h-50" id="start" readonly>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="end" class="col-sm-4 control-label btn-sm">End date</label>
-                            <div class="col-sm-10">
-                                <input type="text" name="end" class="form-control btn-sm h-50" id="end" readonly>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn  btn-outline-secondary btn-sm" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-outline-primary btn-sm">Save changes</button>
-                    </div>
-                </div>
-            </div>
-        </div>
         @endif
 @endsection
 @section('css')
@@ -195,16 +140,12 @@
     <script src='/components/fullcalendar/js/theme-chooser.js'></script>
     <script src='/components/fullcalendar/js/moment.min.js'></script>
     <script src='/components/fullcalendar/packages/core/locales-all.js'></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-contextmenu/2.7.1/jquery.contextMenu.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-contextmenu/2.7.1/jquery.contextMenu.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.3.2/bootbox.js"></script>
+    <script>
 
- <script>
 
-     var calendar;
         document.addEventListener('DOMContentLoaded', function() {
             var calendarEl = document.getElementById('calendar');
-
+            var calendar;
             var initialLocaleCode = 'en';
             var localeSelectorEl = document.getElementById('locale-selector');
 
@@ -225,7 +166,6 @@
                         navLinks: true, // can click day/week names to navigate views
                         editable: true,
                         eventLimit: true, // allow "more" link when too many events
-                        eventClassName:'context-menu-one',
                         selectable: true,
                         selectMirror: true,
                         select: function(arg) {
@@ -235,7 +175,6 @@
                         },
                         events: [
                             {
-                                id: '1',
                                 title: 'All Day Event',
                                 start: '2019-11-01'
                             },
@@ -318,66 +257,23 @@
 
         });
         $(document).ready(function () {
-
-
-
-
-                $.contextMenu({
-                    selector: '.context-menu-one',
-                    callback: function(key, options) {
-                        var locale = $('#locale-selector').val();
-                        var event = calendar.getEventById('1');
-
-                       switch (key) {
-                           case 'edit':
-                               $('#ModalEdit #start').val(moment(start).format('YYYY-MM-DD HH:mm:ss'));
-                               $('#ModalEdit #end').val(moment(end).format('YYYY-MM-DD HH:mm:ss'));
-                               $('#ModalEdit').modal('show');
-                               break;
-                           case 'delete':
-
-                               bootbox.confirm({
-                                   message: "Is event delete?",
-                                   size: 'small',
-                                   locale:  locale,
-                                   buttons: {
-                                       confirm: {
-                                           label: 'Yes',
-                                           className: 'btn-success'
-                                       },
-                                       cancel: {
-                                           label: 'No',
-                                           className: 'btn-danger'
-                                       }
-                                   },
-                                   callback: function (result) {
-                                       if(result==true) {
-                                           event.remove();
-                                       }
-                                       else{
-
-                                       }
-                                   }
-                               });
-
-                               break;
-
-                       }
-                    },
-                    items: {
-                        "edit": {name: "Edit", icon: "edit"},
-                        "delete": {name: "Delete", icon: "delete"},
-
-
-                    }
+                $('#dropdown').on('click',function() {
+                    $('#logout-div').toggle("slide");
                 });
 
-                $('.context-menu-one').on('click', function(e){
-                    console.log('clicked', this);
-                })
-
-
         });
+        $(document).ready(function () {
+
+            $('#calendar').on('click', function () {
+
+                $('#logout-div').hide("slow");
+            });
+            $('#top').on('click', function () {
+
+                $('#logout-div').hide("slow");
+            });
+        });
+
 
 
     </script>

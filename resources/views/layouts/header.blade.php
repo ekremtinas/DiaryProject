@@ -9,18 +9,18 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <!-- Left Side Of Navbar -->
-          @yield('locale')
             <ul class="navbar-nav mr-auto">
 
             </ul>
             <div id="dropdown-main" class="dropdown-main rounded-pill  border shadow-main">
             <!-- Right Side Of Navbar -->
-            <ul id="dropdown-main-ul" class="navbar-nav ml-auto ">
+            <ul class="navbar-nav ml-auto ">
                 <!-- Authentication Links -->
                 @guest
 
                     @if (!isset(Auth::user()->email))
-
+                        @yield('register-link')
+                        @yield('login-link')
                     @endif
                 @else
                     <li id="dropdown" class="nav-item dropdown ">
@@ -28,7 +28,7 @@
                             {{ Auth::user()->name }} <span class="caret"></span>
                         </a>
 
-                        <div id="logout-div"   class="dropdown-menu dropdown-menu-right rounded-pill shadow-lg pl-3 pr-3 mt-3" aria-labelledby="navbarDropdown">
+                        <div id="logout-div"   class="dropdown-menu dropdown-menu-right rounded-pill shadow-lg pl-3 pr-3 mt-4" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item btn-sm list-group-item-danger rounded-pill" href="{{ route('homeLogout') }}">Logout</a>
                             <a class="dropdown-item btn-sm list-group-item-success rounded-pill" href="{{ route('userProfileGet') }}">Profile</a>
 
@@ -41,7 +41,12 @@
     </div>
 </nav>
 
+@section('script')
+    <script>
 
 
 
+
+    </script>
+    @endsection
 
