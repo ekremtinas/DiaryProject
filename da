@@ -21,3 +21,64 @@ Author: *Ekrem <ekremtinas@gmail.com>
 Date:   Wed Nov 13 21:49:06 2019 +0300
 
     Diary Projesinin Login Sayfasının Authentication işlemlerini yapıldığı ancak henüz girişin yapılamadığı hata alındığı version   --- Versiyon 1
+[33mcommit 2ab1a16e38613fef20ce80f2c6c93bc11c1be9b4[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m)[m
+Author: *Ekrem <ekremtinas@gmail.com>
+Date:   Fri Nov 29 05:07:37 2019 +0300
+
+    Revert " Login ve Register sayfasında form için incelikler yapılmıştır.Bunlar Lane"
+    
+    This reverts commit 4217a9c1aa1b76a7a396cddd8f1e0dcb91d77462.
+
+[33mcommit 4217a9c1aa1b76a7a396cddd8f1e0dcb91d77462[m
+Author: *Ekrem <ekremtinas@gmail.com>
+Date:   Fri Nov 29 05:02:00 2019 +0300
+
+     Login ve Register sayfasında form için incelikler yapılmıştır.Bunlar Lane
+
+[33mcommit cb286ad51c09330090d296e218e1827f076773c9[m[33m ([m[1;31morigin/master[m[33m)[m
+Author: *Ekrem <ekremtinas@gmail.com>
+Date:   Wed Nov 27 05:09:23 2019 +0300
+
+    Register sayfasında iyileştirmeler yapıldı Ülke seçimi ve ülke alan adı model,seed,migration ve postRegisterController'a eklendi,Diğer login sayfasında yapılan odaklanma işlemleri yapıldı,Password equal yani eşitleme adına JQuery ile yapıldı ve 6'dan büyük olduğu gösterildi ---- Versiyon 4.3 --- Register'de iyileştirmeler,Ülke alan adı eklenmesi,Register'a odaklanma,Şifre eşitleme ve yeterlilik
+
+[33mcommit 2635243255e5e97182a7b65ae990e1c34a0b658f[m
+Author: *Ekrem <ekremtinas@gmail.com>
+Date:   Tue Nov 26 19:10:25 2019 +0300
+
+    Diary Login sayfasında Form'daki inputların ve form'un ve register butonunun odaklanması için bir takım işlemlerin yapılması,Form'da email 'in canlı olarak doğrulanması adına Jquery ile doğrulanma yapılması, Home sayfasında isim'de açılan menünün slow bir şekilde açılması ---- Versiyon 4.2 ---- Form Odaklanması,Email Doğrulaması,Menünün slow açılıp kapanması
+
+[33mcommit 5c9c92e9a7f197ad49820006ccffa2827af65838[m
+Author: *Ekrem <ekremtinas@gmail.com>
+Date:   Fri Nov 22 04:11:24 2019 +0300
+
+    Even için gerekli olan Modal'ı eklendi ve User Profile sayfası oluşturuldu ---- Versiyon 4.1 ---- Modal,Profile
+
+[33mcommit 8f5ce3b0c6525021b8e0b195ee1d2a2f8398356b[m
+Author: *Ekrem <ekremtinas@gmail.com>
+Date:   Thu Nov 21 20:33:57 2019 +0300
+
+    Diary Home sayfasından Toast UI'nin kaldırılıp FullCAlendar'ın dahil edilmesi.FullCalendar'da tema seçimi, Multi Laanguage ve Event'e ilk girişin yapılması gibi işlemler yapılmıştır ---- Versiyon 4 --- FullCalendar Eklenmesi,Tema Seçimi,Multi Language,Event İlk Giriş
+
+[33mcommit 781e04764b75e5f38d0518012ad76bb02738b17c[m
+Author: *Ekrem <ekremtinas@gmail.com>
+Date:   Wed Nov 20 16:27:47 2019 +0300
+
+    Login ve Register sayfasının tasarımında iyileştirmeler yapıldı password input'u için show ve hide olacak şekilde göz iconu yerleştirildi. ---- Versiyon 3.1 --- Tasarımda İyileştirmeler , JQuery ile Password Hide ve Show
+
+[33mcommit 9e5714b34be82a79111b5914e9fd52535be55999[m
+Author: *Ekrem <ekremtinas@gmail.com>
+Date:   Wed Nov 20 02:48:18 2019 +0300
+
+    Home sayfası blade iskeletine göre oluşturuldu ve içerisine ToastUI scheduler'i yerleştirildi Ayrıca MySQL kullanımdan çıkarılıp PostgreSQL 12  kullanıma alınıp login,register işlemlerini ve veritabanı işlemlerini başarıyla yapıldı ---- Versiyon 3 --- Veritabanı Değişimi , ToastUI Eklenmesi
+
+[33mcommit 81691d2fc6b6903eac9134c4cc4c7d148fac4f8e[m
+Author: *Ekrem <ekremtinas@gmail.com>
+Date:   Fri Nov 15 03:45:35 2019 +0300
+
+    Login Sayfası için giriş işlemleri yapıldı.Register işlemleri için register sayfası tasarlanıp register işlemleri ypıldı validasyon mesajları alındı. ----- Versiyon 2
+
+[33mcommit 0188eb089e710b8aae1261e198b0fd9bb49f2a78[m
+Author: *Ekrem <ekremtinas@gmail.com>
+Date:   Wed Nov 13 21:49:06 2019 +0300
+
+    Diary Projesinin Login Sayfasının Authentication işlemlerini yapıldığı ancak henüz girişin yapılamadığı hata alındığı version   --- Versiyon 1

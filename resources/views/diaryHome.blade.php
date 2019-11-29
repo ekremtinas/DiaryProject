@@ -181,7 +181,7 @@
                             {
                                 title: 'Long Event',
                                 start: '2019-11-07',
-                                end: '2019-11-10'
+                                end: '2019-11-11'
                             },
                             {
                                 groupId: 999,
