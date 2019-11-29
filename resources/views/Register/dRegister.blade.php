@@ -5,11 +5,6 @@
 @section('shadow')
     shadow-main
 @endsection
-@section('login-link')
-    <li class="nav-item">
-        <a class="nav-link" href="{{ route('loginGet') }}">{{ __('Login') }}</a>
-    </li>
-    @endsection
 @section('content')
     @if(isset(Auth::user()->email))
         <script>window.location='/dHome';</script>
@@ -43,8 +38,8 @@
                             @endif
                             <form id="form" action="{{route('registerPost')}}" method="post" >
                                 @csrf
-                                <div class="form-group btn-group-sm  ">
-                                    <label class="btn-sm " for="name">{{ __('Full Name:') }}</label>
+                                <div class="form-group btn-group-sm mt-4 ">
+                                    <label id="name-label" class="btn-sm scroll-label" for="name">{{ __('Full Name:') }}</label>
                                     <input id="name" type="text" class=" form-control btn-sm  border-light shadow-main rounded-pill @error('name') is-invalid @enderror"  value="{{ old('name') }}" required autocomplete="off"  placeholder="Full Name" required="required" name="name"  >
                                     @error('name')
                                     <span class="invalid-feedback" role="alert">
@@ -52,8 +47,8 @@
                                     </span>
                                     @enderror
                                 </div>
-                                <div class="form-group btn-group-sm  ">
-                                    <label class="btn-sm" for="email">{{ __('E Mail:') }}</label>
+                                <div class="form-group btn-group-sm mt-4 ">
+                                    <label id="email-label" class="btn-sm scroll-label" for="email">{{ __('E Mail:') }}</label>
                                     <input id="email" type="text" class="form-control btn-sm  border-light shadow-main rounded-pill @error('email') is-invalid @enderror"  value="{{ old('email') }}" required autocomplete="off"  placeholder="E Mail" required="required" name="email"  >
                                     @error('email')
                                     <span class="invalid-feedback" role="alert">
@@ -61,19 +56,19 @@
                                     </span>
                                     @enderror
                                 </div>
-                                <div class="form-group btn-group-sm ">
-                                    <label class="btn-sm" for="country_selector" >{{__('Country:')}}</label>
+                                <div class="form-group btn-group-sm mt-4 ">
+                                    <label id="country-label" class="btn-sm scroll-label" for="country_selector" >{{__('Country:')}}</label>
                                     <div class=" ">
                                         <input name="country" style="width: 100%" class=" form-control btn-sm  border-light rounded-pill shadow-main" id="country_selector" type="text" value="{{ old('country') }}">
 
                                     </div>
                                 </div>
 
-                                <div class="form-group btn-group-sm   " id="show_hide_password" >
-                                    <label class="btn-sm" for="password">{{ __('Password:') }}
+                                <div class="form-group btn-group-sm  mt-4 " id="show_hide_password" >
+                                    <label id="password-label" class="btn-sm scroll-label" for="password">{{ __('Password:') }}
                                     </label>
 
-                                        <input id="password" type="password" class="form-control btn-sm  border-light rounded-pill shadow-main @error('password') is-invalid @enderror" name="password" required autocomplete="current-password" placeholder="Password" >
+                                    <input id="password" type="password" class="form-control btn-sm  border-light rounded-pill shadow-main @error('password') is-invalid @enderror" name="password" required autocomplete="current-password" placeholder="Password" >
 
 
 
@@ -83,15 +78,15 @@
                                     </span>
                                     @enderror
                                 </div>
-                                <div class="form-group btn-group-sm "  id="show_hide_password">
-                                    <label class="btn-sm" for="password_confirmation">{{ __('Confirm Password:') }}
+                                <div class="form-group btn-group-sm mt-4"  id="show_hide_password">
+                                    <label id="password-confirmation-label" class="btn-sm scroll-label" for="password_confirmation">{{ __('Confirm Password:') }}
                                     </label>
-                                <div class="input-group">
-                                    <input id="password_confirmation" type="password" class="form-control btn-sm  border-light rounded-pill  shadow-main @error('password_confirmation') is-invalid @enderror" name="password_confirmation" required autocomplete="current-password" placeholder="Confirm Password">
-                                    <div class="input-group-append  ">
-                                        <a style="z-index: 0" id="password-show" class=" btn btn-sm btn-danger border-light rounded-pill h-100 shadow-main" href=""><i class="fa fa-eye-slash" aria-hidden="true"></i></a>
+                                    <div class="input-group">
+                                        <input id="password_confirmation" type="password" class="form-control btn-sm  border-light rounded-pill  shadow-main @error('password_confirmation') is-invalid @enderror" name="password_confirmation" required autocomplete="current-password" placeholder="Confirm Password">
+                                        <div class="input-group-append  ">
+                                            <a style="z-index: 0" id="password-show" class=" btn btn-sm btn-danger border-light rounded-pill h-100 shadow-main" href=""><i class="fa fa-eye-slash" aria-hidden="true"></i></a>
+                                        </div>
                                     </div>
-                                </div>
                                     @error('password_confirmation')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -102,15 +97,18 @@
 
 
 
-                                <div class="form-group m-0">
-                                    <button type="submit" class="btn  btn-block btn-outline-danger shadow-main border-light rounded-pill">
-                                       Register
-                                    </button>
-                                    @if (Route::has('password.request'))
-                                        <a class="btn btn-link" hidden href="{{ route('password.request') }}">
-                                            {{ __('Forgot Your Password?') }}
-                                        </a>
-                                    @endif
+                                <div class="row mt-5">
+                                    <div class="form-group m-0 col-6">
+                                        <button type="submit" class="btn  btn-block btn-outline-danger border-light rounded-pill shadow-main">
+                                            Register
+                                        </button>
+
+                                    </div>
+                                    <div class="form-group m-0 col-6">
+                                        <button onclick="window.location.href = '/dLogin';" type="button" class="btn btn-block   btn-outline-danger border-light rounded-pill shadow-main">
+                                            Login
+                                        </button>
+                                    </div>
                                 </div>
 
 
@@ -120,26 +118,26 @@
                 </div>
 
             </div>
-    @endif
+        @endif
 
-@endsection
-            @section('css')
-              <!-- Ülke secimi için gerekli css
+        @endsection
+        @section('css')
+            <!-- Ülke secimi için gerekli css
                        Start -->
                 <link rel="stylesheet" href="/components/countryselect/build/css/countrySelect.css">
 
-                  <!-- End -->
+                <!-- End -->
                 <style>
                     input:focus {
 
-                        box-shadow: none !important;
+                        box-shadow :0 1px 3px rgba(0, 0, 0, 0.16), 0 1px 1px rgba(0, 0, 0, 0.23) !important;
                     }
 
 
                 </style>
-                @endsection
-            @section('script')
-              <!-- Ülke seçimi için gerekli js
+        @endsection
+        @section('script')
+            <!-- Ülke seçimi için gerekli js
                     Start -->
                 <script src="/components/countryselect/build/js/countrySelect.js"></script>
                 <script>
@@ -147,7 +145,7 @@
                         preferredCountries: ['ca', 'gb', 'us']
                     });
                 </script>
-               <!-- End -->
+                <!-- End -->
                 <script>
 
                     $(document).ready(function () {
@@ -166,6 +164,44 @@
                             $("form").css("-webkit-filter", "blur(0px)");
                         });
                         // End
+                        /// LABEL SHOW-HİDE ANİMASYONU
+                        // START
+                        $('#name').focus(function() {
+
+                            $('#name-label').show('fast').animate({top: '-25px'});
+                        });
+                        $('#name').blur(function () {
+                            $('#name-label').animate({top: '0px'}).hide('fast');
+                        });
+                        $('#email').focus(function() {
+
+                            $('#email-label').show('fast').animate({top: '35px'});
+                        });
+                        $('#email').blur(function () {
+                            $('#email-label').animate({top: '60px'}).hide('fast');
+                        });
+                        $('#country_selector').focus(function() {
+
+                            $('#country-label').show('fast').animate({top: '95px'});
+                        });
+                        $('#country_selector').blur(function () {
+                            $('#country-label').animate({top: '120px'}).hide('fast');
+                        });
+                        $('#password').focus(function() {
+
+                            $('#password-label').show('fast').animate({top: '155px'});
+                        });
+                        $('#password').blur(function () {
+                            $('#password-label').animate({top: '175px'}).hide('fast');
+                        });
+                        $('#password_confirmation').focus(function() {
+
+                            $('#password-confirmation-label').show('fast').animate({top: '210px'});
+                        });
+                        $('#password_confirmation').blur(function () {
+                            $('#password-confirmation-label').animate({top: '235px'}).hide('fast');
+                        });
+                        // END
                     });
                     $(document).ready(function() {
                         // Password'ün gösterilmesi ve gizlenmesi işlemi
@@ -209,30 +245,30 @@
                     $(document).ready(function () {
 
                         $('#password , #password_confirmation').on('keyup',function () {
-                           var passwordLength=$(this).val().length;
+                            var passwordLength=$(this).val().length;
                             var password=$('#password').val();
                             var password_confirmation=$('#password_confirmation').val();
-                           if(passwordLength>6)
-                           {
+                            if(passwordLength>6)
+                            {
 
-                               $(this).addClass('is-valid');
-                               $(this).removeClass('is-invalid');
-                               if(password==password_confirmation)
-                               {
-                                   $('#password_equal').show('slow');
+                                $(this).addClass('is-valid');
+                                $(this).removeClass('is-invalid');
+                                if(password==password_confirmation)
+                                {
+                                    $('#password_equal').show('slow');
 
-                               }
-                               else
-                               {
-                                   $('#password_equal').hide('slow');
+                                }
+                                else
+                                {
+                                    $('#password_equal').hide('slow');
 
-                               }
-                           }
-                           else
-                           {
-                               $(this).addClass('is-invalid');
-                               $(this).removeClass('is-valid');
-                           }
+                                }
+                            }
+                            else
+                            {
+                                $(this).addClass('is-invalid');
+                                $(this).removeClass('is-valid');
+                            }
 
 
 

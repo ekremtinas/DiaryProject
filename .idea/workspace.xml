@@ -117,21 +117,21 @@
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/public/components/countryselect" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/public/components/js" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="nodejs_package_manager_path" value="npm" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\xampp\htdocs\Diary\resources\views\Login" />
-      <recent name="C:\xampp\htdocs\Diary\app\Http\Controllers\Login" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\xampp\htdocs\Diary\public\components\js" />
       <recent name="C:\xampp\htdocs\Diary\public\components\countryselect" />
       <recent name="C:\xampp\htdocs\Diary\public\components\fullcalendar\js" />
       <recent name="C:\xampp\htdocs\Diary\public\components\fullcalendar" />
       <recent name="C:\xampp\htdocs\Diary\public\components\fullcalendar\daygrid" />
-      <recent name="C:\xampp\htdocs\Diary\public\components\fullcalendar\core" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\xampp\htdocs\Diary\resources\views\Login" />
+      <recent name="C:\xampp\htdocs\Diary\app\Http\Controllers\Login" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -178,6 +178,8 @@
       <workItem from="1574720837742" duration="6759000" />
       <workItem from="1574765852012" duration="15259000" />
       <workItem from="1574809555056" duration="10672000" />
+      <workItem from="1574994906553" duration="252000" />
+      <workItem from="1574995258010" duration="192000" />
     </task>
     <servers />
   </component>

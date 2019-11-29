@@ -28,6 +28,7 @@
 <script src="https://code.jquery.com/jquery-3.4.1.js"  integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
 <script src="/components/js/bootstrap.js"  ></script>
 <script src="/components/js/bootstrap.bundle.js" ></script>
+<script src="/components/js/header.js" ></script>
 @yield('script')
 </body>
 </html>

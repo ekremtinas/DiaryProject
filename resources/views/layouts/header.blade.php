@@ -9,44 +9,39 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <!-- Left Side Of Navbar -->
+            @yield('locale')
             <ul class="navbar-nav mr-auto">
 
             </ul>
             <div id="dropdown-main" class="dropdown-main rounded-pill  border shadow-main">
-            <!-- Right Side Of Navbar -->
-            <ul class="navbar-nav ml-auto ">
-                <!-- Authentication Links -->
-                @guest
+                <!-- Right Side Of Navbar -->
+                <ul id="dropdown-main-ul" class="navbar-nav ml-auto ">
+                    <!-- Authentication Links -->
+                    @guest
 
-                    @if (!isset(Auth::user()->email))
-                        @yield('register-link')
-                        @yield('login-link')
-                    @endif
-                @else
-                    <li id="dropdown" class="nav-item dropdown ">
-                        <a id="navbarDropdown" class="nav-link dropdown-toggle btn-block btn-sm rounded-pill border-top-0 " href="#" role="button"  aria-haspopup="true" aria-expanded="false" v-pre>
-                            {{ Auth::user()->name }} <span class="caret"></span>
-                        </a>
+                        @if (!isset(Auth::user()->email))
 
-                        <div id="logout-div"   class="dropdown-menu dropdown-menu-right rounded-pill shadow-lg pl-3 pr-3 mt-4" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item btn-sm list-group-item-danger rounded-pill" href="{{ route('homeLogout') }}">Logout</a>
-                            <a class="dropdown-item btn-sm list-group-item-success rounded-pill" href="{{ route('userProfileGet') }}">Profile</a>
+                        @endif
+                    @else
+                        <li id="dropdown" class="nav-item dropdown ">
+                            <a id="navbarDropdown" class="nav-link dropdown-toggle btn-block btn-sm rounded-pill border-top-0 " href="#" role="button"  aria-haspopup="true" aria-expanded="false" v-pre>
+                                {{ Auth::user()->name }} <span class="caret"></span>
+                            </a>
 
-                        </div>
+                            <div id="logout-div"   class="dropdown-menu dropdown-menu-right rounded-pill shadow-lg pl-3 pr-3 mt-3" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item btn-sm list-group-item-danger rounded-pill" href="{{ route('homeLogout') }}">Logout</a>
+                                <a class="dropdown-item btn-sm list-group-item-success rounded-pill" href="{{ route('userProfileGet') }}">Profile</a>
 
-                    </li>
-                @endguest
-            </ul></div>
+                            </div>
+
+                        </li>
+                    @endguest
+                </ul></div>
         </div>
     </div>
 </nav>
 
-@section('script')
-    <script>
 
 
 
-
-    </script>
-    @endsection
 
