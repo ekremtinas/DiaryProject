@@ -29,5 +29,7 @@
 <script src="/components/js/bootstrap.js"  ></script>
 <script src="/components/js/bootstrap.bundle.js" ></script>
 @yield('script')
+<!-- Header'ın include edildiği ve her yerde kullanıldığı için script'ini burda kullanabiliriz. -->
+<script src="/components/js/header.js" ></script>
 </body>
 </html>
