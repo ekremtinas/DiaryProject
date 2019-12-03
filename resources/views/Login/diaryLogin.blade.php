@@ -22,10 +22,8 @@
                             <h4 class="card-title text-center ">Login</h4>
 
                             @if($message=Session::get('error'))
-                                <div class="alert alert-danger alert-block">
-                                    <button class="close" data-dismiss="alert" type="button">
-                                        x
-                                    </button>
+                                <div id="errorAlert" class="alert alert-danger alert-block  rounded-pill shadow-main">
+                                    <a id="errorHide" class="close"  >x</a>
                                     <strong>{{$message}}</strong>
                                 </div>
                             @endif
@@ -48,7 +46,7 @@
                                     <div class="input-group ">
                                         <input id="password" type="password" class="form-control btn-sm  border-light rounded-pill  shadow-main @error('password') is-invalid @enderror" name="password"  autocomplete="current-password" placeholder="Password" aria-describedby="button-addon2">
                                         <div class="input-group-append  ">
-                                            <a id="password-show" class=" btn btn-sm btn-danger border-light rounded-pill h-100  shadow-main " href=""><i class="fa fa-eye-slash" aria-hidden="true"></i></a>
+                                            <a id="password-show" class=" btn btn-sm btn-outline-danger border-light rounded-pill h-100  shadow-main " href=""><i class="fa fa-eye-slash" aria-hidden="true"></i></a>
                                         </div>
                                     </div>
 
@@ -67,17 +65,27 @@
                                     </div>
 
                                 </div>
+                                @if($message=Session::get('error'))
+
+                                    <div id="forgotPasswordAlert" class="alert-forgot-password alert-info btn-sm rounded-pill  shadow-main">
+                                        <a id="forgotPasswordHide" class="close"  >x</a>
+                                     <label class="col-8" for="forgotPassword">Forgot your password?</label>
+                                        <a id="forgotPassword" class="col-2 btn btn-block btn-outline-info border-light rounded-pill shadow-main fa fa-unlock-alt" href="{{route('passwordResetGet')}}"></a>
+
+                                    </div>
+
+                                @endif
                                 <div class="row">
+                                    <div class="form-group m-0 col-6">
+                                        <button onclick="window.location.href = '/dRegister';" type="button" class="btn btn-block   btn-outline-danger border-light rounded-pill shadow-main">
+                                            Register
+                                        </button>
+                                    </div>
                                     <div class="form-group m-0 col-6">
                                         <button type="submit" class="btn  btn-block btn-outline-danger border-light rounded-pill shadow-main">
                                             Login
                                         </button>
 
-                                    </div>
-                                    <div class="form-group m-0 col-6">
-                                        <button onclick="window.location.href = '/dRegister';" type="button" class="btn btn-block   btn-outline-danger border-light rounded-pill shadow-main">
-                                            Register
-                                        </button>
                                     </div>
                                 </div>
                             </form>
@@ -92,101 +100,8 @@
             @endif
             @endsection
             @section('css')
-                <style>
-
-                    input:focus {
-
-                        box-shadow :0 1px 3px rgba(0, 0, 0, 0.16), 0 1px 1px rgba(0, 0, 0, 0.23) !important;
-                    }
-
-
-                </style>
+                <link rel="stylesheet" href="/components/diaryLogin/css/main.css" >
             @endsection
             @section('script')
-                <script>
-
-                    $(document).ready(function () {
-                        //Form'u odaklamak için tıklanan inputlara göre diğer tarafların flu olmasını sağlar.
-                        // Form Odaklanma Start
-                        $(':input,#password-show').focus(function(){
-
-                            $("nav:not('#dropdown-main')").css("-webkit-filter", "blur(5px)");
-                            $("#image").css("-webkit-filter", "blur(4px)");
-
-                            $("form").css("-webkit-filter", "blur(0px)");
-
-
-
-
-                        });
-                        $(':input,#password-show').blur(function () {
-
-                            $("nav:not('#dropdown-main')").css("-webkit-filter", "blur(0px)");
-                            $("#image").css("-webkit-filter", "blur(0px)");
-                            $("form").css("-webkit-filter", "blur(0px)");
-                        });
-                        // Form Odaklanma End
-                        /// Label Kayan Animasyonu
-                        // Label Start
-                        $('#email').focus(function() {
-
-                            $('#email-label').show('fast').animate({top: '-25px'});
-                        });
-                        $('#email').blur(function () {
-                            $('#email-label').animate({top: '0px'}).hide('fast');
-                        });
-                        $('#password').focus(function() {
-
-                            $('#password-label').show('fast').animate({top: '35px'});
-                        });
-                        $('#password').blur(function () {
-                            $('#password-label').animate({top: '55px'}).hide('fast');
-                        });
-                        // Label End
-
-
-                    });
-
-                    //Password input'u için eye ve eye-slash iconlarını ekleyen password show content'i
-                    // Password End
-                    $(document).ready(function() {
-
-                        $("#show_hide_password a").on('click', function(event) {
-                            event.preventDefault();
-                            if($('#show_hide_password input').attr("type") == "text"){
-                                $('#show_hide_password input').attr('type', 'password');
-                                $('#show_hide_password i').addClass( "fa-eye-slash" );
-                                $('#show_hide_password i').removeClass( "fa-eye" );
-                            }
-                            else if($('#show_hide_password input').attr("type") == "password"){
-                                $('#show_hide_password input').attr('type', 'text');
-                                $('#show_hide_password i').removeClass( "fa-eye-slash" );
-                                $('#show_hide_password i').addClass( "fa-eye" );
-                            }
-                        });
-
-
-                    });
-                    // Password End
-
-                    // Email için canlı doğrulama işlemi için
-                    // Email Start
-                    $(document).ready(function () {
-                        $('#email').on('keyup',function () {
-                            var email = $(this).val();
-                            var filter = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
-                            if(filter.test(email))
-                            {
-                                $('#email').addClass( "is-valid" );
-                                $('#email').removeClass( "is-invalid" );
-                            }
-                            else{
-                                $('#email').addClass( "is-invalid" );
-                                $('#email').removeClass( "is-valid" );
-                            }
-
-                        }) ;
-                    });
-                    // Email End
-                </script>
+                <script src="/components/diaryLogin/js/main.js" ></script>
 @endsection

@@ -9,6 +9,6 @@ class GetRegisterController extends Controller
 {
     public function index()
     {
-        return view('Register.dRegister');
+        return view('Register.diaryRegister');
     }
 }

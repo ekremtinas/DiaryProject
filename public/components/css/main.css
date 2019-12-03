@@ -1,7 +1,14 @@
+/*Elamanların alt gölgesi*/
 .shadow-main {
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 }
+/*Login sayfasındaki labellerin kaydırılması*/
 .scroll-label{
     position: absolute;
     z-index: -1;
 }
+/* Fare imlecini linklerde pointer yapma işlemi */
+a{
+    cursor: pointer;
+}
+

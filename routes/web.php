@@ -16,6 +16,11 @@ Route::post('/dLogin','Login\PostLoginController@index')->name('loginPost');
 //Register Route
 Route::get('/dRegister','Register\GetRegisterController@index')->name('registerGet');
 Route::post('/dRegister','Register\PostRegisterController@index')->name('registerPost');
+//Password Reset Route
+Route::get('/dPasswordReset','Reset\GetPasswordResetController@index')->name('passwordResetGet');
+Route::post('/dPasswordReset','Reset\PostPasswordResetController@index')->name('passwordResetPost');
+Route::get('/dPasswordResetChange','Reset\GetPasswordResetController@getResetChange')->name('passwordResetChangeGet');
+
 //Diary Home
 Route::get('/dHome','GetHomeController@index')->name('homeGet');
 Route::get('/dLogout','GetHomeController@logout')->name('homeLogout');

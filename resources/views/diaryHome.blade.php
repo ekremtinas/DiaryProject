@@ -172,7 +172,7 @@
     @endif
 @endsection
 @section('css')
-    <link href='https://use.fontawesome.com/releases/v5.0.6/css/all.css' rel='stylesheet'>
+
     <link href='/components/fullcalendar/packages/core/main.css' rel='stylesheet' />
     <link href='/components/fullcalendar/packages/bootstrap/main.css' rel='stylesheet' />
     <link href='/components/fullcalendar/packages/timegrid/main.css' rel='stylesheet' />
