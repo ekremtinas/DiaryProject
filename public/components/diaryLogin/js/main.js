@@ -9,8 +9,6 @@ $(document).ready(function () {
         $("form").css("-webkit-filter", "blur(0px)");
 
 
-
-
     }).blur(function () {
 
         $("nav").css("-webkit-filter", "blur(0px)");
@@ -32,9 +30,9 @@ $(document).ready(function () {
     });
     passwordFB.focus(function() {
 
-        passwordLabel.show('fast').animate({top: '35px'});
+        passwordLabel.show('fast').animate({top: '60px'});
     }).blur(function () {
-        passwordLabel.animate({top: '55px'}).hide('fast');
+        passwordLabel.animate({top: '80px'}).hide('fast');
     });
     // Label End
 
@@ -94,7 +92,7 @@ forgotPasswordHide.on('click',function () {
 var errorHide=$('#errorHide');
 var errorAlert=$('#errorAlert');
 errorHide.on('click',function () {
-    errorAlert.hide('slow').animate({right:'250px'});
+    errorAlert.animate({left:'1500px'}).hide('slow');
 });
 // Hata Mesajı End
 });

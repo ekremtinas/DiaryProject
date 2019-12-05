@@ -11,8 +11,9 @@ class GetPasswordResetController extends Controller
    {
        return view('Reset.diaryReset');
    }
-   public  function getResetChange()
+   public  function getResetConfirm(Request $resetuid)
    {
-       return view('Reset.diaryResetChange');
+
+       return view('Reset.diaryResetConfirm')->with('resetuid',$resetuid);
    }
 }

@@ -78,10 +78,26 @@ $(document).ready(function () {
             showHidePasswordInput.attr('type', 'password');
             showHidePasswordI.addClass( "fa-eye-slash" ).removeClass( "fa-eye" );
         }
-        else if(showHidePasswordInput.attr("type") == "password"){
+        else if(showHidePasswordInput.attr("type") === "password"){
             showHidePasswordInput.attr('type', 'text');
             showHidePasswordI.removeClass( "fa-eye-slash" );
             showHidePasswordI.addClass( "fa-eye" );
+        }
+    });
+    var show_hide_password2 = $("#show_hide_password2") ;
+    var showHidePasswordInput2 = show_hide_password2.find('input');
+    var showHidePasswordI2 = show_hide_password2.find('i');
+    show_hide_password2.find('a').on('click', function(event) {
+        event.preventDefault();
+
+        if(showHidePasswordInput2.attr("type") === "text"){
+            showHidePasswordInput2.attr('type', 'password');
+            showHidePasswordI2.addClass( "fa-eye-slash" ).removeClass( "fa-eye" );
+        }
+        else if(showHidePasswordInput2.attr("type") === "password"){
+            showHidePasswordInput2.attr('type', 'text');
+            showHidePasswordI2.removeClass( "fa-eye-slash" );
+            showHidePasswordI2.addClass( "fa-eye" );
         }
     });
     // End
@@ -103,11 +119,11 @@ $(document).ready(function () {
         }
 
     }) ;
-});
+
 // End
 // Password için güvenlik doğrulaması
 // Start
-$(document).ready(function () {
+
 
     $('#password , #password_confirmation').on('keyup',function () {
         var passwordLength=$(this).val().length;
@@ -138,8 +154,27 @@ $(document).ready(function () {
 
 
     }) ;
+    // End
+
+
+    // Hata Mesajı Start
+    var errorHide=$('#errorHide');
+    var errorAlert=$('#errorAlert');
+    errorHide.on('click',function () {
+        errorAlert.animate({left:'1500px'}).hide('slow');
+    });
+// Hata Mesajı End
+
+    // Notification Start
+    var notificationHide=$('#notificationHide');
+    var notificationAlert=$('#notificationAlert');
+    notificationHide.on('click',function () {
+        notificationAlert.animate({left:'1500px'}).hide('slow');
+    });
+// Notification End
+
 });
-// End
+
 
 // Ülke seçimi selector default
 // Ülke seçimi Start
@@ -147,4 +182,4 @@ $("#country_selector").countrySelect({
     preferredCountries: ['ca', 'gb', 'us']
 });
 // Ülke seçimi End
-                    
+

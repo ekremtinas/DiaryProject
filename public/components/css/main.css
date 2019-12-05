@@ -12,3 +12,29 @@ a{
     cursor: pointer;
 }
 
+/* Sağ altta gösterilen toast mesajı */
+.notification {
+    position: fixed;
+    right: 0;
+    top: 90%;
+}
+/* Alert olarak verilen elemanların yazı büyüklüğü */
+.alert-size{
+    font-size: 12px;
+}
+/* Radio Button olarak görünen switch renk ayarı  */
+.custom-control-input:checked~.custom-control-label::before {
+    color: #fff;
+    border-color: #9E1C20 !important;
+    background-color: #9E1C20 !important;
+
+}
+.btn-outline-danger {
+    color: #9E1C20;
+    border-color: #9E1C20;
+}
+.btn-outline-danger:hover {
+    color: #fff;
+    background-color: #9E1C20;
+    border-color: #9E1C20;
+}

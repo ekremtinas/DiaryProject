@@ -19,7 +19,9 @@ Route::post('/dRegister','Register\PostRegisterController@index')->name('registe
 //Password Reset Route
 Route::get('/dPasswordReset','Reset\GetPasswordResetController@index')->name('passwordResetGet');
 Route::post('/dPasswordReset','Reset\PostPasswordResetController@index')->name('passwordResetPost');
-Route::get('/dPasswordResetChange','Reset\GetPasswordResetController@getResetChange')->name('passwordResetChangeGet');
+Route::get('/dPasswordResetConfirm','Reset\GetPasswordResetController@getResetConfirm')->name('passwordResetConfirmGet');
+Route::post('/dPasswordResetConfirm','Reset\PostPasswordResetController@postResetConfirm')->name('passwordResetConfirmPost');
+
 
 //Diary Home
 Route::get('/dHome','GetHomeController@index')->name('homeGet');

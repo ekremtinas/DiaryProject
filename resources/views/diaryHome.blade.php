@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('title')
-    <title>Diary Home</title>
+    <title>Home | Diary</title>
 @endsection
 @section('locale')
     <select class="custom-select-sm col-1 custom-select" id="locale-selector"></select>

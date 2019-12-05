@@ -11,4 +11,12 @@ input:focus {
     border: 1px solid transparent;
     border-radius: .25rem;
 }
+.email-alert {
+    position: absolute;
+    top: 37%;
+}
+.password-alert{
+    position: absolute;
+    top:115%;
 
+}

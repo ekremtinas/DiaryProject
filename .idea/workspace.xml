@@ -144,16 +144,16 @@
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\xampp\htdocs\Diary\resources\views\Login" />
+      <recent name="C:\xampp\htdocs\Diary\app\Http\Controllers\Login" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\xampp\htdocs\Diary\public\components\js" />
       <recent name="C:\xampp\htdocs\Diary\public\components\countryselect" />
       <recent name="C:\xampp\htdocs\Diary\public\components\fullcalendar\js" />
       <recent name="C:\xampp\htdocs\Diary\public\components\fullcalendar" />
       <recent name="C:\xampp\htdocs\Diary\public\components\fullcalendar\daygrid" />
-    </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\xampp\htdocs\Diary\resources\views\Login" />
-      <recent name="C:\xampp\htdocs\Diary\app\Http\Controllers\Login" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -205,7 +205,8 @@
       <workItem from="1575029735531" duration="3436000" />
       <workItem from="1575298141275" duration="3910000" />
       <workItem from="1575303217894" duration="21508000" />
-      <workItem from="1575376856762" duration="228000" />
+      <workItem from="1575376856762" duration="24417000" />
+      <workItem from="1575469907492" duration="8786000" />
     </task>
     <servers />
   </component>
