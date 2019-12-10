@@ -122,8 +122,7 @@ $(document).ready(function () {
         }
         else
         {
-            $(this).addClass('is-invalid');
-            $(this).removeClass('is-valid');
+            $(this).addClass('is-invalid').removeClass('is-valid');
         }
 
 
@@ -140,15 +139,49 @@ $(document).ready(function () {
         notificationAlert.animate({left:'1500px'}).hide('slow');
         loginAskAlert.animate({top:'90%'});
     });
-// Notification End
-// Login Ask Start
-    var loginAskHide=$('#loginAskHide');
+    // Notification End
+    // Login Ask Start
+        var loginAskHide=$('#loginAskHide');
 
-    loginAskHide.on('click',function () {
-        loginAskAlert.animate({left:'1500px'}).hide('slow');
+        loginAskHide.on('click',function () {
+            loginAskAlert.animate({left:'1500px'}).hide('slow');
+        });
+    // Login Ask End
+    // Password'ün gösterilmesi ve gizlenmesi işlemi
+    // Start
+    var show_hide_password = $("#show_hide_password") ;
+    var showHidePasswordInput = show_hide_password.find('input');
+    var showHidePasswordI = show_hide_password.find('i');
+    show_hide_password.find('a').on('click', function(event) {
+        event.preventDefault();
+
+        if(showHidePasswordInput.attr("type") === "text"){
+            showHidePasswordInput.attr('type', 'password');
+            showHidePasswordI.addClass( "fa-eye-slash" ).removeClass( "fa-eye" );
+        }
+        else if(showHidePasswordInput.attr("type") === "password"){
+            showHidePasswordInput.attr('type', 'text');
+            showHidePasswordI.removeClass( "fa-eye-slash" );
+            showHidePasswordI.addClass( "fa-eye" );
+        }
     });
-// Login Ask End
+    var show_hide_password2 = $("#show_hide_password2") ;
+    var showHidePasswordInput2 = show_hide_password2.find('input');
+    var showHidePasswordI2 = show_hide_password2.find('i');
+    show_hide_password2.find('a').on('click', function(event) {
+        event.preventDefault();
 
+        if(showHidePasswordInput2.attr("type") === "text"){
+            showHidePasswordInput2.attr('type', 'password');
+            showHidePasswordI2.addClass( "fa-eye-slash" ).removeClass( "fa-eye" );
+        }
+        else if(showHidePasswordInput2.attr("type") === "password"){
+            showHidePasswordInput2.attr('type', 'text');
+            showHidePasswordI2.removeClass( "fa-eye-slash" );
+            showHidePasswordI2.addClass( "fa-eye" );
+        }
+    });
+    // End
 
 });
 

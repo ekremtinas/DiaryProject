@@ -29,7 +29,7 @@ class PostLoginController extends Controller
          return redirect('dHome');
      }
      else{
-         return back()->with('error','Wrong Login Details');
+         return back()->withInput()->with('error','Wrong Login Details');
      }
 
     }

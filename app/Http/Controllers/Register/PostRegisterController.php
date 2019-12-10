@@ -34,7 +34,7 @@ class PostRegisterController extends Controller
        }
        catch (\Exception $exception)
        {
-           return back()->with('error','This user is registered');
+           return back()->withInput()->with('error','This user is registered');
        }
    }
 }

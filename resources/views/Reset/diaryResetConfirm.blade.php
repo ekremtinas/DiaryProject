@@ -40,17 +40,17 @@
                                 x
                             </button>
                             <strong>{{$message}}</strong>
-                            <a id="loginAsk" class="col-2 btn btn-block btn-outline-info border-light rounded-pill shadow-main fa fa-check" href="{{route('loginGet')}}"></a>
+                            <a href="/dPasswordResetConfirmLogin?resetuid={{md5($resetuid['resetuid'])}}" id="loginAsk" class="col-2 btn btn-block btn-outline-info border-light rounded-pill shadow-main fa fa-check" href="{{route('loginGet')}}"></a>
 
                         </div>
                     @endif
-                    <form action="{{route('passwordResetConfirmPost')}}" method="post" >
+                    <form id="resetForm" action="{{route('passwordResetConfirmPost')}}" method="post" >
                         @csrf
                         <div class="form-group btn-group-sm  mt-4 " id="show_hide_password" >
                             <label id="password-label" class="btn-sm scroll-label offset-1 " for="password">{{ __('Password:') }}
                             </label>
                             <div class="input-group">
-                                <input id="password" type="password" class="form-control btn-sm  border-light rounded-pill col-9 offset-1 shadow-main @error('password') is-invalid @enderror" name="password"  autocomplete="current-password" placeholder="Password" >
+                                <input id="password" data-bvalidator="required,minlen[6],maxlen[30]" type="password" class="form-control btn-sm  border-light rounded-pill col-9 offset-1 shadow-main @error('password') is-invalid @enderror" name="password"  autocomplete="current-password" placeholder="Password" >
                                 <div class="input-group-append  ">
                                     <a style="z-index: 0" id="password-show" class=" btn btn-sm btn-outline-danger border-light rounded-pill h-100 shadow-main" href="#"><i class="fa fa-eye-slash" aria-hidden="true"></i></a>
                                 </div>
@@ -63,7 +63,7 @@
                             <label id="password-confirmation-label" class="btn-sm scroll-label  offset-1 " for="password_confirmation">{{ __('Confirm Password:') }}
                             </label>
                             <div class="input-group">
-                                <input id="password_confirmation" type="password" class="form-control btn-sm  border-light rounded-pill col-9 offset-1  shadow-main @error('password') is-invalid @enderror" name="password_confirmation"  autocomplete="current-password" placeholder="Confirm Password">
+                                <input id="password_confirmation" data-bvalidator="required,minlen[6],maxlen[30]" type="password" class="form-control btn-sm  border-light rounded-pill col-9 offset-1  shadow-main @error('password') is-invalid @enderror" name="password_confirmation"  autocomplete="current-password" placeholder="Confirm Password">
                                 <div class="input-group-append  ">
                                     <a style="z-index: 0" id="password-show" class=" btn btn-sm btn-outline-danger border-light rounded-pill h-100 shadow-main" href="#"><i class="fa fa-eye-slash" aria-hidden="true"></i></a>
                                 </div>
@@ -74,7 +74,7 @@
                                 @enderror
                             </div>
 
-                            <span id="password_equal" style="display: none" class=" alert-success btn-sm rounded-pill offset-1 alert-size" >Password is the same and greater than 6</span>
+                            <span id="password_equal" style="display: none" class=" alert-success btn-sm rounded-pill offset-1 alert-size" >Password is the same and greater than 6 </span>
                         </div>
 
                         <input hidden name="resetuid" value="{{$resetuid['resetuid']}}">
@@ -100,7 +100,7 @@
     </div>
 
     @if(isset($notificationEmail))
-        <div id="notification-email-send" class=" notification alert alert-info alert-block  btn-sm rounded-pill shadow-main col-6">
+        <div id="notification-email-send" class=" notification alert-size alert alert-info alert-block  btn-sm rounded-pill shadow-main col-6">
             <a id="notification-email-send-close" class="close"  >x</a>
             <strong>Thank you! For a password renewal link, please check the email at  {{$notificationEmail}}  </strong>
         </div>
@@ -109,8 +109,20 @@
 @endsection
 @section('css')
     <link rel="stylesheet" href="/components/diaryReset/css/main.css" >
+    <link href="/components/bvalidator/themes/red/red.css" rel="stylesheet" />
 @endsection
 @section('script')
     <script src="/components/diaryReset/js/main.js" ></script>
+    <script src="/components/bvalidator/dist/jquery.bvalidator.min.js"></script>
+    <script src="/components/bvalidator/themes/presenters/bValidator.DefaultPresenter.js"></script>
+    <script src="/components/bvalidator/themes/red/red.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#resetForm').bValidator();
+
+
+        });
+
+    </script>
 @endsection
 

@@ -138,22 +138,25 @@
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/public/components/js" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/public/components" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\xampp\htdocs\Diary\public\components\checkify\js" />
+      <recent name="C:\xampp\htdocs\Diary\public\components\checkify\css" />
+      <recent name="C:\xampp\htdocs\Diary\public\components\validetta\js" />
+      <recent name="C:\xampp\htdocs\Diary\public\components\validetta\css" />
       <recent name="C:\xampp\htdocs\Diary\resources\views\Login" />
-      <recent name="C:\xampp\htdocs\Diary\app\Http\Controllers\Login" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\xampp\htdocs\Diary\public\components" />
+      <recent name="C:\xampp\htdocs\Diary\public\components\checkify" />
+      <recent name="C:\xampp\htdocs\Diary\public\components\validetta" />
       <recent name="C:\xampp\htdocs\Diary\public\components\js" />
       <recent name="C:\xampp\htdocs\Diary\public\components\countryselect" />
-      <recent name="C:\xampp\htdocs\Diary\public\components\fullcalendar\js" />
-      <recent name="C:\xampp\htdocs\Diary\public\components\fullcalendar" />
-      <recent name="C:\xampp\htdocs\Diary\public\components\fullcalendar\daygrid" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -206,7 +209,12 @@
       <workItem from="1575298141275" duration="3910000" />
       <workItem from="1575303217894" duration="21508000" />
       <workItem from="1575376856762" duration="24417000" />
-      <workItem from="1575469907492" duration="8786000" />
+      <workItem from="1575469907492" duration="9659000" />
+      <workItem from="1575537119147" duration="3116000" />
+      <workItem from="1575618723321" duration="5890000" />
+      <workItem from="1575636764960" duration="7233000" />
+      <workItem from="1575672445096" duration="1262000" />
+      <workItem from="1575897218865" duration="18226000" />
     </task>
     <servers />
   </component>

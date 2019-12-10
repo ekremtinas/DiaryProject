@@ -21,7 +21,7 @@ Route::get('/dPasswordReset','Reset\GetPasswordResetController@index')->name('pa
 Route::post('/dPasswordReset','Reset\PostPasswordResetController@index')->name('passwordResetPost');
 Route::get('/dPasswordResetConfirm','Reset\GetPasswordResetController@getResetConfirm')->name('passwordResetConfirmGet');
 Route::post('/dPasswordResetConfirm','Reset\PostPasswordResetController@postResetConfirm')->name('passwordResetConfirmPost');
-
+Route::get('/dPasswordResetConfirmLogin','Reset\GetPasswordResetController@getResetConfirmLogin')->name('passwordResetConfirmGetLogin');
 
 //Diary Home
 Route::get('/dHome','GetHomeController@index')->name('homeGet');

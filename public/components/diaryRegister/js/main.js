@@ -2,11 +2,18 @@
 $(document).ready(function () {
     // Form'u odaklamak için tıklanan inputlara göre diğer tarafların flu olmasını sağlar.
     // Start
+    var nameAlert=$('#name-alert');
+    var emailAlert=$('#email-alert');
+    var passwordAlert=$('#password-alert');
     $(':input,#password-show').focus(function(){
 
         $("nav").css("-webkit-filter", "blur(3px)");
         $("#image").css("-webkit-filter", "blur(3px)");
         $("form").css("-webkit-filter", "blur(0px)");
+        nameAlert.hide();
+        emailAlert.hide();
+        passwordAlert.hide();
+
     }).blur(function () {
 
         $("nav").css("-webkit-filter", "blur(0px)");
@@ -29,36 +36,36 @@ $(document).ready(function () {
     var emailLabel = $('#email-label');
     email.focus(function() {
 
-        emailLabel.show('fast').animate({top: '35px'});
+        emailLabel.show('fast').animate({top: '60px'});
     }).blur(function () {
-        emailLabel.animate({top: '60px'}).hide('fast');
+        emailLabel.animate({top: '80px'}).hide('fast');
     });
 
     var countrySelector= $('#country_selector');
     var countryLabel=$('#country-label');
     countrySelector.focus(function() {
 
-        countryLabel.show('fast').animate({top: '95px'});
+        countryLabel.show('fast').animate({top: '140px'});
     }).blur(function () {
-        countryLabel.animate({top: '120px'}).hide('fast');
+        countryLabel.animate({top: '170px'}).hide('fast');
     });
 
     var password =  $('#password');
     var passwordLabel = $('#password-label');
     password.focus(function() {
 
-        passwordLabel.show('fast').animate({top: '155px'});
+        passwordLabel.show('fast').animate({top: '225px'});
     }).blur(function () {
-        passwordLabel.animate({top: '175px'}).hide('fast');
+        passwordLabel.animate({top: '250px'}).hide('fast');
     });
 
     var passwordConfirmation =  $('#password_confirmation');
     var passwordConfirmationLabel = $('#password-confirmation-label');
     passwordConfirmation.focus(function() {
 
-        passwordConfirmationLabel.show('fast').animate({top: '210px'});
+        passwordConfirmationLabel.show('fast').animate({top: '310px'});
     }).blur(function () {
-        passwordConfirmationLabel.animate({top: '235px'}).hide('fast');
+        passwordConfirmationLabel.animate({top: '330px'}).hide('fast');
     });
     // END
 
@@ -129,26 +136,25 @@ $(document).ready(function () {
         var passwordLength=$(this).val().length;
         var password=$('#password').val();
         var password_confirmation=$('#password_confirmation').val();
+        var passwordEqual=$('#password_equal');
         if(passwordLength>6)
         {
 
-            $(this).addClass('is-valid');
-            $(this).removeClass('is-invalid');
+            $(this).addClass('is-valid').removeClass('is-invalid');
             if(password==password_confirmation)
             {
-                $('#password_equal').show('slow');
+                passwordEqual.show('slow');
 
             }
             else
             {
-                $('#password_equal').hide('slow');
+                passwordEqual.hide('slow');
 
             }
         }
         else
         {
-            $(this).addClass('is-invalid');
-            $(this).removeClass('is-valid');
+            $(this).addClass('is-invalid').removeClass('is-valid');
         }
 
 
@@ -179,7 +185,7 @@ $(document).ready(function () {
 // Ülke seçimi selector default
 // Ülke seçimi Start
 $("#country_selector").countrySelect({
-    preferredCountries: ['ca', 'gb', 'us']
+    preferredCountries: ['tr', 'nl', 'de']
 });
 // Ülke seçimi End
 

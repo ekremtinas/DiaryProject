@@ -1,13 +1,17 @@
 $(document).ready(function () {
+//Login Main
     //Form'u odaklamak için tıklanan inputlara göre diğer tarafların flu olmasını sağlar.
     // Form Odaklanma Start
+    var passwordAlert = $('#password-alert');
+    var emailAlert = $('#email-alert');
     $(':input,#password-show').focus(function(){
 
         $("nav").css("-webkit-filter", "blur(5px)");
         $("#image").css("-webkit-filter", "blur(4px)");
 
         $("form").css("-webkit-filter", "blur(0px)");
-
+        passwordAlert.hide();
+        emailAlert.hide();
 
     }).blur(function () {
 
@@ -22,15 +26,19 @@ $(document).ready(function () {
     var emailLabel = $('#email-label');
     var passwordFB = $('#password');
     var passwordLabel = $('#password-label');
+
     emailFB.focus(function() {
 
         emailLabel.show('fast').animate({top: '-25px'});
+        $(this).css("background-color","#fff");
     }).blur(function () {
         emailLabel.animate({top: '0px'}).hide('fast');
     });
     passwordFB.focus(function() {
 
         passwordLabel.show('fast').animate({top: '60px'});
+
+
     }).blur(function () {
         passwordLabel.animate({top: '80px'}).hide('fast');
     });
@@ -95,4 +103,25 @@ errorHide.on('click',function () {
     errorAlert.animate({left:'1500px'}).hide('slow');
 });
 // Hata Mesajı End
-});
+
+
+// Password için güvenlik doğrulaması
+// Start
+ $('#password').on('keyup',function () {
+        var passwordLength=$(this).val().length;
+        var loginButton = $('#button');
+        if(passwordLength>6)
+        {
+            $(this).addClass('is-valid').removeClass('is-invalid');
+            loginButton.removeAttr('disabled');
+         }
+        else
+        {
+            $(this).addClass('is-invalid').removeClass('is-valid');
+            loginButton.attr('disabled','disabled');
+        }
+    }) ;
+    // End
+
+
+});// Ready End

@@ -27,13 +27,13 @@
                                 <strong>{{$message}}</strong>
                             </div>
                         @endif
-                        <form action="{{route('passwordResetPost')}}" method="post" >
+                        <form id="resetForm" action="{{route('passwordResetPost')}}" method="post" >
                             @csrf
                             <div class="form-group btn-group-sm mt-3 col-lg-10 offset-1 ">
                                 <label id="email-label"  class="btn-sm scroll-label" for="email">{{ __('E Mail:') }}</label>
-                                <input id="email" type="text" class="form-control btn-sm  border-light shadow-main rounded-pill @error('email') is-invalid @enderror "  value="{{ old('email') }}"   autocomplete="off"   placeholder="E Mail"  name="email"  >
+                                <input id="email" data-bvalidator="required,email" type="text" class="form-control btn-sm  border-light shadow-main rounded-pill @error('email') is-invalid @enderror "  value="{{ old('email') }}"   autocomplete="off"   placeholder="E Mail"  name="email"  >
                                 @error('email')
-                                <span class="invalid-feedback" role="alert">
+                                <span class="email-alert invalid-feedback alert-size col-lg-11 alert-danger alert-block  btn-sm rounded-pill" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
@@ -45,7 +45,7 @@
                             <div class="row ">
 
                                 <div class="form-group mt-4 col-6 offset-3">
-                                    <button disabled id="resetButton" type="submit" class="btn  btn-block btn-outline-danger border-light rounded-pill shadow-main">
+                                    <button id="resetButton" type="submit" class="btn  btn-block btn-outline-danger border-light rounded-pill shadow-main">
                                         Send Login Link
                                     </button>
 
@@ -80,11 +80,28 @@
                 <strong>Thank you! For a password renewal link, please check the email at  {{$notificationEmail}}  </strong>
             </div>
         @endif
+    @if(isset($please))
+        <div id="notification-email-send" class=" notification alert alert-info alert-block  btn-sm rounded-pill shadow-main col-6">
+            <a id="notification-email-send-close" class="close"  >x</a>
+            <strong>{{$please}}  </strong>
+        </div>
+    @endif
+
 
 @endsection
 @section('css')
             <link rel="stylesheet" href="/components/diaryReset/css/main.css" >
+            <link href="/components/bvalidator/themes/red/red.css" rel="stylesheet" />
     @endsection
 @section('script')
             <script src="/components/diaryReset/js/main.js" ></script>
+            <script src="/components/bvalidator/dist/jquery.bvalidator.min.js"></script>
+            <script src="/components/bvalidator/themes/presenters/bValidator.DefaultPresenter.js"></script>
+            <script src="/components/bvalidator/themes/red/red.js"></script>
+            <script>
+                $(document).ready(function () {
+                    $('#resetForm').bValidator();
+                });
+
+            </script>
     @endsection

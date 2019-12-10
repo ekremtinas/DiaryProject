@@ -35,7 +35,7 @@ class PostPasswordResetController extends Controller
            ];
            $notificationEmail=$request->get('email');
            $resetuid=$data['resetuid'];
-           User::where('email',$notificationEmail)->update(['email_verified_at'=>$resetuid]);
+           User::where('email',$notificationEmail)->update(['email_verified_at'=>md5($resetuid)]);
            Mail::send("Reset.diaryResetChange",$data,function ($message) use ($notificationEmail) {
                $message->to($notificationEmail,"Kullanıcı")->subject("Diary Password Reset");
            });
@@ -60,7 +60,7 @@ class PostPasswordResetController extends Controller
            'password' => $password,
 
        );
-       if (User::where('email_verified_at',$user_data['resetuid'])->first())
+       if (User::where('email_verified_at',md5($user_data['resetuid']))->first())
        {
            if(User::where('password',$user_data['password'])->first())
            {
@@ -69,7 +69,7 @@ class PostPasswordResetController extends Controller
            else
                {
            try {
-               User::where('email_verified_at',$user_data['resetuid'])->update(['password' => $user_data['password']]);
+               User::where('email_verified_at',md5($user_data['resetuid']))->update(['password' => $user_data['password']]);
                return back()->with('success','The password was changed')->with('loginAsk','Do you want to login? ');
 
            }
