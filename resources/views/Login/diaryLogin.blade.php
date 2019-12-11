@@ -1,15 +1,16 @@
 @extends('layouts.app')
 @section('title')
+    @if(isset(Auth::user()->email))
+        <script>window.location='/dHome';</script>
+
+    @else
     <title>Login | Diary</title>
 @endsection
 @section('shadow')
     shadow-main
 @endsection
 @section('content')
-    @if(isset(Auth::user()->email))
-        <script>window.location='/dHome';</script>
 
-    @else
 
         <div id="container" class="container h-100">
             <div class="row justify-content-center h-100">

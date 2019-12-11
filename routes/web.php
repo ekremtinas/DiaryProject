@@ -10,6 +10,7 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+
 //Login Route
 Route::get('/dLogin','Login\GetLoginController@index')->name('loginGet');
 Route::post('/dLogin','Login\PostLoginController@index')->name('loginPost');
@@ -22,6 +23,10 @@ Route::post('/dPasswordReset','Reset\PostPasswordResetController@index')->name('
 Route::get('/dPasswordResetConfirm','Reset\GetPasswordResetController@getResetConfirm')->name('passwordResetConfirmGet');
 Route::post('/dPasswordResetConfirm','Reset\PostPasswordResetController@postResetConfirm')->name('passwordResetConfirmPost');
 Route::get('/dPasswordResetConfirmLogin','Reset\GetPasswordResetController@getResetConfirmLogin')->name('passwordResetConfirmGetLogin');
+
+
+
+
 
 //Diary Home
 Route::get('/dHome','GetHomeController@index')->name('homeGet');

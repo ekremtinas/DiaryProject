@@ -1,15 +1,16 @@
 @extends('layouts.app')
 @section('title')
-    <title>Home | Diary</title>
-@endsection
-@section('locale')
-    <select class="custom-select-sm col-1 custom-select" id="locale-selector"></select>
-@endsection
-@section('content')
     @if(!isset(Auth::user()->email))
         <script>window.location='/dLogin';</script>
 
     @else
+    <title>Home | Diary</title>
+@endsection
+@section('locale')
+    <select class="custom-select-sm col-1 custom-select rounded-pill shadow-main" id="locale-selector"></select>
+@endsection
+@section('content')
+
 
         <div class="container w-75 h-50" id='top'>
 
@@ -19,8 +20,8 @@
                     Theme System:
 
                     <select hidden>
-                        <option value='bootstrap' selected>Bootstrap 4</option>
-                        <option value='standard'>unthemed</option>
+                        <option value='bootstrap' selected></option>
+                        <option value='standard'></option>
                     </select>
                 </div>
 
@@ -76,43 +77,74 @@
                     </div>
                     <div class="modal-body  ">
                         <div class="form-group">
-                            <label for="title" class="col-sm-4 control-label  btn-sm ">Title</label>
-                            <div class="col-sm-10">
-                                <input type="text" name="title" class="form-control btn-sm h-50" id="title" placeholder="Title">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="color" class="col-sm-4 control-label btn-sm">Color</label>
-                            <div class="col-sm-10">
-                                <select name="color" class="form-control btn-sm h-50" id="color">
-                                    <option value="">Choose</option>
-                                    <option style="color:#0071c5;" value="#0071c5">&#9724; Dark blue</option>
-                                    <option style="color:#40E0D0;" value="#40E0D0">&#9724; Turquoise</option>
-                                    <option style="color:#008000;" value="#008000">&#9724; Green</option>
-                                    <option style="color:#FFD700;" value="#FFD700">&#9724; Yellow</option>
-                                    <option style="color:#FF8C00;" value="#FF8C00">&#9724; Orange</option>
-                                    <option style="color:#FF0000;" value="#FF0000">&#9724; Red</option>
-                                    <option style="color:#000;" value="#000">&#9724; Black</option>
+                            <div class="form-group btn-group-sm mt-5 col-lg-10 offset-lg-1 ">
+                                <label id="saveTitle-label"  class="btn-sm scroll-home-label" for="saveTitle">{{ __('Event Title:') }}</label>
+                                <input id="saveTitle" data-bvalidator="required" type="text" class="form-control btn-sm  border-light shadow-main rounded-pill @error('saveTitle') is-invalid @enderror "  value="{{ old('saveTitle') }}"   autocomplete="off"   placeholder="Event Title"  name="saveTitle"  >
+                                @error('saveTitle')
+                                <span  id="saveTitle-alert" class="title-alert invalid-feedback alert-size pl-3 ml-2 rounded-pill alert-danger col-10 " role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
 
-                                </select>
+                                @enderror
+
+                            </div>
+                        </div>
+
+
+                        <div class="form-group btn-group-sm mt-5 col-lg-10 offset-lg-1 ">
+                            <label id="color-label"  class="btn-sm scroll-home-label" for="color">{{ __('Color:') }}</label>
+                             <select value="{{ old('color') }}"   autocomplete="off" data-bvalidator="required"  placeholder="Color"   name="color" class="form-control btn-sm h-50  form-control btn-sm  border-light shadow-main rounded-pill @error('color') is-invalid @enderror " id="color">
+                                <option value="">Choose</option>
+                                <option style="color:#0071c5;" value="#0071c5">&#9724; Dark blue</option>
+                                <option style="color:#40E0D0;" value="#40E0D0">&#9724; Turquoise</option>
+                                <option style="color:#008000;" value="#008000">&#9724; Green</option>
+                                <option style="color:#FFD700;" value="#FFD700">&#9724; Yellow</option>
+                                <option style="color:#FF8C00;" value="#FF8C00">&#9724; Orange</option>
+                                <option style="color:#FF0000;" value="#FF0000">&#9724; Red</option>
+                                <option style="color:#000;" value="#000">&#9724; Black</option>
+
+                            </select>
+
+                            @error('color')
+                            <span  id="color-alert" class="color-alert invalid-feedback alert-size pl-3 ml-2 rounded-pill alert-danger col-10 " role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+
+                            @enderror
+
+                        </div>
+
+
+                        <div class="form-group">
+                            <div class="form-group btn-group-sm mt-5 col-lg-10 offset-lg-1 ">
+                                <label id="start-label"  class="btn-sm scroll-home-label" for="start">{{ __('Start date:') }}</label>
+                                <input readonly id="start" data-bvalidator="required" type="text" class="form-control btn-sm  border-light shadow-main rounded-pill @error('start') is-invalid @enderror "  value="{{ old('start') }}"   autocomplete="off"   placeholder="Start date"  name="start"  >
+                                @error('start')
+                                <span  id="start-alert" class="title-alert invalid-feedback alert-size pl-3 ml-2 rounded-pill alert-danger col-10 " role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+
+                                @enderror
+
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="start" class="col-sm-4 control-label btn-sm">Start date</label>
-                            <div class="col-sm-10">
-                                <input type="text" name="start" class="form-control btn-sm h-50" id="start" readonly>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="end" class="col-sm-4 control-label btn-sm">End date</label>
-                            <div class="col-sm-10">
-                                <input type="text" name="end" class="form-control btn-sm h-50" id="end" readonly>
+                            <div class="form-group btn-group-sm mt-5 col-lg-10 offset-lg-1 ">
+                                <label id="end-label"  class="btn-sm scroll-home-label" for="end">{{ __('End date:') }}</label>
+                                <input readonly id="end" data-bvalidator="required" type="text" class="form-control btn-sm  border-light shadow-main rounded-pill @error('end') is-invalid @enderror "  value="{{ old('end') }}"   autocomplete="off"   placeholder="End date"  name="end"  >
+                                @error('end')
+                                <span  id="end-alert" class="title-alert invalid-feedback alert-size pl-3 ml-2 rounded-pill alert-danger col-10 " role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+
+                                @enderror
+
                             </div>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn  btn-outline-secondary btn-sm" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-outline-primary btn-sm">Save changes</button>
+                        <button type="button" class="btn  btn btn-danger btn-sm" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-success btn-sm">Save changes</button>
                     </div>
                 </div>
             </div>
@@ -130,7 +162,7 @@
                         <div class="form-group">
                             <label for="title" class="col-sm-4 control-label  btn-sm ">Title</label>
                             <div class="col-sm-10">
-                                <input type="text" name="title" class="form-control btn-sm h-50" id="title" placeholder="Title">
+                                <input type="text" name="title" class="form-control btn-sm h-50" id="editTitle" placeholder="Title">
                             </div>
                         </div>
                         <div class="form-group">
@@ -163,8 +195,8 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn  btn-outline-secondary btn-sm" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-outline-primary btn-sm">Save changes</button>
+                        <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-success  btn-sm">Save changes</button>
                     </div>
                 </div>
             </div>
@@ -172,7 +204,7 @@
     @endif
 @endsection
 @section('css')
-
+    <link href='/components/diaryHome/css/main.css' rel='stylesheet' />
     <link href='/components/fullcalendar/packages/core/main.css' rel='stylesheet' />
     <link href='/components/fullcalendar/packages/bootstrap/main.css' rel='stylesheet' />
     <link href='/components/fullcalendar/packages/timegrid/main.css' rel='stylesheet' />
@@ -181,11 +213,10 @@
     <style>
 
 
-
     </style>
 @endsection
 @section('script')
-
+    <script src='/components/diaryHome/js/main.js'></script>
     <script src='/components/fullcalendar/packages/core/main.js'></script>
     <script src='/components/fullcalendar/packages/interaction/main.js'></script>
     <script src='/components/fullcalendar/packages/bootstrap/main.js'></script>
