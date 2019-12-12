@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Home;
 
 use App\Http\Controllers\Controller;
 use App\Models\Events;
+use Illuminate\Auth\Events\Login;
 use Illuminate\Http\Request;
 use Calendar;
 
@@ -14,7 +15,7 @@ class FullCalendarController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public static function index()
+    public  function index()
     {
         $data =array();
         $array= Events::all();
@@ -107,10 +108,10 @@ class FullCalendarController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return string
      */
     public function destroy($id)
     {
-        //
+       return "resas";
     }
 }

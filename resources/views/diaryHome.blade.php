@@ -56,8 +56,9 @@
         <div class="modal fade" id="ModalAdd" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" >
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
-                    <form class="form-horizontal" method="POST" action="{{route('addEventPost')}}">
-                        @csrf
+                    <form id="addEventForm" class="form-horizontal" method="POST" action="{{route('addEventPost')}}">
+
+                        <input type="hidden" id="_token" name="_token" value="{{ csrf_token() }}">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel">Event title</h5>
                         <button type="button" class="close btn-sm" data-dismiss="modal" aria-label="Close">
@@ -130,7 +131,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn  btn btn-danger btn-sm" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-success btn-sm">Save changes</button>
+                        <button type="submit" id="addEventSubmit" class="btn btn-success btn-sm">Save changes</button>
                     </div>
                     </form>
                 </div>
@@ -283,10 +284,7 @@
                             $('#ModalAdd').modal('show');
                         },
 
-                      events: <?php
-                        use App\Http\Controllers\Home;
-                        echo Home\FullCalendarController::index();
-                        ?> ,
+                      events: '/dHome/getEvent' ,
 
 
                     });
@@ -325,8 +323,8 @@
                 selector: '.context-menu-one',
                 callback: function(key, options) {
                     var locale = $('#locale-selector').val();
-                    var event = calendar.getEventById('1');
-
+                    var event = $(this);
+                    var deleteid = $(this).id;
                     switch (key) {
                         case 'edit':
                             $('#ModalEdit #start').val(moment(start).format('YYYY-MM-DD HH:mm:ss'));
@@ -334,30 +332,42 @@
                             $('#ModalEdit').modal('show');
                             break;
                         case 'delete':
+                            $.ajax({
+                                type: 'POST',
+                                url: '/dHome/dropEvent',
+                                data: {
+                                    id:deleteid
 
-                            bootbox.confirm({
-                                message: "Is event delete?",
-                                size: 'small',
-                                locale:  locale,
-                                buttons: {
-                                    confirm: {
-                                        label: 'Yes',
-                                        className: 'btn-success'
-                                    },
-                                    cancel: {
-                                        label: 'No',
-                                        className: 'btn-danger'
-                                    }
                                 },
-                                callback: function (result) {
-                                    if(result==true) {
-                                        event.remove();
+                                beforeSend: function(data) {
+                                     bootbox.confirm({
+                                        message: "Is event delete?",
+                                        size: 'small',
+                                        locale:  locale,
+                                        buttons: {
+                                            confirm: {
+                                                label: 'Yes',
+                                                className: 'btn-success'
+                                            },
+                                            cancel: {
+                                                label: 'No',
+                                                className: 'btn-danger'
+                                            }
+                                        },
+                                        callback: function (result) {
+                                            return result;
+                                        }
                                     }
-                                    else{
 
-                                    }
+                                    );
+
+                                },
+                                success:function(data){
+                                    alert('asd');
+                                    event.remove();
                                 }
                             });
+
 
                             break;
 

@@ -32,7 +32,9 @@ Route::get('/dPasswordResetConfirmLogin','Reset\GetPasswordResetController@getRe
 Route::get('/dHome','GetHomeController@index')->name('homeGet');
 Route::get('/dLogout','GetHomeController@logout')->name('homeLogout');
 //Diary Home Full Calendar
-Route::post('addEvent','Home\FullCalendarController@create')->name('addEventPost');
+Route::get('/dHome/getEvent','Home\FullCalendarController@index')->name('eventGet');
+Route::post('/dHome/addEvent','Home\FullCalendarController@create')->name('addEventPost');
+Route::post('/dHome/dropEvent','Home\FullCalendarController@destroy')->name('dropEventPost');
 
 //Diary User Profile
 Route::get('/userProfile','Profile\GetProfileController@index')->name('userProfileGet');
