@@ -60,6 +60,25 @@ $(document).ready(function () {
         endLabel.animate({top: '0px'}).hide();
     });
 
+
+    var editTitleFB = $('#editTitle');
+    var editTitleLabel = $('#editTitle-label');
+    editTitleFB.focus(function()
+    {
+        editTitleLabel.show().animate({top: '-30px'});
+    }).blur(function () {
+        editTitleLabel.animate({top: '0px'}).hide();
+    });
+
+    var editColorFB = $('#editColor');
+    var editColorLabel = $('#editColor-label');
+    editColorFB.focus(function()
+    {
+        editColorLabel.show().animate({top: '-30px'});
+    }).blur(function () {
+        editColorLabel.animate({top: '0px'}).hide();
+    });
+
     // Label End
 
 

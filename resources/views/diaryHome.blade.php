@@ -12,7 +12,7 @@
 @section('content')
 
 
-        <div class="container w-75 h-50" id='top'>
+        <div tabindex="-1" class="container w-75 h-50" id='top'>
 
             <div class='left' hidden>
 
@@ -21,7 +21,6 @@
 
                     <select hidden>
                         <option value='bootstrap' selected></option>
-                        <option value='standard'></option>
                     </select>
                 </div>
 
@@ -29,28 +28,9 @@
                     Theme Name:
 
                     <select hidden>
-                        <option value='' selected>Default</option>
-                        <option value='cerulean'>Cerulean</option>
-                        <option value='cosmo'>Cosmo</option>
-                        <option value='cyborg'>Cyborg</option>
-                        <option value='darkly'>Darkly</option>
-                        <option value='flatly'>Flatly</option>
+
                         <option selected  value='journal'>Journal</option>
-                        <option value='litera'>Litera</option>
-                        <option value='lumen'>Lumen</option>
-                        <option value='lux'>Lux</option>
-                        <option value='materia'>Materia</option>
-                        <option value='minty'>Minty</option>
-                        <option value='pulse'>Pulse</option>
-                        <option value='sandstone'>Sandstone</option>
-                        <option value='simplex'>Simplex</option>
-                        <option value='sketchy'>Sketchy</option>
-                        <option value='slate'>Slate</option>
-                        <option value='solar'>Solar</option>
-                        <option value='spacelab'>Spacelab</option>
-                        <option value='superhero'>Superhero</option>
-                        <option value='united'>United</option>
-                        <option value='yeti'>Yeti</option>
+
                     </select>
                 </div>
 
@@ -65,10 +45,19 @@
 
             <div  id='calendar'></div>
         </div>
-
+        @if($message=Session::get('success'))
+            <div id="notificationAlert" class="alert-size notification alert alert-success alert-block col-3 rounded-pill btn-sm">
+                <button id="notificationHide" class="close alert-size"  type="button">
+                    x
+                </button>
+                <strong>{{$message}}</strong>
+            </div>
+        @endif
         <div class="modal fade" id="ModalAdd" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" >
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
+                    <form class="form-horizontal" method="POST" action="{{route('addEventPost')}}">
+                        @csrf
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel">Event title</h5>
                         <button type="button" class="close btn-sm" data-dismiss="modal" aria-label="Close">
@@ -92,21 +81,18 @@
 
 
                         <div class="form-group btn-group-sm mt-5 col-lg-10 offset-lg-1 ">
-                            <label id="color-label"  class="btn-sm scroll-home-label" for="color">{{ __('Color:') }}</label>
-                             <select value="{{ old('color') }}"   autocomplete="off" data-bvalidator="required"  placeholder="Color"   name="color" class="form-control btn-sm h-50  form-control btn-sm  border-light shadow-main rounded-pill @error('color') is-invalid @enderror " id="color">
+                            <label id="saveColor-label"  class="btn-sm scroll-home-label" for="saveColor">{{ __('Color:') }}</label>
+                             <select value="{{ old('saveColor') }}"   autocomplete="off" data-bvalidator="required"  placeholder="Color"   name="saveColor" class="form-control btn-sm h-50  form-control btn-sm  border-light shadow-main rounded-pill @error('saveColor') is-invalid @enderror " id="saveColor">
                                 <option value="">Choose</option>
-                                <option style="color:#0071c5;" value="#0071c5">&#9724; Dark blue</option>
-                                <option style="color:#40E0D0;" value="#40E0D0">&#9724; Turquoise</option>
-                                <option style="color:#008000;" value="#008000">&#9724; Green</option>
-                                <option style="color:#FFD700;" value="#FFD700">&#9724; Yellow</option>
-                                <option style="color:#FF8C00;" value="#FF8C00">&#9724; Orange</option>
-                                <option style="color:#FF0000;" value="#FF0000">&#9724; Red</option>
-                                <option style="color:#000;" value="#000">&#9724; Black</option>
+                                <option style="color:#0071c5;" value="#0071c5">&#9724; Vize</option>
+                                <option style="color:#40E0D0;" value="#40E0D0">&#9724; Büyük İş</option>
+                                <option style="color:#008000;" value="#008000">&#9724; Küçük İş</option>
+
 
                             </select>
 
-                            @error('color')
-                            <span  id="color-alert" class="color-alert invalid-feedback alert-size pl-3 ml-2 rounded-pill alert-danger col-10 " role="alert">
+                            @error('saveColor')
+                            <span  id="saveColor-alert" class="saveColor-alert invalid-feedback alert-size pl-3 ml-2 rounded-pill alert-danger col-10 " role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
 
@@ -117,10 +103,10 @@
 
                         <div class="form-group">
                             <div class="form-group btn-group-sm mt-5 col-lg-10 offset-lg-1 ">
-                                <label id="start-label"  class="btn-sm scroll-home-label" for="start">{{ __('Start date:') }}</label>
-                                <input readonly id="start" data-bvalidator="required" type="text" class="form-control btn-sm  border-light shadow-main rounded-pill @error('start') is-invalid @enderror "  value="{{ old('start') }}"   autocomplete="off"   placeholder="Start date"  name="start"  >
-                                @error('start')
-                                <span  id="start-alert" class="title-alert invalid-feedback alert-size pl-3 ml-2 rounded-pill alert-danger col-10 " role="alert">
+                                <label id="saveStart-label"  class="btn-sm scroll-home-label" for="saveStart">{{ __('Start date:') }}</label>
+                                <input  id="saveStart" data-bvalidator="required" type="text" class="form-control btn-sm  border-light shadow-main rounded-pill @error('saveStart') is-invalid @enderror "  value="{{ old('saveStart') }}"   autocomplete="off"   placeholder="Start date"  name="saveStart"  >
+                                @error('saveStart')
+                                <span  id="saveStart-alert" class="saveStart-alert invalid-feedback alert-size pl-3 ml-2 rounded-pill alert-danger col-10 " role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
 
@@ -130,10 +116,10 @@
                         </div>
                         <div class="form-group">
                             <div class="form-group btn-group-sm mt-5 col-lg-10 offset-lg-1 ">
-                                <label id="end-label"  class="btn-sm scroll-home-label" for="end">{{ __('End date:') }}</label>
-                                <input readonly id="end" data-bvalidator="required" type="text" class="form-control btn-sm  border-light shadow-main rounded-pill @error('end') is-invalid @enderror "  value="{{ old('end') }}"   autocomplete="off"   placeholder="End date"  name="end"  >
-                                @error('end')
-                                <span  id="end-alert" class="title-alert invalid-feedback alert-size pl-3 ml-2 rounded-pill alert-danger col-10 " role="alert">
+                                <label id="saveEnd-label"  class="btn-sm scroll-home-label" for="saveEnd">{{ __('End date:') }}</label>
+                                <input  id="saveEnd" data-bvalidator="required" type="text" class="form-control btn-sm  border-light shadow-main rounded-pill @error('saveEnd') is-invalid @enderror "  value="{{ old('saveEnd') }}"   autocomplete="off"   placeholder="End date"  name="saveEnd"  >
+                                @error('saveEnd')
+                                <span  id="saveEnd-alert" class="saveEnd-alert invalid-feedback alert-size pl-3 ml-2 rounded-pill alert-danger col-10 " role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
 
@@ -144,8 +130,9 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn  btn btn-danger btn-sm" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-success btn-sm">Save changes</button>
+                        <button type="submit" class="btn btn-success btn-sm">Save changes</button>
                     </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -160,37 +147,64 @@
                     </div>
                     <div class="modal-body  ">
                         <div class="form-group">
-                            <label for="title" class="col-sm-4 control-label  btn-sm ">Title</label>
-                            <div class="col-sm-10">
-                                <input type="text" name="title" class="form-control btn-sm h-50" id="editTitle" placeholder="Title">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="color" class="col-sm-4 control-label btn-sm">Color</label>
-                            <div class="col-sm-10">
-                                <select name="color" class="form-control btn-sm h-50" id="color">
-                                    <option value="">Choose</option>
-                                    <option style="color:#0071c5;" value="#0071c5">&#9724; Dark blue</option>
-                                    <option style="color:#40E0D0;" value="#40E0D0">&#9724; Turquoise</option>
-                                    <option style="color:#008000;" value="#008000">&#9724; Green</option>
-                                    <option style="color:#FFD700;" value="#FFD700">&#9724; Yellow</option>
-                                    <option style="color:#FF8C00;" value="#FF8C00">&#9724; Orange</option>
-                                    <option style="color:#FF0000;" value="#FF0000">&#9724; Red</option>
-                                    <option style="color:#000;" value="#000">&#9724; Black</option>
+                            <div class="form-group btn-group-sm mt-5 col-lg-10 offset-lg-1 ">
+                                <label id="editTitle-label"  class="btn-sm scroll-home-label" for="editTitle">{{ __('Edit Title:') }}</label>
+                                <input id="editTitle" data-bvalidator="required" type="text" class="form-control btn-sm  border-light shadow-main rounded-pill @error('editTitle') is-invalid @enderror "  value="{{ old('editTitle') }}"   autocomplete="off"   placeholder="Edit Title"  name="editTitle"  >
+                                @error('editTitle')
+                                <span  id="editTitle-alert" class="editTitle-alert invalid-feedback alert-size pl-3 ml-2 rounded-pill alert-danger col-10 " role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
 
-                                </select>
+                                @enderror
+
+                            </div>
+                        </div>
+
+
+                        <div class="form-group btn-group-sm mt-5 col-lg-10 offset-lg-1 ">
+                            <label id="editColor-label"  class="btn-sm scroll-home-label" for="editColor">{{ __('Color:') }}</label>
+                            <select value="{{ old('editColor') }}"   autocomplete="off" data-bvalidator="required"  placeholder="Edit Color"   name="editColor" class="form-control btn-sm h-50  form-control btn-sm  border-light shadow-main rounded-pill @error('color') is-invalid @enderror " id="editColor">
+                                <option value="">Choose</option>
+                                <option style="color:#0071c5;" value="#0071c5">&#9724; Vize</option>
+                                <option style="color:#40E0D0;" value="#40E0D0">&#9724; Büyük İş</option>
+                                <option style="color:#008000;" value="#008000">&#9724; Küçük İş</option>
+
+                            </select>
+
+                            @error('editColor')
+                            <span  id="editColor-alert" class="color-alert invalid-feedback alert-size pl-3 ml-2 rounded-pill alert-danger col-10 " role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+
+                            @enderror
+
+                        </div>
+
+
+                        <div class="form-group">
+                            <div class="form-group btn-group-sm mt-5 col-lg-10 offset-lg-1 ">
+                                <label id="editStart-label"  class="btn-sm scroll-home-label" for="editStart">{{ __('Start date:') }}</label>
+                                <input readonly id="editStart" data-bvalidator="required" type="text" class="form-control btn-sm  border-light shadow-main rounded-pill @error('editStart') is-invalid @enderror "  value="{{ old('editStart') }}"   autocomplete="off"   placeholder="Start date"  name="editStart"  >
+                                @error('editStart')
+                                <span  id="editStart-alert" class="editStart-alert invalid-feedback alert-size pl-3 ml-2 rounded-pill alert-danger col-10 " role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+
+                                @enderror
+
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="start" class="col-sm-4 control-label btn-sm">Start date</label>
-                            <div class="col-sm-10">
-                                <input type="text" name="start" class="form-control btn-sm h-50" id="start" readonly>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="end" class="col-sm-4 control-label btn-sm">End date</label>
-                            <div class="col-sm-10">
-                                <input type="text" name="end" class="form-control btn-sm h-50" id="end" readonly>
+                            <div class="form-group btn-group-sm mt-5 col-lg-10 offset-lg-1 ">
+                                <label id="editEnd-label"  class="btn-sm scroll-home-label" for="editEnd">{{ __('End date:') }}</label>
+                                <input readonly id="end" data-bvalidator="required" type="text" class="form-control btn-sm  border-light shadow-main rounded-pill @error('editEnd') is-invalid @enderror "  value="{{ old('editEnd') }}"   autocomplete="off"   placeholder="End date"  name="editEnd"  >
+                                @error('editEnd')
+                                <span  id="editEnd-alert" class="editEnd-alert invalid-feedback alert-size pl-3 ml-2 rounded-pill alert-danger col-10 " role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+
+                                @enderror
+
                             </div>
                         </div>
                     </div>
@@ -210,6 +224,7 @@
     <link href='/components/fullcalendar/packages/timegrid/main.css' rel='stylesheet' />
     <link href='/components/fullcalendar/packages/daygrid/main.css' rel='stylesheet' />
     <link href='/components/fullcalendar/packages/list/main.css' rel='stylesheet' />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-contextmenu/2.7.1/jquery.contextMenu.min.css">
     <style>
 
 
@@ -224,11 +239,11 @@
     <script src='/components/fullcalendar/packages/timegrid/main.js'></script>
     <script src='/components/fullcalendar/packages/list/main.js'></script>
     <script src='/components/fullcalendar/js/theme-chooser.js'></script>
-    <script src='/components/fullcalendar/js/moment.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.js'></script>
     <script src='/components/fullcalendar/packages/core/locales-all.js'></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-contextmenu/2.7.1/jquery.contextMenu.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-contextmenu/2.7.1/jquery.contextMenu.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.3.2/bootbox.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
 
     <script>
 
@@ -259,68 +274,21 @@
                         eventClassName:'context-menu-one',
                         selectable: true,
                         selectMirror: true,
-                        select: function(arg) {
-                            $('#ModalAdd #start').val(moment(start).format('YYYY-MM-DD HH:mm:ss'));
-                            $('#ModalAdd #end').val(moment(end).format('YYYY-MM-DD HH:mm:ss'));
+                        selectHelper:true,
+                        select: function(event) {
+
+
+                            $('#ModalAdd #saveStart').val(moment(event.start).format('YYYY-MM-DD HH:mm:ss'));
+                            $('#ModalAdd #saveEnd').val(moment(event.end).format('YYYY-MM-DD HH:mm:ss'));
                             $('#ModalAdd').modal('show');
                         },
-                        events: [
-                            {
-                                id: '1',
-                                title: 'All Day Event',
-                                start: '2019-11-01'
-                            },
-                            {
-                                title: 'Long Event',
-                                start: '2019-11-07',
-                                end: '2019-11-10'
-                            },
-                            {
-                                groupId: 999,
-                                title: 'Repeating Event',
-                                start: '2019-11-09T16:00:00'
-                            },
-                            {
-                                groupId: 999,
-                                title: 'Repeating Event',
-                                start: '2019-1-16T16:00:00'
-                            },
-                            {
-                                title: 'Conference',
-                                start: '2019-11-11',
-                                end: '2019-11-13'
-                            },
-                            {
-                                title: 'Meeting',
-                                start: '2019-11-12T10:30:00',
-                                end: '2019-11-12T12:30:00'
-                            },
-                            {
-                                title: 'Lunch',
-                                start: '2019-11-12T12:00:00'
-                            },
-                            {
-                                title: 'Meeting',
-                                start: '2019-11-12T14:30:00'
-                            },
-                            {
-                                title: 'Happy Hour',
-                                start: '2019-11-12T17:30:00'
-                            },
-                            {
-                                title: 'Dinner',
-                                start: '2019-11-12T20:00:00'
-                            },
-                            {
-                                title: 'Birthday Party',
-                                start: '2019-11-13T07:00:00'
-                            },
-                            {
-                                title: 'Click for Google',
-                                url: 'http://google.com/',
-                                start: '2019-11-28'
-                            }
-                        ]
+
+                      events: <?php
+                        use App\Http\Controllers\Home;
+                        echo Home\FullCalendarController::index();
+                        ?> ,
+
+
                     });
                     calendar.render();
                     // build the locale selector's options

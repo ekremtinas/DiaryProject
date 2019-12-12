@@ -31,6 +31,9 @@ Route::get('/dPasswordResetConfirmLogin','Reset\GetPasswordResetController@getRe
 //Diary Home
 Route::get('/dHome','GetHomeController@index')->name('homeGet');
 Route::get('/dLogout','GetHomeController@logout')->name('homeLogout');
+//Diary Home Full Calendar
+Route::post('addEvent','Home\FullCalendarController@create')->name('addEventPost');
+
 //Diary User Profile
 Route::get('/userProfile','Profile\GetProfileController@index')->name('userProfileGet');
 Route::post('/userProfile','Profile\PostProfileController@index')->name('userProfilePost');
