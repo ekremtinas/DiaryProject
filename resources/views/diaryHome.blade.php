@@ -69,7 +69,7 @@
                         <div class="form-group">
                             <div class="form-group btn-group-sm mt-5 col-lg-10 offset-lg-1 ">
                                 <label id="saveTitle-label"  class="btn-sm scroll-home-label" for="saveTitle">{{ __('Event Title:') }}</label>
-                                <input id="saveTitle" data-bvalidator="required" type="text" class="form-control btn-sm  border-light shadow-main rounded-pill @error('saveTitle') is-invalid @enderror "  value="{{ old('saveTitle') }}"   autocomplete="off"   placeholder="Event Title"  name="saveTitle"  >
+                                <input id="saveTitle" data-bvalidator="required" type="text" class="form-control btn-sm  border-light shadow-main rounded-pill @error('saveTitle') is-invalid @enderror "  value=""   autocomplete="off"   placeholder="Event Title"  name="saveTitle"  >
                                 @error('saveTitle')
                                 <span  id="saveTitle-alert" class="title-alert invalid-feedback alert-size pl-3 ml-2 rounded-pill alert-danger col-10 " role="alert">
                                         <strong>{{ $message }}</strong>
@@ -284,7 +284,22 @@
                             $('#ModalAdd').modal('show');
                         },
 
-                      events: '/dHome/getEvent' ,
+                   /*   events: '/dHome/getEvent' ,*/
+                        events: {
+                            url: '/dHome/getEvent',
+                            type: 'GET', // Send Get data
+                            success:function (rawData) {
+
+                              console.log(rawData);
+                            },
+                            error: function() {
+                                alert('There was an error while fetching events.');
+                            }
+                            },
+
+
+
+
 
 
                     });
@@ -304,6 +319,89 @@
                             calendar.setOption('locale', this.value);
                         }
                     });
+                    $.contextMenu({
+                        selector: '.context-menu-one',
+                        delegate: ".hasmenu",
+                        preventContextMenuForPopup: true,
+                        preventSelect: true,
+                        callback: function(key, options) {
+                            var locale = $('#locale-selector').val();
+                            var event = $(this);
+                            var my_data='1';
+
+                            switch (key) {
+                                case 'edit':
+
+                                        $('#ModalEdit #editStart').val(moment(event.start).format('YYYY-MM-DD HH:mm:ss'));
+                                        $('#ModalEdit #editEnd').val(moment(event.end).format('YYYY-MM-DD HH:mm:ss'));
+                                        $('#ModalEdit').modal('show');
+
+
+                                    break;
+                                case 'delete':
+
+                                    bootbox.confirm({
+                                            message: "Is event delete?",
+                                            size: 'small',
+                                            locale:  locale,
+                                            buttons: {
+                                                confirm: {
+                                                    label: 'Yes',
+                                                    className: 'btn-success'
+                                                },
+                                                cancel: {
+                                                    label: 'No',
+                                                    className: 'btn-danger'
+                                                }
+                                            },
+                                            callback: function (result) {
+                                                if(result===true)
+                                                {
+
+                                                    $.ajaxSetup({
+                                                        headers: {
+                                                            'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+                                                        }
+                                                    });
+
+                                                    $.ajax({
+                                                        type: 'GET',
+                                                        url: '/dHome/dropEvent/'+my_data,
+                                                        datatype: "JSON",
+                                                        data: {'id':my_data},
+
+                                                        success:function(data){
+
+                                                            event.remove();
+
+                                                        }
+                                                    });
+
+                                                }
+                                                else{
+
+                                                }
+                                            }
+                                        }
+
+                                    );
+
+
+                                    break;
+
+                            }
+                        },
+                        items: {
+                            "edit": {name: "Edit", icon: "edit"},
+                            "delete": {name: "Delete", icon: "delete"},
+
+
+                        }
+                    });
+
+                    $('.context-menu-one').on('click', function(e){
+                        console.log('clicked', this);
+                    });
                 },
 
 
@@ -315,75 +413,49 @@
 
         });
         $(document).ready(function () {
+            var addEventForm = $('#addEventForm');
 
+            $('#addEventSubmit').click(function(e){
 
-
-
-            $.contextMenu({
-                selector: '.context-menu-one',
-                callback: function(key, options) {
-                    var locale = $('#locale-selector').val();
-                    var event = $(this);
-                    var deleteid = $(this).id;
-                    switch (key) {
-                        case 'edit':
-                            $('#ModalEdit #start').val(moment(start).format('YYYY-MM-DD HH:mm:ss'));
-                            $('#ModalEdit #end').val(moment(end).format('YYYY-MM-DD HH:mm:ss'));
-                            $('#ModalEdit').modal('show');
-                            break;
-                        case 'delete':
-                            $.ajax({
-                                type: 'POST',
-                                url: '/dHome/dropEvent',
-                                data: {
-                                    id:deleteid
-
-                                },
-                                beforeSend: function(data) {
-                                     bootbox.confirm({
-                                        message: "Is event delete?",
-                                        size: 'small',
-                                        locale:  locale,
-                                        buttons: {
-                                            confirm: {
-                                                label: 'Yes',
-                                                className: 'btn-success'
-                                            },
-                                            cancel: {
-                                                label: 'No',
-                                                className: 'btn-danger'
-                                            }
-                                        },
-                                        callback: function (result) {
-                                            return result;
-                                        }
-                                    }
-
-                                    );
-
-                                },
-                                success:function(data){
-                                    alert('asd');
-                                    event.remove();
-                                }
-                            });
-
-
-                            break;
+                e.preventDefault();
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
 
                     }
-                },
-                items: {
-                    "edit": {name: "Edit", icon: "edit"},
-                    "delete": {name: "Delete", icon: "delete"},
+                });
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/dHome/addEvent',
+                    dataType:"json",
+                    data: {
+                        saveTitle: addEventForm.find('#saveTitle').val(),
+                        saveStart: addEventForm.find('#saveStart').val(),
+                        _token: addEventForm.find('#_token').val(),
+                        saveEnd: addEventForm.find('#saveEnd').val()
+                    },
+                    success:function (data) {
 
 
-                }
+                        $('#ModalAdd').modal('hide');
+
+                        calendar.addEvent(
+                            {
+
+                                title: data.saveTitle,
+                                start: data.saveStart ,
+                                end: data.saveEnd
+                            });
+
+                    }
+                });
             });
 
-            $('.context-menu-one').on('click', function(e){
-                console.log('clicked', this);
-            })
+
+
+
+
 
 
         });

@@ -82,32 +82,6 @@ $(document).ready(function () {
     // Label End
 
                 //// AJAX ADD EVENT
-    var addEventForm = $('#addEventForm');
-        $('#addEventSubmit').click(function(e){
-
-            e.preventDefault();
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
-                }
-            });
-
-            $.ajax({
-                type: 'POST',
-                url: '/dHome/addEvent',
-                data: {
-                    saveTitle: addEventForm.find('#saveTitle').val(),
-                    saveStart: addEventForm.find('#saveStart').val(),
-                    _token: addEventForm.find('#_token').val(),
-                    saveEnd: addEventForm.find('#saveEnd').val()
-                },
-                success:function (data) {
-                    window.location('/dHome');
-
-                }
-            });
-                });
-
 
 
 

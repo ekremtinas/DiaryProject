@@ -45,14 +45,15 @@ class FullCalendarController extends Controller
             'saveEnd' => 'required',
 
         ]);
-        $user_data = array(
+        $event_data = array(
+
             'saveTitle' => $request->get('saveTitle'),
             'saveStart' => $request->get('saveStart'),
             'saveEnd' => $request->get('saveEnd'),
         );
 
-            if(Events::create($user_data)) {
-                return back()->with('success', 'Success');
+            if(Events::create($event_data)) {
+                return response($event_data);
             }
             else{
             return back()->withInput()->with('error','Error');
@@ -112,6 +113,12 @@ class FullCalendarController extends Controller
      */
     public function destroy($id)
     {
-       return "resas";
-    }
+        /*        Events::find($id)->delete($id);*/
+        $data[] =array();
+        $data[]=array([
+            'id'=>$id,
+        ]);
+        return response($data);
+
+        }
 }
