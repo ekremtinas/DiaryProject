@@ -45,14 +45,14 @@
 
             <div  id='calendar'></div>
         </div>
-        @if($message=Session::get('success'))
-            <div id="notificationAlert" class="alert-size notification alert alert-success alert-block col-3 rounded-pill btn-sm">
+
+            <div id="notificationAlert" hidden class="alert-size notification alert alert-success alert-block col-3 rounded-pill btn-sm">
                 <button id="notificationHide" class="close alert-size"  type="button">
                     x
                 </button>
-                <strong>{{$message}}</strong>
+                <strong>Event deleted</strong>
             </div>
-        @endif
+
         <div class="modal fade" id="ModalAdd" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" >
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -83,7 +83,7 @@
 
                         <div class="form-group btn-group-sm mt-5 col-lg-10 offset-lg-1 ">
                             <label id="saveColor-label"  class="btn-sm scroll-home-label" for="saveColor">{{ __('Color:') }}</label>
-                             <select value="{{ old('saveColor') }}"   autocomplete="off" data-bvalidator="required"  placeholder="Color"   name="saveColor" class="form-control btn-sm h-50  form-control btn-sm  border-light shadow-main rounded-pill @error('saveColor') is-invalid @enderror " id="saveColor">
+                             <select value=""   autocomplete="off" data-bvalidator="required"  placeholder="Color"   name="saveColor" class="form-control btn-sm h-50  form-control btn-sm  border-light shadow-main rounded-pill @error('saveColor') is-invalid @enderror " id="saveColor">
                                 <option value="">Choose</option>
                                 <option style="color:#0071c5;" value="#0071c5">&#9724; Vize</option>
                                 <option style="color:#40E0D0;" value="#40E0D0">&#9724; Büyük İş</option>
@@ -105,7 +105,7 @@
                         <div class="form-group">
                             <div class="form-group btn-group-sm mt-5 col-lg-10 offset-lg-1 ">
                                 <label id="saveStart-label"  class="btn-sm scroll-home-label" for="saveStart">{{ __('Start date:') }}</label>
-                                <input  id="saveStart" data-bvalidator="required" type="text" class="form-control btn-sm  border-light shadow-main rounded-pill @error('saveStart') is-invalid @enderror "  value="{{ old('saveStart') }}"   autocomplete="off"   placeholder="Start date"  name="saveStart"  >
+                                <input  id="saveStart" data-bvalidator="required" type="text" class="form-control btn-sm  border-light shadow-main rounded-pill @error('saveStart') is-invalid @enderror "  value=""   autocomplete="off"   placeholder="Start date"  name="saveStart"  >
                                 @error('saveStart')
                                 <span  id="saveStart-alert" class="saveStart-alert invalid-feedback alert-size pl-3 ml-2 rounded-pill alert-danger col-10 " role="alert">
                                         <strong>{{ $message }}</strong>
@@ -118,7 +118,7 @@
                         <div class="form-group">
                             <div class="form-group btn-group-sm mt-5 col-lg-10 offset-lg-1 ">
                                 <label id="saveEnd-label"  class="btn-sm scroll-home-label" for="saveEnd">{{ __('End date:') }}</label>
-                                <input  id="saveEnd" data-bvalidator="required" type="text" class="form-control btn-sm  border-light shadow-main rounded-pill @error('saveEnd') is-invalid @enderror "  value="{{ old('saveEnd') }}"   autocomplete="off"   placeholder="End date"  name="saveEnd"  >
+                                <input  id="saveEnd" data-bvalidator="required" type="text" class="form-control btn-sm  border-light shadow-main rounded-pill @error('saveEnd') is-invalid @enderror "  value=""   autocomplete="off"   placeholder="End date"  name="saveEnd"  >
                                 @error('saveEnd')
                                 <span  id="saveEnd-alert" class="saveEnd-alert invalid-feedback alert-size pl-3 ml-2 rounded-pill alert-danger col-10 " role="alert">
                                         <strong>{{ $message }}</strong>
@@ -150,7 +150,7 @@
                         <div class="form-group">
                             <div class="form-group btn-group-sm mt-5 col-lg-10 offset-lg-1 ">
                                 <label id="editTitle-label"  class="btn-sm scroll-home-label" for="editTitle">{{ __('Edit Title:') }}</label>
-                                <input id="editTitle" data-bvalidator="required" type="text" class="form-control btn-sm  border-light shadow-main rounded-pill @error('editTitle') is-invalid @enderror "  value="{{ old('editTitle') }}"   autocomplete="off"   placeholder="Edit Title"  name="editTitle"  >
+                                <input id="editTitle" data-bvalidator="required" type="text" class="form-control btn-sm  border-light shadow-main rounded-pill @error('editTitle') is-invalid @enderror "  value=""   autocomplete="off"   placeholder="Edit Title"  name="editTitle"  >
                                 @error('editTitle')
                                 <span  id="editTitle-alert" class="editTitle-alert invalid-feedback alert-size pl-3 ml-2 rounded-pill alert-danger col-10 " role="alert">
                                         <strong>{{ $message }}</strong>
@@ -164,7 +164,7 @@
 
                         <div class="form-group btn-group-sm mt-5 col-lg-10 offset-lg-1 ">
                             <label id="editColor-label"  class="btn-sm scroll-home-label" for="editColor">{{ __('Color:') }}</label>
-                            <select value="{{ old('editColor') }}"   autocomplete="off" data-bvalidator="required"  placeholder="Edit Color"   name="editColor" class="form-control btn-sm h-50  form-control btn-sm  border-light shadow-main rounded-pill @error('color') is-invalid @enderror " id="editColor">
+                            <select value=""   autocomplete="off" data-bvalidator="required"  placeholder="Edit Color"   name="editColor" class="form-control btn-sm h-50  form-control btn-sm  border-light shadow-main rounded-pill @error('color') is-invalid @enderror " id="editColor">
                                 <option value="">Choose</option>
                                 <option style="color:#0071c5;" value="#0071c5">&#9724; Vize</option>
                                 <option style="color:#40E0D0;" value="#40E0D0">&#9724; Büyük İş</option>
@@ -185,7 +185,7 @@
                         <div class="form-group">
                             <div class="form-group btn-group-sm mt-5 col-lg-10 offset-lg-1 ">
                                 <label id="editStart-label"  class="btn-sm scroll-home-label" for="editStart">{{ __('Start date:') }}</label>
-                                <input readonly id="editStart" data-bvalidator="required" type="text" class="form-control btn-sm  border-light shadow-main rounded-pill @error('editStart') is-invalid @enderror "  value="{{ old('editStart') }}"   autocomplete="off"   placeholder="Start date"  name="editStart"  >
+                                <input readonly id="editStart" data-bvalidator="required" type="text" class="form-control btn-sm  border-light shadow-main rounded-pill @error('editStart') is-invalid @enderror "  value=""   autocomplete="off"   placeholder="Start date"  name="editStart"  >
                                 @error('editStart')
                                 <span  id="editStart-alert" class="editStart-alert invalid-feedback alert-size pl-3 ml-2 rounded-pill alert-danger col-10 " role="alert">
                                         <strong>{{ $message }}</strong>
@@ -198,7 +198,7 @@
                         <div class="form-group">
                             <div class="form-group btn-group-sm mt-5 col-lg-10 offset-lg-1 ">
                                 <label id="editEnd-label"  class="btn-sm scroll-home-label" for="editEnd">{{ __('End date:') }}</label>
-                                <input readonly id="end" data-bvalidator="required" type="text" class="form-control btn-sm  border-light shadow-main rounded-pill @error('editEnd') is-invalid @enderror "  value="{{ old('editEnd') }}"   autocomplete="off"   placeholder="End date"  name="editEnd"  >
+                                <input readonly id="end" data-bvalidator="required" type="text" class="form-control btn-sm  border-light shadow-main rounded-pill @error('editEnd') is-invalid @enderror "  value=""   autocomplete="off"   placeholder="End date"  name="editEnd"  >
                                 @error('editEnd')
                                 <span  id="editEnd-alert" class="editEnd-alert invalid-feedback alert-size pl-3 ml-2 rounded-pill alert-danger col-10 " role="alert">
                                         <strong>{{ $message }}</strong>
@@ -276,6 +276,7 @@
                         selectable: true,
                         selectMirror: true,
                         selectHelper:true,
+
                         select: function(event) {
 
 
@@ -284,18 +285,33 @@
                             $('#ModalAdd').modal('show');
                         },
 
-                   /*   events: '/dHome/getEvent' ,*/
+
                         events: {
                             url: '/dHome/getEvent',
                             type: 'GET', // Send Get data
                             success:function (rawData) {
 
-                              console.log(rawData);
+
                             },
                             error: function() {
                                 alert('There was an error while fetching events.');
                             }
                             },
+                        eventRender: function(info) {
+
+                            $(info.el).attr("id",info.event.id).addClass('context-class');
+
+                        },
+                        eventDrop: function(event, delta, revertFunc) { // si changement de position
+
+                        //    edit(event);
+
+                        },
+                        eventResize: function(event,dayDelta,minuteDelta,revertFunc) { // si changement de longueur
+
+                        //    edit(event);
+
+                        },
 
 
 
@@ -319,6 +335,40 @@
                             calendar.setOption('locale', this.value);
                         }
                     });
+
+                 /*   function edit(event){
+                        start = event.start.format('YYYY-MM-DD HH:mm:ss');
+                        if(event.end){
+                            end = event.end.format('YYYY-MM-DD HH:mm:ss');
+                        }else{
+                            end = start;
+                        }
+
+                        id =  event.id;
+
+                        Event = [];
+                        Event[0] = id;
+                        Event[1] = start;
+                        Event[2] = end;
+
+                        $.ajax({
+                            url: 'editEventDate.php',
+                            type: "POST",
+                            data: {Event:Event},
+                            success: function(rep) {
+                                if(rep == 'OK'){
+                                    alert('Saved');
+                                }else{
+                                    alert('Could not be saved. try again.');
+                                }
+                            }
+                        });
+                    }*/
+
+
+
+
+
                     $.contextMenu({
                         selector: '.context-menu-one',
                         delegate: ".hasmenu",
@@ -326,16 +376,17 @@
                         preventSelect: true,
                         callback: function(key, options) {
                             var locale = $('#locale-selector').val();
-                            var event = $(this);
-                            var my_data='1';
+                            var event=$(this);
+                            var eventId=$(this).attr('id');
 
                             switch (key) {
                                 case 'edit':
 
-                                        $('#ModalEdit #editStart').val(moment(event.start).format('YYYY-MM-DD HH:mm:ss'));
-                                        $('#ModalEdit #editEnd').val(moment(event.end).format('YYYY-MM-DD HH:mm:ss'));
-                                        $('#ModalEdit').modal('show');
 
+
+                                    $('#ModalEdit #editTitle').val(event.title);
+
+                                    $('#ModalEdit').modal('show');
 
                                     break;
                                 case 'delete':
@@ -366,13 +417,13 @@
 
                                                     $.ajax({
                                                         type: 'GET',
-                                                        url: '/dHome/dropEvent/'+my_data,
-                                                        datatype: "JSON",
-                                                        data: {'id':my_data},
+                                                        url: '/dHome/dropEvent/'+eventId,
+                                                        dataType:'json',
+                                                        data: {'id':eventId},
 
                                                         success:function(data){
-
                                                             event.remove();
+
 
                                                         }
                                                     });
@@ -398,6 +449,7 @@
 
                         }
                     });
+
 
                     $('.context-menu-one').on('click', function(e){
                         console.log('clicked', this);
@@ -442,7 +494,7 @@
 
                         calendar.addEvent(
                             {
-
+                                id:data.id,
                                 title: data.saveTitle,
                                 start: data.saveStart ,
                                 end: data.saveEnd

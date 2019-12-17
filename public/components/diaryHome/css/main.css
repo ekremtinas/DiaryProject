@@ -129,3 +129,10 @@ primary:not(:disabled):not(.disabled).active {
 
     display: none;
 }
+.notification {
+    position: fixed !important;
+    right: 0 !important;
+    top: 90% !important;
+}
+
+

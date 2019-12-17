@@ -53,6 +53,11 @@ class FullCalendarController extends Controller
         );
 
             if(Events::create($event_data)) {
+              $event= Events::where($event_data)->first();
+                $event_data +=[
+
+                    'id' => $event['id']
+            ];
                 return response($event_data);
             }
             else{
@@ -62,6 +67,7 @@ class FullCalendarController extends Controller
 
     /**
      * Store a newly created resource in storage.
+     *
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -113,12 +119,19 @@ class FullCalendarController extends Controller
      */
     public function destroy($id)
     {
-        /*        Events::find($id)->delete($id);*/
-        $data[] =array();
+       if(Events::find($id)->delete($id))
+       {
+
+
+
         $data[]=array([
             'id'=>$id,
         ]);
         return response($data);
 
         }
+       else{
+           return back()->with('error','Error');
+       }
+    }
 }

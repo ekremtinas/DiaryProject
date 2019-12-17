@@ -81,6 +81,16 @@ $(document).ready(function () {
 
     // Label End
 
+    // Notification Start
+    var notificationHide=$('#notificationHide');
+    var notificationAlert=$('#notificationAlert');
+    notificationHide.on('click',function () {
+        notificationAlert.animate({left:'1500px'}).hide('slow');
+    });
+// Notification End
+
+
+
                 //// AJAX ADD EVENT
 
 
