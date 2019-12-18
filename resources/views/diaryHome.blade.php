@@ -105,7 +105,7 @@
                         <div class="form-group">
                             <div class="form-group btn-group-sm mt-5 col-lg-10 offset-lg-1 ">
                                 <label id="saveStart-label"  class="btn-sm scroll-home-label" for="saveStart">{{ __('Start date:') }}</label>
-                                <input  id="saveStart" data-bvalidator="required" type="text" class="form-control btn-sm  border-light shadow-main rounded-pill @error('saveStart') is-invalid @enderror "  value=""   autocomplete="off"   placeholder="Start date"  name="saveStart"  >
+                                <input readonly id="saveStart" data-bvalidator="required" type="text" class="form-control btn-sm  border-light shadow-main rounded-pill @error('saveStart') is-invalid @enderror "  value=""   autocomplete="off"   placeholder="Start date"  name="saveStart"  >
                                 @error('saveStart')
                                 <span  id="saveStart-alert" class="saveStart-alert invalid-feedback alert-size pl-3 ml-2 rounded-pill alert-danger col-10 " role="alert">
                                         <strong>{{ $message }}</strong>
@@ -118,7 +118,7 @@
                         <div class="form-group">
                             <div class="form-group btn-group-sm mt-5 col-lg-10 offset-lg-1 ">
                                 <label id="saveEnd-label"  class="btn-sm scroll-home-label" for="saveEnd">{{ __('End date:') }}</label>
-                                <input  id="saveEnd" data-bvalidator="required" type="text" class="form-control btn-sm  border-light shadow-main rounded-pill @error('saveEnd') is-invalid @enderror "  value=""   autocomplete="off"   placeholder="End date"  name="saveEnd"  >
+                                <input readonly id="saveEnd" data-bvalidator="required" type="text" class="form-control btn-sm  border-light shadow-main rounded-pill @error('saveEnd') is-invalid @enderror "  value=""   autocomplete="off"   placeholder="End date"  name="saveEnd"  >
                                 @error('saveEnd')
                                 <span  id="saveEnd-alert" class="saveEnd-alert invalid-feedback alert-size pl-3 ml-2 rounded-pill alert-danger col-10 " role="alert">
                                         <strong>{{ $message }}</strong>
@@ -140,7 +140,11 @@
         <div class="modal fade" id="ModalEdit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" >
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
-                    <div class="modal-header">
+                    <form id="editEventForm" class="form-horizontal" method="POST" action="{{route('editEventPost')}}">
+
+                        <input type="hidden" id="_token" name="_token" value="{{ csrf_token() }}">
+                        <input type="hidden" id="editId" name="editId" value="">
+                        <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel">Diary Edit</h5>
                         <button type="button" class="close btn-sm" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
@@ -198,7 +202,7 @@
                         <div class="form-group">
                             <div class="form-group btn-group-sm mt-5 col-lg-10 offset-lg-1 ">
                                 <label id="editEnd-label"  class="btn-sm scroll-home-label" for="editEnd">{{ __('End date:') }}</label>
-                                <input readonly id="end" data-bvalidator="required" type="text" class="form-control btn-sm  border-light shadow-main rounded-pill @error('editEnd') is-invalid @enderror "  value=""   autocomplete="off"   placeholder="End date"  name="editEnd"  >
+                                <input readonly id="editEnd" data-bvalidator="required" type="text" class="form-control btn-sm  border-light shadow-main rounded-pill @error('editEnd') is-invalid @enderror "  value=""   autocomplete="off"   placeholder="End date"  name="editEnd"  >
                                 @error('editEnd')
                                 <span  id="editEnd-alert" class="editEnd-alert invalid-feedback alert-size pl-3 ml-2 rounded-pill alert-danger col-10 " role="alert">
                                         <strong>{{ $message }}</strong>
@@ -211,8 +215,9 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-success  btn-sm">Save changes</button>
+                        <button id="editEventSubmit" type="submit" class="btn btn-success  btn-sm">Save changes</button>
                     </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -271,6 +276,7 @@
                         weekNumbers: true,
                         navLinks: true, // can click day/week names to navigate views
                         editable: true,
+                        resizable: true,
                         eventLimit: true, // allow "more" link when too many events
                         eventClassName:'context-menu-one',
                         selectable: true,
@@ -283,6 +289,7 @@
                             $('#ModalAdd #saveStart').val(moment(event.start).format('YYYY-MM-DD HH:mm:ss'));
                             $('#ModalAdd #saveEnd').val(moment(event.end).format('YYYY-MM-DD HH:mm:ss'));
                             $('#ModalAdd').modal('show');
+                            $('#editEventSubmit').prop( "disabled", true );
                         },
 
 
@@ -302,14 +309,14 @@
                             $(info.el).attr("id",info.event.id).addClass('context-class');
 
                         },
-                        eventDrop: function(event, delta, revertFunc) { // si changement de position
+                        eventDrop: function(info) {
 
-                        //    edit(event);
+                           edit(info.event);
 
                         },
-                        eventResize: function(event,dayDelta,minuteDelta,revertFunc) { // si changement de longueur
+                        eventResize: function(info) {
 
-                        //    edit(event);
+                           edit(info.event);
 
                         },
 
@@ -336,34 +343,39 @@
                         }
                     });
 
-                 /*   function edit(event){
-                        start = event.start.format('YYYY-MM-DD HH:mm:ss');
+                   function edit(event){
+
+                      var  start = moment(event.start).format('YYYY-MM-DD HH:mm:ss');
                         if(event.end){
-                            end = event.end.format('YYYY-MM-DD HH:mm:ss');
+                         var   end = moment(event.end).format('YYYY-MM-DD HH:mm:ss');
                         }else{
-                            end = start;
+                         var   end = start;
                         }
 
-                        id =  event.id;
+                     var   id =  event.id;
 
                         Event = [];
                         Event[0] = id;
                         Event[1] = start;
                         Event[2] = end;
-
+                       $.ajaxSetup({
+                           headers: {
+                               'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                           }
+                       });
                         $.ajax({
-                            url: 'editEventDate.php',
+                            url: '/dHome/dropEvent',
                             type: "POST",
-                            data: {Event:Event},
-                            success: function(rep) {
-                                if(rep == 'OK'){
-                                    alert('Saved');
-                                }else{
-                                    alert('Could not be saved. try again.');
-                                }
+                            data: {
+                                Event:Event,
+                                _token: '{!! csrf_token() !!}',
+                            },
+                            dataType:'json',
+                            success: function(data) {
+
                             }
                         });
-                    }*/
+                    }
 
 
 
@@ -382,11 +394,31 @@
                             switch (key) {
                                 case 'edit':
 
+                                    $.ajax({
+                                        type:'GET',
+                                        url: '/dHome/getEvent',
+                                        dataType:'json',
+                                        success:function (data) {
+
+                                                for(i=0;i<data.length;i++)
+                                                {
+                                                    if(data[i]['id']==eventId)
+                                                    {
+                                                        $('#ModalEdit #editId').val(eventId);
+                                                        $('#ModalEdit #editTitle').val(data[i]['title']);
+                                                        $('#ModalEdit #editStart').val(data[i]['start']);
+                                                        $('#ModalEdit #editEnd').val(data[i]['end']);
+
+                                                     }
+                                                 }
+                                            $('#ModalEdit').modal('show');
+                                            $('#editEventSubmit').prop( "disabled", false );
+
+                                            }
+
+                                    });
 
 
-                                    $('#ModalEdit #editTitle').val(event.title);
-
-                                    $('#ModalEdit').modal('show');
 
                                     break;
                                 case 'delete':
@@ -417,7 +449,7 @@
 
                                                     $.ajax({
                                                         type: 'GET',
-                                                        url: '/dHome/dropEvent/'+eventId,
+                                                        url: '/dHome/destroyEvent/'+eventId,
                                                         dataType:'json',
                                                         data: {'id':eventId},
 
@@ -466,9 +498,10 @@
         });
         $(document).ready(function () {
             var addEventForm = $('#addEventForm');
+            var editEventForm = $('#editEventForm');
 
-            $('#addEventSubmit').click(function(e){
-
+            addEventForm.submit(function(e){
+                $('#addEventSubmit').prop( "disabled", true );
                 e.preventDefault();
                 $.ajaxSetup({
                     headers: {
@@ -495,16 +528,56 @@
                         calendar.addEvent(
                             {
                                 id:data.id,
-                                title: data.saveTitle,
-                                start: data.saveStart ,
-                                end: data.saveEnd
+                                title: data.title,
+                                start: data.start ,
+                                end: data.end
+                            });
+                        $('#addEventSubmit').prop( "disabled", false );
+                    }
+                });
+            });
+            editEventForm.submit(function(e){
+
+                $('#editEventSubmit').prop( "disabled", true );
+                e.preventDefault();
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+
+                    }
+                });
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/dHome/editEvent',
+                    dataType:"json",
+                    data: {
+                        editId:editEventForm.find('#editId').val(),
+                        editTitle: editEventForm.find('#editTitle').val(),
+                        editStart: editEventForm.find('#editStart').val(),
+                        _token: editEventForm.find('#_token').val(),
+                        editEnd: editEventForm.find('#editEnd').val()
+                    },
+                    success:function (editData) {
+
+
+                        var event = calendar.getEventById(editData.id);
+                         event.remove();
+
+                        $('#ModalEdit').modal('hide');
+
+                        calendar.addEvent(
+                            {
+                                id: editData.id,
+                                title: editData.title,
+                                start: editData.start,
+                                end: editData.end
                             });
 
                     }
                 });
+
             });
-
-
 
 
 

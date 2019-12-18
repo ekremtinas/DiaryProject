@@ -13,9 +13,9 @@ class EventsTableSeeder extends Seeder
     public function run()
     {
         Events::create([
-            'saveTitle' => '42 Z 17',
-            'saveStart' => '2019-11-08T01:06:35',
-            'saveEnd' => '2019-11-08T06:08:35',
+            'title' => '42 Z 17',
+            'start' => '2019-11-08T01:06:35',
+            'end' => '2019-11-08T06:08:35',
 
         ]);
     }

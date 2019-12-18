@@ -12,6 +12,8 @@
 */
 
 //Login Route
+
+
 Route::get('/dLogin','Login\GetLoginController@index')->name('loginGet');
 Route::post('/dLogin','Login\PostLoginController@index')->name('loginPost');
 //Register Route
@@ -34,8 +36,9 @@ Route::get('/dLogout','GetHomeController@logout')->name('homeLogout');
 //Diary Home Full Calendar
 Route::get('/dHome/getEvent','Home\FullCalendarController@index')->name('eventGet');
 Route::post('/dHome/addEvent','Home\FullCalendarController@create')->name('addEventPost');
-Route::get('/dHome/dropEvent/{id}','Home\FullCalendarController@destroy')->name('dropEventGet');
-
+Route::get('/dHome/destroyEvent/{id}','Home\FullCalendarController@destroy')->name('destroyEventGet');
+Route::post('/dHome/dropEvent','Home\FullCalendarController@editTime')->name('dropEventGet');
+Route::post('/dHome/editEvent','Home\FullCalendarController@edit')->name('editEventPost');
 //Diary User Profile
 Route::get('/userProfile','Profile\GetProfileController@index')->name('userProfileGet');
 Route::post('/userProfile','Profile\PostProfileController@index')->name('userProfilePost');

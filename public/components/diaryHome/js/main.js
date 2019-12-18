@@ -4,7 +4,7 @@ $(document).ready(function () {
     // Form Odaklanma Start
     var passwordAlert = $('#password-alert');
     var emailAlert = $('#email-alert');
-    $(':input,#password-show').focus(function () {
+    $('input,#password-show').focus(function () {
 
         $("nav").css("-webkit-filter", "blur(5px)");
         $("#image").css("-webkit-filter", "blur(4px)");
@@ -91,7 +91,7 @@ $(document).ready(function () {
 
 
 
-                //// AJAX ADD EVENT
+            
 
 
 

@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Events;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Http\Request;
-use Calendar;
+
 
 class FullCalendarController extends Controller
 {
@@ -22,9 +22,9 @@ class FullCalendarController extends Controller
         foreach ($array as $row) {
             $data[] = array(
                 'id' => $row["id"],
-                'title' => $row["saveTitle"],
-                'start' => $row["saveStart"],
-                'end' => $row["saveEnd"],
+                'title' => $row["title"],
+                'start' => $row["start"],
+                'end' => $row["end"],
 
             );
         }
@@ -47,9 +47,9 @@ class FullCalendarController extends Controller
         ]);
         $event_data = array(
 
-            'saveTitle' => $request->get('saveTitle'),
-            'saveStart' => $request->get('saveStart'),
-            'saveEnd' => $request->get('saveEnd'),
+            'title' => $request->get('saveTitle'),
+            'start' => $request->get('saveStart'),
+            'end' => $request->get('saveEnd'),
         );
 
             if(Events::create($event_data)) {
@@ -88,15 +88,71 @@ class FullCalendarController extends Controller
         //
     }
 
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\RedirectResponse|\Illuminate\Http\Response
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    public function edit(Request $request){
+
+        $this->validate($request, [
+            'editId'=>'required',
+            'editTitle' => 'required',
+            'editStart' => 'required',
+            'editEnd' => 'required',
+
+        ]);
+        $event_data = array(
+            'id'=>$request->get('editId'),
+            'title' => $request->get('editTitle'),
+            'start' => $request->get('editStart'),
+            'end' => $request->get('editEnd'),
+        );
+
+        if(Events::where('id',$event_data['id'])->update($event_data)) {
+
+            return response($event_data);
+        }
+        else{
+            return back()->withInput()->with('error','Error');
+        }
+    }
+
     /**
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function editTime(Request $request)
     {
-        //
+        $editEvent = $request->post('Event');
+        if (isset($editEvent)){
+
+
+            $id = $editEvent[0];
+            $start = $editEvent[1];
+            $end = $editEvent[2];
+
+            $editDB = Events::where('id',$id)->update(['start'=>$start,'end'=>$end]);
+
+
+
+
+            if ($editDB) {
+                return response($editEvent);
+            }
+            else{
+                return back()->with('error','Error');
+            }
+
+        }
+
+
+
+
+
     }
 
     /**

@@ -8,7 +8,7 @@ class Events extends Model
 {
     protected $table ='events';
     protected $fillable = [
-        'saveTitle','saveStart', 'saveEnd'
+        'title','start', 'end'
     ];
     protected $primaryKey = 'id';
 }
