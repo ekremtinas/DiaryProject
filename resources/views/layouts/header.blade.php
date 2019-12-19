@@ -33,6 +33,7 @@
                             <div id="logout-div"   class="dropdown-menu dropdown-menu-right rounded-lg shadow-main pl-3 pr-3 mt-3" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item btn-sm list-group-item-danger rounded-pill" href="{{ route('homeLogout') }}">Logout</a>
                                 <a class="dropdown-item btn-sm list-group-item-success rounded-pill" href="{{ route('userProfileGet') }}">Profile</a>
+                                <a class="dropdown-item btn-sm list-group-item-dark rounded-pill" href="{{ route('userProfileGet') }}">Password Reset</a>
 
                             </div>
 

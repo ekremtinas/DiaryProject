@@ -221,370 +221,93 @@
                 </div>
             </div>
         </div>
+
     @endif
 @endsection
 @section('css')
+
     <link href='/components/diaryHome/css/main.css' rel='stylesheet' />
     <link href='/components/fullcalendar/packages/core/main.css' rel='stylesheet' />
     <link href='/components/fullcalendar/packages/bootstrap/main.css' rel='stylesheet' />
     <link href='/components/fullcalendar/packages/timegrid/main.css' rel='stylesheet' />
     <link href='/components/fullcalendar/packages/daygrid/main.css' rel='stylesheet' />
     <link href='/components/fullcalendar/packages/list/main.css' rel='stylesheet' />
+    <noscript id="deferred-styles">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-contextmenu/2.7.1/jquery.contextMenu.min.css">
+    <link href="/components/bvalidator/themes/red/red.css" rel="stylesheet" />
+    </noscript>
     <style>
 
 
     </style>
 @endsection
 @section('script')
-    <script src='/components/diaryHome/js/main.js'></script>
-    <script src='/components/fullcalendar/packages/core/main.js'></script>
-    <script src='/components/fullcalendar/packages/interaction/main.js'></script>
-    <script src='/components/fullcalendar/packages/bootstrap/main.js'></script>
-    <script src='/components/fullcalendar/packages/daygrid/main.js'></script>
-    <script src='/components/fullcalendar/packages/timegrid/main.js'></script>
-    <script src='/components/fullcalendar/packages/list/main.js'></script>
-    <script src='/components/fullcalendar/js/theme-chooser.js'></script>
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.js'></script>
-    <script src='/components/fullcalendar/packages/core/locales-all.js'></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-contextmenu/2.7.1/jquery.contextMenu.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.3.2/bootbox.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
-
+    <script src='/components/diaryHome/js/main.js' ></script>
+    <script src='/components/diaryHome/js/calendar.js' ></script>
+    <script src='/components/fullcalendar/packages/core/main.js' ></script>
+    <script src='/components/fullcalendar/packages/interaction/main.js' ></script>
+    <script src='/components/fullcalendar/packages/bootstrap/main.js' ></script>
+    <script src='/components/fullcalendar/packages/daygrid/main.js' defer></script>
+    <script src='/components/fullcalendar/packages/timegrid/main.js' defer></script>
+    <script src='/components/fullcalendar/packages/list/main.js' ></script>
+    <script src='/components/fullcalendar/js/theme-chooser.js' ></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.js' ></script>
+    <script src='/components/fullcalendar/packages/core/locales-all.js' ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-contextmenu/2.7.1/jquery.contextMenu.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.3.2/bootbox.js" defer></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"  integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
+    <script src="/components/bvalidator/dist/jquery.bvalidator.min.js" defer></script>
+    <script src="/components/bvalidator/themes/presenters/bValidator.DefaultPresenter.js" defer></script>
+    <script src="/components/bvalidator/themes/red/red.js" defer></script>
+    <script>
+        var loadDeferredStyles = function() {
+            var addStylesNode = document.getElementById("deferred-styles");
+            var replacement = document.createElement("div");
+            replacement.innerHTML = addStylesNode.textContent;
+            document.body.appendChild(replacement)
+            addStylesNode.parentElement.removeChild(addStylesNode);
+        };
+        var raf = requestAnimationFrame || mozRequestAnimationFrame ||
+            webkitRequestAnimationFrame || msRequestAnimationFrame;
+        if (raf) raf(function() {
+            window.setTimeout(loadDeferredStyles, 0);
+        });
+        else window.addEventListener('load', loadDeferredStyles);
+    </script>
     <script>
 
-        var calendar;
-        document.addEventListener('DOMContentLoaded', function() {
-            var calendarEl = document.getElementById('calendar');
-
-            var initialLocaleCode = 'en';
-            var localeSelectorEl = document.getElementById('locale-selector');
-
-            initThemeChooser({
-
-                init: function(themeSystem) {
-                    calendar = new FullCalendar.Calendar(calendarEl, {
-                        plugins: [ 'bootstrap', 'interaction', 'dayGrid', 'timeGrid', 'list' ],
-                        themeSystem: themeSystem,
-
-                        header: {
-                            left: 'prevYear,prev,next,nextYear today custom',
-                            center: 'title',
-                            right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
-                        },
-                        defaultDate: '2019-11-12',
-                        weekNumbers: true,
-                        navLinks: true, // can click day/week names to navigate views
-                        editable: true,
-                        resizable: true,
-                        eventLimit: true, // allow "more" link when too many events
-                        eventClassName:'context-menu-one',
-                        selectable: true,
-                        selectMirror: true,
-                        selectHelper:true,
-
-                        select: function(event) {
 
 
-                            $('#ModalAdd #saveStart').val(moment(event.start).format('YYYY-MM-DD HH:mm:ss'));
-                            $('#ModalAdd #saveEnd').val(moment(event.end).format('YYYY-MM-DD HH:mm:ss'));
-                            $('#ModalAdd').modal('show');
-                            $('#editEventSubmit').prop( "disabled", true );
-                        },
+        var initialLocaleCode = '{{Auth::user()->lang}}'; // Local olarak default dil seçimi
+        function edit(event){ // Drop ve Resize Olayları için tarih güncelleme
 
+            var  start = moment(event.start).format('YYYY-MM-DD HH:mm:ss');
+            if(event.end){
+                var   end = moment(event.end).format('YYYY-MM-DD HH:mm:ss');
+            }else{
+                var   end = start;
+            }
 
-                        events: {
-                            url: '/dHome/getEvent',
-                            type: 'GET', // Send Get data
-                            success:function (rawData) {
+            var   id =  event.id;
 
+            Event = [];
+            Event[0] = id;
+            Event[1] = start;
+            Event[2] = end;
 
-                            },
-                            error: function() {
-                                alert('There was an error while fetching events.');
-                            }
-                            },
-                        eventRender: function(info) {
-
-                            $(info.el).attr("id",info.event.id).addClass('context-class');
-
-                        },
-                        eventDrop: function(info) {
-
-                           edit(info.event);
-
-                        },
-                        eventResize: function(info) {
-
-                           edit(info.event);
-
-                        },
-
-
-
-
-
-
-                    });
-                    calendar.render();
-                    // build the locale selector's options
-                    calendar.getAvailableLocaleCodes().forEach(function(localeCode) {
-                        var optionEl = document.createElement('option');
-                        optionEl.value = localeCode;
-                        optionEl.selected = localeCode == initialLocaleCode;
-                        optionEl.innerText = localeCode;
-                        localeSelectorEl.appendChild(optionEl);
-                    });
-
-                    // when the selected option changes, dynamically change the calendar option
-                    localeSelectorEl.addEventListener('change', function() {
-                        if (this.value) {
-                            calendar.setOption('locale', this.value);
-                        }
-                    });
-
-                   function edit(event){
-
-                      var  start = moment(event.start).format('YYYY-MM-DD HH:mm:ss');
-                        if(event.end){
-                         var   end = moment(event.end).format('YYYY-MM-DD HH:mm:ss');
-                        }else{
-                         var   end = start;
-                        }
-
-                     var   id =  event.id;
-
-                        Event = [];
-                        Event[0] = id;
-                        Event[1] = start;
-                        Event[2] = end;
-                       $.ajaxSetup({
-                           headers: {
-                               'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                           }
-                       });
-                        $.ajax({
-                            url: '/dHome/dropEvent',
-                            type: "POST",
-                            data: {
-                                Event:Event,
-                                _token: '{!! csrf_token() !!}',
-                            },
-                            dataType:'json',
-                            success: function(data) {
-
-                            }
-                        });
-                    }
-
-
-
-
-
-                    $.contextMenu({
-                        selector: '.context-menu-one',
-                        delegate: ".hasmenu",
-                        preventContextMenuForPopup: true,
-                        preventSelect: true,
-                        callback: function(key, options) {
-                            var locale = $('#locale-selector').val();
-                            var event=$(this);
-                            var eventId=$(this).attr('id');
-
-                            switch (key) {
-                                case 'edit':
-
-                                    $.ajax({
-                                        type:'GET',
-                                        url: '/dHome/getEvent',
-                                        dataType:'json',
-                                        success:function (data) {
-
-                                                for(i=0;i<data.length;i++)
-                                                {
-                                                    if(data[i]['id']==eventId)
-                                                    {
-                                                        $('#ModalEdit #editId').val(eventId);
-                                                        $('#ModalEdit #editTitle').val(data[i]['title']);
-                                                        $('#ModalEdit #editStart').val(data[i]['start']);
-                                                        $('#ModalEdit #editEnd').val(data[i]['end']);
-
-                                                     }
-                                                 }
-                                            $('#ModalEdit').modal('show');
-                                            $('#editEventSubmit').prop( "disabled", false );
-
-                                            }
-
-                                    });
-
-
-
-                                    break;
-                                case 'delete':
-
-                                    bootbox.confirm({
-                                            message: "Is event delete?",
-                                            size: 'small',
-                                            locale:  locale,
-                                            buttons: {
-                                                confirm: {
-                                                    label: 'Yes',
-                                                    className: 'btn-success'
-                                                },
-                                                cancel: {
-                                                    label: 'No',
-                                                    className: 'btn-danger'
-                                                }
-                                            },
-                                            callback: function (result) {
-                                                if(result===true)
-                                                {
-
-                                                    $.ajaxSetup({
-                                                        headers: {
-                                                            'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
-                                                        }
-                                                    });
-
-                                                    $.ajax({
-                                                        type: 'GET',
-                                                        url: '/dHome/destroyEvent/'+eventId,
-                                                        dataType:'json',
-                                                        data: {'id':eventId},
-
-                                                        success:function(data){
-                                                            event.remove();
-
-
-                                                        }
-                                                    });
-
-                                                }
-                                                else{
-
-                                                }
-                                            }
-                                        }
-
-                                    );
-
-
-                                    break;
-
-                            }
-                        },
-                        items: {
-                            "edit": {name: "Edit", icon: "edit"},
-                            "delete": {name: "Delete", icon: "delete"},
-
-
-                        }
-                    });
-
-
-                    $('.context-menu-one').on('click', function(e){
-                        console.log('clicked', this);
-                    });
+            $.ajax({
+                url: '/dHome/dropEvent',
+                type: "POST",
+                data: {
+                    Event:Event,
+                    _token: '{!! csrf_token() !!}',
                 },
+                dataType:'json',
+                success: function(data) {
 
-
-                change: function(themeSystem) {
-                    calendar.setOption('themeSystem', themeSystem);
                 }
-
             });
-
-        });
-        $(document).ready(function () {
-            var addEventForm = $('#addEventForm');
-            var editEventForm = $('#editEventForm');
-
-            addEventForm.submit(function(e){
-                $('#addEventSubmit').prop( "disabled", true );
-                e.preventDefault();
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
-
-                    }
-                });
-
-                $.ajax({
-                    type: 'POST',
-                    url: '/dHome/addEvent',
-                    dataType:"json",
-                    data: {
-                        saveTitle: addEventForm.find('#saveTitle').val(),
-                        saveStart: addEventForm.find('#saveStart').val(),
-                        _token: addEventForm.find('#_token').val(),
-                        saveEnd: addEventForm.find('#saveEnd').val()
-                    },
-                    success:function (data) {
-
-
-                        $('#ModalAdd').modal('hide');
-
-                        calendar.addEvent(
-                            {
-                                id:data.id,
-                                title: data.title,
-                                start: data.start ,
-                                end: data.end
-                            });
-                        $('#addEventSubmit').prop( "disabled", false );
-                    }
-                });
-            });
-            editEventForm.submit(function(e){
-
-                $('#editEventSubmit').prop( "disabled", true );
-                e.preventDefault();
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
-
-                    }
-                });
-
-                $.ajax({
-                    type: 'POST',
-                    url: '/dHome/editEvent',
-                    dataType:"json",
-                    data: {
-                        editId:editEventForm.find('#editId').val(),
-                        editTitle: editEventForm.find('#editTitle').val(),
-                        editStart: editEventForm.find('#editStart').val(),
-                        _token: editEventForm.find('#_token').val(),
-                        editEnd: editEventForm.find('#editEnd').val()
-                    },
-                    success:function (editData) {
-
-
-                        var event = calendar.getEventById(editData.id);
-                         event.remove();
-
-                        $('#ModalEdit').modal('hide');
-
-                        calendar.addEvent(
-                            {
-                                id: editData.id,
-                                title: editData.title,
-                                start: editData.start,
-                                end: editData.end
-                            });
-
-                    }
-                });
-
-            });
-
-
-
-
-
-        });
-
+        }
 
     </script>
 @endsection
