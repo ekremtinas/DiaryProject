@@ -29,7 +29,7 @@ initThemeChooser({
             eventLimit: true, // Bir günde görüntülenen etkinlik sayısını sınırlar.Dokümantasyondan view parametresi alınarak sınırlandırılabilir.
             eventClassName:'context-menu-one', // Context-Menu için eventlara class atanması
             selectable: true, //Kullanıcının tıklayıp sürükleyerek birden fazla gün veya zaman dilimini vurgulamasına izin verir.
-            selectMirror: false,// Kullanıcı sürüklerken bir “yer tutucu” etkinliği çizilip çizilmeyeceği. Eğer True dersek biraz uzaktan sürüklenerek gider.
+            selectMirror: true, // Kullanıcı sürüklerken bir “yer tutucu” etkinliği çizilip çizilmeyeceği. Eğer True dersek biraz uzaktan sürüklenerek gider.
 
 
             select: function(event) { //Tarih / saat seçimi yapıldığında tetiklenir.
@@ -168,6 +168,9 @@ initThemeChooser({
                                             url: '/dHome/destroyEvent/'+eventId,
                                             dataType:'json',
                                             success:function(data){
+                                                $('#notificationAlert').addClass('alert-success').removeClass('alert-danger');
+                                                $(".notification-text").html("Event deleted");
+                                                $('#notificationAlert').show();
                                                 event.remove();
 
 
@@ -176,7 +179,9 @@ initThemeChooser({
 
                                     }
                                     else{
-
+                                        $(".notification-text").html("Event not deleted");
+                                        $('#notificationAlert').addClass('alert-danger').removeClass('alert-success');
+                                        $('#notificationAlert').show();
                                     }
                                 }
                             }
@@ -244,6 +249,8 @@ initThemeChooser({
                         start: data.start ,
                         end: data.end
                     });
+                $(".notification-text").html("Event added");
+                $('#notificationAlert').show();
                 $('#addEventSubmit').prop( "disabled", false );
             }
         });
@@ -285,7 +292,8 @@ initThemeChooser({
                         start: editData.start,
                         end: editData.end
                     });
-
+                $(".notification-text").html("Event edited");
+                $('#notificationAlert').show();
             }
         });
 

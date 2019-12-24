@@ -54,7 +54,18 @@ primary:not(:disabled):not(.disabled).active {
     border-color: #e22620 !important;
     border-radius: 50rem !important;
 }
-
+.btn-info {
+    color: #fff !important;
+    background-color: #369 !important;
+    border-color: #369 !important;
+    border-radius: 50rem !important;
+}
+.btn-info:hover {
+    color: #369 !important;
+    background-color: #fff !important;
+    border-color: #369 !important;
+    border-radius: 50rem !important;
+}
 .context-menu-item {
     position: relative;
     -webkit-box-sizing: content-box;
@@ -112,4 +123,19 @@ primary:not(:disabled):not(.disabled).active {
     top: 90% !important;
 }
 
+
+/*Maintenance*/
+.small-btn-size
+{
+    font-size: 10px !important;
+
+}
+.fa {
+    display: inline-block !important;
+    font: normal normal normal 14px/1 FontAwesome !important;
+    text-rendering: auto !important;
+    -webkit-font-smoothing: antialiased !important;
+    -moz-osx-font-smoothing: grayscale !important;
+}
+/* Maintenance Modal */
 

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Reset;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -29,7 +29,7 @@ class GetPasswordResetController extends Controller
        if (User::where('email_verified_at',$resetuid['resetuid'])->first()) {
 
             if (Auth::guard($credentials)) {
-Auth::login(User::where('email_verified_at',$resetuid['resetuid'])->first(),false);
+                Auth::login(User::where('email_verified_at',$resetuid['resetuid'])->first(),false);
                return redirect()->intended('dHome');
            }
 

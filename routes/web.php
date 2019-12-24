@@ -33,12 +33,20 @@ Route::get('/dPasswordResetConfirmLogin','Reset\GetPasswordResetController@getRe
 //Diary Home
 Route::get('/dHome','GetHomeController@index')->name('homeGet');
 Route::get('/dLogout','GetHomeController@logout')->name('homeLogout');
+
+
 //Diary Home Full Calendar
 Route::get('/dHome/getEvent','Home\FullCalendarController@index')->name('eventGet');
 Route::post('/dHome/addEvent','Home\FullCalendarController@create')->name('addEventPost');
 Route::get('/dHome/destroyEvent/{id}','Home\FullCalendarController@destroy')->name('destroyEventGet');
 Route::post('/dHome/dropEvent','Home\FullCalendarController@editTime')->name('dropEventGet');
 Route::post('/dHome/editEvent','Home\FullCalendarController@edit')->name('editEventPost');
+//Maintenance
+Route::get('/dHome/getMaintenance','Home\MaintenanceController@getMaintenance')->name('getMaintenanceGet');
+Route::post('/dHome/addMaintenance','Home\MaintenanceController@addMaintenance')->name('addMaintenancePost');
+Route::post('/dHome/editMaintenance','Home\MaintenanceController@editMaintenance')->name('editMaintenancePost');
+Route::post('/dHome/destroyMaintenance','Home\MaintenanceController@destroyMaintenance')->name('destroyMaintenancePost');
+
 //Diary User Profile
 Route::get('/userProfile','Profile\GetProfileController@index')->name('userProfileGet');
 Route::post('/userProfile','Profile\PostProfileController@index')->name('userProfilePost');
