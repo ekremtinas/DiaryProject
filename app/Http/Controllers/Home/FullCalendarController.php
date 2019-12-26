@@ -4,8 +4,13 @@ namespace App\Http\Controllers\Home;
 
 use App\Http\Controllers\Controller;
 use App\Models\Events;
+use App\Models\EventsJoinMaintenance;
+use App\Models\Maintenance;
+use Carbon\Carbon;
+use DebugBar\DebugBar;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 
 class FullCalendarController extends Controller
@@ -28,7 +33,7 @@ class FullCalendarController extends Controller
 
             );
         }
-        return json_encode($data);
+        return $data;
     }
 
     /**
@@ -40,10 +45,9 @@ class FullCalendarController extends Controller
     {
         $this->validate($request, [
             'saveTitle' => 'required',
-
             'saveStart' => 'required',
             'saveEnd' => 'required',
-
+            'maintenanceTitle'=>'required',
         ]);
         $event_data = array(
 
@@ -51,18 +55,70 @@ class FullCalendarController extends Controller
             'start' => $request->get('saveStart'),
             'end' => $request->get('saveEnd'),
         );
+        $maintenanceTitle=$request->get('maintenanceTitle');
+        $maintenanceId=Maintenance::where('maintenanceTitle',$maintenanceTitle)->first();
 
-            if(Events::create($event_data)) {
-              $event= Events::where($event_data)->first();
-                $event_data +=[
+        $saveStart=$request->get('saveStart');
+        if(Events::where('start',$saveStart)->first())
+        {
+            $event_data += [
+
+                'allDay' => true
+            ];
+            return response($event_data);
+        }
+        else {
+            if (Events::create($event_data)) {
+                $event = Events::where($event_data)->first();
+
+                $event_data += [
 
                     'id' => $event['id']
-            ];
-                return response($event_data);
+                ];
+                $eventMaintenanceData = array(
+
+                    'eventId' => $event['id'],
+                    'maintenanceId' => $maintenanceId['id'],
+                );
+
+                if (EventsJoinMaintenance::create($eventMaintenanceData)) ;
+                {
+                    $eventsjoinmaintenance = DB::table('events')
+                        ->join('eventsjoinmaintenance', 'events.id', '=', 'eventsjoinmaintenance.eventId')
+                        ->join('maintenance', 'maintenance.id', '=', 'eventsjoinmaintenance.maintenanceId')
+                        ->where('events.id', $event['id'])->get();
+                    $maintenanceMinute = $eventsjoinmaintenance[0]->maintenanceMinute;
+                    $newEvent = Events::where($event_data)->first();
+
+
+                    $maintenanceMinuteTime = Carbon::parse($maintenanceMinute, 'UTC');
+                    $maintenanceMinuteTimeCarbon = $maintenanceMinuteTime->isoFormat('HH:mm');
+
+
+                    $maintenanceMinuteTimeFormat = strtotime($maintenanceMinuteTimeCarbon);
+                    $maintenanceMinuteTimeFormatHour = date("H", $maintenanceMinuteTimeFormat);//Sadece Saatin alınması
+                    $maintenanceMinuteTimeFormatMin = strtotime($maintenanceMinuteTimeCarbon);
+                    $maintenanceMinuteTimeFormatMinI = date("i", $maintenanceMinuteTimeFormatMin);//Sadece Dakikanın alınması
+
+
+                    $eventStartTime = $newEvent->start;
+                    $eventStartTimeFormat = strtotime($eventStartTime);
+
+                    $eventStartJoinMaintenanceTime = strtotime("+{$maintenanceMinuteTimeFormatHour} hour +{$maintenanceMinuteTimeFormatMinI} minute", $eventStartTimeFormat);
+                    $eventStartJoinMaintenanceTimeFormat = date('Y-m-d H:i:s', $eventStartJoinMaintenanceTime);
+                    Events::where($event_data)->update(['end' => $eventStartJoinMaintenanceTimeFormat]);
+
+
+                    // \DebugBar::info($date6);
+                    $event_data += [
+
+                        'newTime' => $eventStartJoinMaintenanceTimeFormat
+                    ];
+                    return response($event_data);
+                }
             }
-            else{
-            return back()->withInput()->with('error','Error');
         }
+
     }
 
     /**
@@ -175,19 +231,19 @@ class FullCalendarController extends Controller
      */
     public function destroy($id)
     {
-       if(Events::find($id)->delete($id))
-       {
+        if(Events::find($id)->delete($id))
+        {
 
 
 
-        $data[]=array([
-            'id'=>$id,
-        ]);
-        return response($data);
+            $data[]=array([
+                'id'=>$id,
+            ]);
+            return response($data);
 
         }
-       else{
-           return back()->with('error','Error');
-       }
+        else{
+            return back()->with('error','Error');
+        }
     }
 }

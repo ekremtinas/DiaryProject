@@ -45,7 +45,13 @@ Route::post('/dHome/editEvent','Home\FullCalendarController@edit')->name('editEv
 Route::get('/dHome/getMaintenance','Home\MaintenanceController@getMaintenance')->name('getMaintenanceGet');
 Route::post('/dHome/addMaintenance','Home\MaintenanceController@addMaintenance')->name('addMaintenancePost');
 Route::post('/dHome/editMaintenance','Home\MaintenanceController@editMaintenance')->name('editMaintenancePost');
-Route::post('/dHome/destroyMaintenance','Home\MaintenanceController@destroyMaintenance')->name('destroyMaintenancePost');
+Route::get('/dHome/deleteMaintenance','Home\MaintenanceController@deleteMaintenance')->name('deleteMaintenanceGet');
+//EventsJoinMaintenance
+Route::get('/dHome/getEventsJoinMaintenance','Home\EventsJoinMaintenanceController@getEventsJoinMaintenance')->name('getEventsJoinMaintenanceGet');
+
+
+
+
 
 //Diary User Profile
 Route::get('/userProfile','Profile\GetProfileController@index')->name('userProfileGet');

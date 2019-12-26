@@ -60,4 +60,21 @@ class MaintenanceController extends Controller
             return back()->withInput()->with('error','Maintenance not added');
         }
     }
+    public function deleteMaintenance(Request $request)
+    {
+        $this->validate($request, [
+            'maintenanceDeleteTitle' => 'required',
+        ]);
+        $data = array(
+            'maintenanceTitle' => $request->get('maintenanceDeleteTitle'),
+        );
+        try {
+            Maintenance::where($data)->delete();
+            return response($data);
+        }
+        catch (\Exception $exception)
+        {
+            return back()->withInput()->with('error','Maintenance not deleted');
+        }
+    }
 }

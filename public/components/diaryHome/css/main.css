@@ -138,4 +138,16 @@ primary:not(:disabled):not(.disabled).active {
     -moz-osx-font-smoothing: grayscale !important;
 }
 /* Maintenance Modal */
-
+/* FullCAlendar Yüklenmesi Boyunca Görünecek Gif*/
+.loading{
+    position: fixed;
+    top: 45%;
+    left: 45%;
+    opacity: 1;
+    overflow-y: visible;
+    -moz-transition: all 0.4s ease-out;  /* FF4+ */
+    -o-transition: all 0.4s ease-out;  /* Opera 10.5+ */
+    -webkit-transition: all 0.4s ease-out;  /* Saf3.2+, Chrome */
+    -ms-transition: all 0.4s ease-out;  /* IE10? */
+    transition: all 0.4s ease-out;
+}

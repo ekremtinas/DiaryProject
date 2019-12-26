@@ -11,7 +11,7 @@
 @endsection
 @section('content')
 
-
+        <div class="loading" id="loading"><img width="100px" height="100px" src="/components/img/gif/loading.gif"></div>
         <div tabindex="-1" class="container w-75 h-50" id='top'>
 
             <div class='left' hidden>
@@ -52,6 +52,7 @@
                 </button>
                 <strong class="notification-text">Event deleted</strong>
             </div>
+
             @include('Home.Modals.addEventModal')
             @include('Home.Modals.editEventModal')
 

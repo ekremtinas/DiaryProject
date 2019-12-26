@@ -21,16 +21,32 @@ initThemeChooser({
                 right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth' // dayGridMonth: Günlerin olduğu ay,timeGridWeek:haftanın liste halinde gösterilmesi,timeGridDay:Günün saatlerinin liste(grid) halinde gösterilmesi,listMonth:Belitrilen aydaki tüm eventlerin listelenmesi
 
             },
+            defaultView:['timeGrid'],
             defaultDate: today, //Varsayılan tarih
             weekNumbers: true, // Hafta Numaralarının gösterilmesi
             navLinks: true, // Günlerin ayrıntısı için gerekli link
             editable: true, //Değiştirilebilrliğinin aktif edilmesi
             resizable: true, // Boyutun uzatılmasının aktifleştirilmesi
             eventLimit: true, // Bir günde görüntülenen etkinlik sayısını sınırlar.Dokümantasyondan view parametresi alınarak sınırlandırılabilir.
+
+            views: {
+                timeGrid: {
+                    eventLimit: 6 // adjust to 6 only for timeGridWeek/timeGridDay
+                }
+            },
             eventClassName:'context-menu-one', // Context-Menu için eventlara class atanması
             selectable: true, //Kullanıcının tıklayıp sürükleyerek birden fazla gün veya zaman dilimini vurgulamasına izin verir.
-            selectMirror: true, // Kullanıcı sürüklerken bir “yer tutucu” etkinliği çizilip çizilmeyeceği. Eğer True dersek biraz uzaktan sürüklenerek gider.
-
+            selectHelper: true, // Kullanıcı sürüklerken bir “yer tutucu” etkinliği çizilip çizilmeyeceği. Eğer True dersek biraz uzaktan sürüklenerek gider.
+            allDaySlot:false,//Tüm Gün Eklenmesi İptal Edilmesi
+            selectMirror:true,
+            eventOverlap:false,// Günlerin Kesişmesini Engeller
+            loading: function(bool) {
+                if (bool) {
+                    $('#loading').show();
+                }else{
+                    $('#loading').hide();
+                }
+            },
 
             select: function(event) { //Tarih / saat seçimi yapıldığında tetiklenir.
 
@@ -39,6 +55,23 @@ initThemeChooser({
                 $('#ModalAdd #saveEnd').val(moment(event.end).format('YYYY-MM-DD HH:mm:ss'));
                 $('#ModalAdd').modal('show');
                 $('#editEventSubmit').prop( "disabled", true );
+            },
+            eventClick: function(info) {
+
+
+                $.ajax({
+                    url:'/dHome/getEventsJoinMaintenance',
+                    type:'get',
+                    data:{
+                      id: info.event.id
+                    },
+                    dataType:'json',
+                    success:function (data) {
+                        console.log(data.maintenanceTitle);
+                    }
+                });
+
+
             },
 
 
@@ -226,6 +259,8 @@ initThemeChooser({
 
             }
         });
+        var maintenanceSelect = addEventForm.find('#maintenanceAddSelect').val();
+        var maintenanceTitle = maintenanceSelect.substr(7);
 
         $.ajax({
             type: 'POST',
@@ -234,22 +269,38 @@ initThemeChooser({
             data: {
                 saveTitle: addEventForm.find('#saveTitle').val(),
                 saveStart: addEventForm.find('#saveStart').val(),
+                maintenanceTitle: maintenanceTitle,
                 _token: addEventForm.find('#_token').val(),
                 saveEnd: addEventForm.find('#saveEnd').val()
             },
             success:function (data) {
+                if(data.allDay)
+                {
+                    $(".notification-text").html("Event not added because AllDay");
+                    $('#notificationAlert').addClass('alert-danger').removeClass('alert-success');
+                    $('#notificationAlert').show();
+                    $('#addEventSubmit').prop( "disabled", false );
+                }
+                else {
 
+                    $('#ModalAdd').modal('hide');
 
-                $('#ModalAdd').modal('hide');
-
-                calendar.addEvent(
-                    {
-                        id:data.id,
-                        title: data.title,
-                        start: data.start ,
-                        end: data.end
-                    });
-                $(".notification-text").html("Event added");
+                    calendar.addEvent(
+                        {
+                            id: data.id,
+                            title: data.title,
+                            start: data.start,
+                            end: data.newTime
+                        });
+                    $(".notification-text").html("Event added");
+                    $('#notificationAlert').addClass('alert-success').removeClass('alert-danger');
+                    $('#notificationAlert').show();
+                    $('#addEventSubmit').prop("disabled", false);
+                }
+            },
+            error:function () {
+                $(".notification-text").html("Event not added");
+                $('#notificationAlert').addClass('alert-danger').removeClass('alert-success');
                 $('#notificationAlert').show();
                 $('#addEventSubmit').prop( "disabled", false );
             }

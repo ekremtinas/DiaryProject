@@ -1,6 +1,8 @@
 $(document).ready(function () {
 //Home Main
-//Form'u odaklamak için tıklanan inputlara göre diğer tarafların flu olmasını sağlar.
+
+
+                //Form'u odaklamak için tıklanan inputlara göre diğer tarafların flu olmasını sağlar.
 // Form Odaklanma Start
 
                 var passwordAlert = $('#password-alert');
@@ -266,6 +268,7 @@ $(document).ready(function () {
                 var maintenanceAdd = document.getElementById('maintenanceAddSelect');
                 var maintenanceEdit =document.getElementById('maintenanceEditSelect');
                 var optionEl;
+                var optionEdit;
                 $.ajax({
                    url:'/dHome/getMaintenance',
                    type:'get',
@@ -277,12 +280,12 @@ $(document).ready(function () {
                        {
 
                        optionEl = document.createElement('option');
-                       optionEl.value = '('+maintenanceData[j]["maintenanceMinute"]+') '+maintenanceData[j]["maintenanceTitle"];
-                       optionEl.innerText = '('+maintenanceData[j]["maintenanceMinute"]+') '+maintenanceData[j]["maintenanceTitle"];
+                       optionEl.value = '('+moment(maintenanceData[j]["maintenanceMinute"], "HH:mm").format("HH:mm")+') '+maintenanceData[j]["maintenanceTitle"];
+                       optionEl.innerText = '('+moment(maintenanceData[j]["maintenanceMinute"], "HH:mm").format("HH:mm")+') '+maintenanceData[j]["maintenanceTitle"];
                        maintenanceAdd.appendChild(optionEl);
-                       var optionEdit = document.createElement('option');
-                       optionEdit.value='('+maintenanceData[j]["maintenanceMinute"]+') '+maintenanceData[j]['maintenanceTitle'];
-                       optionEdit.innerText = '('+maintenanceData[j]["maintenanceMinute"]+') '+maintenanceData[j]["maintenanceTitle"];
+                       optionEdit = document.createElement('option');
+                       optionEdit.value='('+moment(maintenanceData[j]["maintenanceMinute"], "HH:mm").format("HH:mm")+') '+maintenanceData[j]['maintenanceTitle'];
+                       optionEdit.innerText = '('+moment(maintenanceData[j]["maintenanceMinute"], "HH:mm").format("HH:mm")+') '+maintenanceData[j]["maintenanceTitle"];
                        maintenanceEdit.appendChild(optionEdit);
                        }
 
@@ -296,16 +299,6 @@ $(document).ready(function () {
                     $('#ModalAdd').modal('hide');
                     $('#MaintenanceAddModal').toggle('show');
                     maintenanceAddSubmit.prop( "disabled", false );
-
-                });
-
-//
-
-// Add Modal için Maintenance Delete
-                $('#maintenanceDelete').on('dblclick',function () {
-
-                    $('#ModalAdd').modal('hide');
-                    $('#MaintenanceDeleteModal').toggle('show');
 
                 });
 
@@ -369,8 +362,8 @@ $(document).ready(function () {
                        success:function (data) {
 
                            optionEl = document.createElement('option');//Veri select'e eklenmesi start
-                           optionEl.value = data["maintenanceTitle"];
-                           optionEl.innerText = data["maintenanceTitle"];
+                           optionEl.value = '('+moment(data["maintenanceMinute"], "HH:mm").format("HH:mm")+') '+data["maintenanceTitle"];
+                           optionEl.innerText = '('+moment(data["maintenanceMinute"], "HH:mm").format("HH:mm")+') '+data["maintenanceTitle"];
                            maintenanceAdd.appendChild(optionEl);//Veri select'e eklenmesi end
                            $('#notificationAlert').addClass('alert-success').removeClass('alert-danger');//Bakım eklenmesi notification start
                            $(".notification-text").html("Maintenance Added");
@@ -388,18 +381,20 @@ $(document).ready(function () {
                   var maintenanceEditTitle;
                   var maintenanceEditMinute;
                   var maintenanceEditSubmit=$('#maintenanceEditSubmit');
+                  var maintenanceEditSelectObject;
                     $("#maintenanceAddSelect").change(function() {
                          maintenanceEditSelect = $("#maintenanceAddSelect option:selected").val();
+                         maintenanceEditSelectObject=$('#maintenanceAddSelect option:selected');
                     });
 
                   $('#maintenanceEdit').on('dblclick',function () {
                       $('#ModalAdd').modal('hide');
                       $('#MaintenanceEditModal').toggle('show');
-                      maintenanceEditMinute=maintenanceEditSelect.substr(1, 8);
-                      maintenanceEditTitle=maintenanceEditSelect.substr(10);
+                      maintenanceEditMinute=maintenanceEditSelect.substr(1, 5);
+                      maintenanceEditTitle=maintenanceEditSelect.substr(7);
                       $('#maintenanceEditTitle').val(maintenanceEditTitle);
                       $('#maintenanceEditMinute').val(maintenanceEditMinute);
-
+                      maintenanceEditSubmit.prop( "disabled", false );
                   });
 
                     var maintenanceEditForm=$('#maintenanceEditForm');
@@ -418,10 +413,21 @@ $(document).ready(function () {
                         $.ajax({
                             url:'/dHome/editMaintenance',
                             type:'post',
-                            data: maintenanceEditForm.serialize()+ "&maintenanceEditTitleOld=" + maintenanceEditTitle,
+                            data: maintenanceEditForm.serialize()+ "&maintenanceEditTitleOld=" + maintenanceEditTitle,//Tüm form elemanları ile birlikte eski Bakım title'i gönderilmesi
                             dataType:'json',
                             success:function (data) {
+                                optionEl = document.createElement('option');//Veri select'e eklenmesi start
+                                optionEl.value = '('+moment(data["maintenanceMinute"], "HH:mm").format("HH:mm")+') '+data["maintenanceTitle"];
+                                optionEl.innerText = '('+moment(data["maintenanceMinute"], "HH:mm").format("HH:mm")+') '+data["maintenanceTitle"];
+                                optionEdit= document.createElement('option');//Veri select'e eklenmesi start
+                                optionEdit.value = '('+moment(data["maintenanceMinute"], "HH:mm").format("HH:mm")+') '+data["maintenanceTitle"];
+                                optionEdit.innerText = '('+moment(data["maintenanceMinute"], "HH:mm").format("HH:mm")+') '+data["maintenanceTitle"];
 
+
+
+                                maintenanceEditSelectObject[0].selected=true;//Güncellenen verinin seçilmesi
+                                maintenanceAdd.appendChild(optionEl);//Veri select'e eklenmesi end
+                                maintenanceEditSelectObject[0].remove();//Seçilen Bakım türünün kaldırılması
                                 $('#notificationAlert').addClass('alert-success').removeClass('alert-danger');//Bakım eklenmesi notification start
                                 $(".notification-text").html("Maintenance Edited");
                                 $('#notificationAlert').show();//Bakım eklenmesi notification end
@@ -429,6 +435,47 @@ $(document).ready(function () {
                                 $('#ModalAdd').modal('show');//Event eklenmesi modalı gösterilmesi
                             }
                         });
+
+
+                        });
+            // Delete Ajax
+
+            // Add Modal için Maintenance Delete
+                        var maintenanceDeleteSubmit = $('#maintenanceDeleteSubmit');
+                        var maintenanceDeleteTitle;
+                        $('#maintenanceDelete').on('dblclick',function () {
+
+                            $('#ModalAdd').modal('hide');
+                            $('#MaintenanceDeleteModal').toggle('show');
+                            $('#maintenanceDeleteSelect').html(maintenanceEditSelect);
+                            maintenanceDeleteTitle=maintenanceEditSelect.substr(8);
+                            maintenanceDeleteSubmit.prop( "disabled", false );
+                        });
+
+                         maintenanceDeleteSubmit.click(function (e) {
+
+                            maintenanceDeleteSubmit.prop( "disabled", true );
+                            e.preventDefault();
+
+
+                            $.ajax({
+                                url:'/dHome/deleteMaintenance',
+                                type:'get',
+                                data:
+                                    {
+                                        maintenanceDeleteTitle:maintenanceDeleteTitle
+                                    },//Tüm form elemanları ile birlikte eski Bakım title'i gönderilmesi
+                                dataType:'json',
+                                success:function (data) {
+
+                                    maintenanceEditSelectObject[0].remove();//Seçilen Bakım türünün kaldırılması
+                                    $('#notificationAlert').addClass('alert-success').removeClass('alert-danger');//Bakım eklenmesi notification start
+                                    $(".notification-text").html("Maintenance Deleted");
+                                    $('#notificationAlert').show();//Bakım eklenmesi notification end
+                                    $('#MaintenanceDeleteModal').toggle('hide');//Bakım eklenmesi modal gizlenmesi start
+                                    $('#ModalAdd').modal('show');//Event eklenmesi modalı gösterilmesi
+                                }
+                            });
 
 
                         });

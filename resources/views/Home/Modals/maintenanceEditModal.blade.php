@@ -27,9 +27,9 @@
                     <div class="form-group btn-group-sm mt-4 col-lg-10 offset-lg-1 ">
 
                         <label id="maintenanceEditMinute-label"  class="btn-sm scroll-home-label" for="maintenanceEditMinute">{{ __('Maintenance Minute:') }}</label>
-                        <input id="maintenanceEditMinute" data-bvalidator="required" type="time" class="form-control btn-sm  border-light shadow-main rounded-pill @error('maintenanceEditMinute') is-invalid @enderror "  value=""   autocomplete="off"   placeholder="Maintenance Minute"  name="maintenanceEditMinute"  >
+                        <input id="maintenanceEditMinute" data-bvalidator="required" type="time"  class="form-control btn-sm  border-light shadow-main rounded-pill @error('maintenanceEditMinute') is-invalid @enderror "  value=""   autocomplete="off"   placeholder="Maintenance Minute"  name="maintenanceEditMinute"  >
                         @error('maintenanceEditMinute')
-                        <span  id="maintenanceEditMinute-alert" class="title-alert invalid-feedback alert-size pl-3 ml-2 rounded-pill alert-danger col-10 " role="alert">
+                        <span  id="maintenanceEditMinute-alert" class="title-alert invalid-feedback alert-size pl-3 ml-2 rounded-pill alert-danger col-10 "  role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
 
