@@ -116,7 +116,7 @@
         else window.addEventListener('load', loadDeferredStyles);
     </script>
     <script>
-
+        var timeDiffMoment;//Seçilen iki time arasındaki süre
         $(function () {
             $('[data-toggle="popover"]').popover()
         })

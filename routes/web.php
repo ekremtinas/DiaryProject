@@ -10,6 +10,9 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+//User Home
+Route::get('/','UserHome\GetUserHomeController@index')->name('userHomeGet');
+Route::post('/','UserHome\PostUserHomeController@index')->name('userHomePost');
 
 //Login Route
 

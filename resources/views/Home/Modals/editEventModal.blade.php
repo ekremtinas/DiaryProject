@@ -28,9 +28,9 @@
 
 
                     <div class="form-group btn-group-sm mt-5 col-lg-10 offset-lg-1 row ">
-                        <label id="editColor-label"  class="btn-sm scroll-home-label" for="editColor">{{ __('Maintenance:') }}</label>
+                        <label id="maintenanceEditSelect-label"  class="btn-sm scroll-home-label" for="maintenanceEditSelect">{{ __('Maintenance:') }}</label>
                         <select value=""   autocomplete="off" data-bvalidator="required"  placeholder="Maintenance"   name="maintenanceEditSelect" class="form-control btn-sm h-50  form-control btn-sm  border-light shadow-main rounded-pill " id="maintenanceEditSelect">
-
+                        <option id="maintenanceEditSelectOption"></option>
 
 
                         </select>

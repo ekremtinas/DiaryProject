@@ -7,7 +7,7 @@ $(document).ready(function () {
 
                 var passwordAlert = $('#password-alert');
                 var emailAlert = $('#email-alert');
-                $('input,#password-show').focus(function () {
+                $('input,#password-show,select').focus(function () {
 
                     $("nav").css("-webkit-filter", "blur(5px)");
                     $("#image").css("-webkit-filter", "blur(4px)");
@@ -38,31 +38,31 @@ $(document).ready(function () {
                     saveTitleLabel.animate({top: '0px'}).hide();
                  });
 
-                var colorFB = $('#color');
-                var colorLabel = $('#color-label');
-                colorFB.focus(function()
+                var maintenanceAddSelectFB = $('#maintenanceAddSelect');
+                var maintenanceAddSelectLabel = $('#maintenanceAddSelect-label');
+    maintenanceAddSelectFB.focus(function()
                 {
-                    colorLabel.show().animate({top: '-30px'});
+                    maintenanceAddSelectLabel.show().animate({top: '-30px'});
                 }).blur(function () {
-                    colorLabel.animate({top: '0px'}).hide();
+        maintenanceAddSelectLabel.animate({top: '0px'}).hide();
                 });
 
-                var startFB = $('#start');
-                var startLabel = $('#start-label');
-                startFB.focus(function()
+                var saveStartFB = $('#saveStart');
+                var saveStartLabel = $('#saveStart-label');
+                saveStartFB.focus(function()
                 {
-                    startLabel.show().animate({top: '-30px'});
+                    saveStartLabel.show().animate({top: '-30px'});
                 }).blur(function () {
-                    startLabel.animate({top: '0px'}).hide();
+                    saveStartLabel.animate({top: '0px'}).hide();
                 });
 
-                var endFB = $('#end');
-                var endLabel = $('#end-label');
-                endFB.focus(function()
+                var saveEndFB = $('#saveEnd');
+                var saveEndLabel = $('#saveEnd-label');
+                saveEndFB.focus(function()
                 {
-                    endLabel.show().animate({top: '-30px'});
+                    saveEndLabel.show().animate({top: '-30px'});
                 }).blur(function () {
-                    endLabel.animate({top: '0px'}).hide();
+                    saveEndLabel.animate({top: '0px'}).hide();
                 });
 
 
@@ -75,14 +75,33 @@ $(document).ready(function () {
                     editTitleLabel.animate({top: '0px'}).hide();
                 });
 
-                var editColorFB = $('#editColor');
-                var editColorLabel = $('#editColor-label');
-                editColorFB.focus(function()
+                var maintenanceEditSelectFB = $('#maintenanceEditSelect');
+                var maintenanceEditSelectLabel = $('#maintenanceEditSelect-label');
+                maintenanceEditSelectFB.focus(function()
                 {
-                    editColorLabel.show().animate({top: '-30px'});
+                    maintenanceEditSelectLabel.show().animate({top: '-30px'});
                 }).blur(function () {
-                    editColorLabel.animate({top: '0px'}).hide();
+                    maintenanceEditSelectLabel.animate({top: '0px'}).hide();
                 });
+
+                var editStartFB = $('#editStart');
+                var editStartLabel = $('#editStart-label');
+                 editStartFB.focus(function()
+                {
+                    editStartLabel.show().animate({top: '-30px'});
+                }).blur(function () {
+                     editStartLabel.animate({top: '0px'}).hide();
+                });
+
+                var editEndFB = $('#editEnd');
+                var editEndLabel = $('#editEnd-label');
+                editEndFB.focus(function()
+                {
+                    editEndLabel.show().animate({top: '-30px'});
+                }).blur(function () {
+                    editEndLabel.animate({top: '0px'}).hide();
+                });
+
 
 // Label End
 
@@ -287,6 +306,13 @@ $(document).ready(function () {
                        optionEdit.value='('+moment(maintenanceData[j]["maintenanceMinute"], "HH:mm").format("HH:mm")+') '+maintenanceData[j]['maintenanceTitle'];
                        optionEdit.innerText = '('+moment(maintenanceData[j]["maintenanceMinute"], "HH:mm").format("HH:mm")+') '+maintenanceData[j]["maintenanceTitle"];
                        maintenanceEdit.appendChild(optionEdit);
+
+                           var maintenanceMinute=moment(maintenanceData[j]["maintenanceMinute"], "HH:mm");//Seçilen time'ın bakım time'larından büyük olması durumumda disable edilmesi
+                           if(timeDiffMoment<maintenanceMinute)
+                           {
+                               optionEl.disabled=true;
+                               optionEdit.disabled=true;
+                           }
                        }
 
                    }
@@ -370,6 +396,17 @@ $(document).ready(function () {
                            $('#notificationAlert').show();//Bakım eklenmesi notification end
                            $('#MaintenanceAddModal').toggle('hide');//Bakım eklenmesi modal gizlenmesi start
                            $('#ModalAdd').modal('show');//Event eklenmesi modalı gösterilmesi
+
+                           var maintenanceMinute=moment(data["maintenanceMinute"], "HH:mm");//Seçilen time'ın bakım time'larından büyük olması durumumda disable edilmesi
+                           if(timeDiffMoment<maintenanceMinute)
+                           {
+                               optionEl.disabled=true;
+                           }
+                           else{
+                               optionEl.disabled=false;
+                               optionEdit.disabled=false;
+
+                           }
                         }
                     });
 
@@ -433,6 +470,19 @@ $(document).ready(function () {
                                 $('#notificationAlert').show();//Bakım eklenmesi notification end
                                 $('#MaintenanceEditModal').toggle('hide');//Bakım eklenmesi modal gizlenmesi start
                                 $('#ModalAdd').modal('show');//Event eklenmesi modalı gösterilmesi
+
+                                var maintenanceMinute=moment(data["maintenanceMinute"], "HH:mm");//Seçilen time'ın bakım time'larından büyük olması durumumda disable edilmesi
+                                if(timeDiffMoment<maintenanceMinute)
+                                {
+                                    optionEl.disabled=true;
+                                    optionEdit.disabled=true;
+                                }
+                                else{
+                                    optionEl.disabled=false;
+                                    optionEdit.disabled=false;
+
+                                }
+
                             }
                         });
 
