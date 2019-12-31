@@ -390,7 +390,12 @@ $(document).ready(function () {
                            optionEl = document.createElement('option');//Veri select'e eklenmesi start
                            optionEl.value = '('+moment(data["maintenanceMinute"], "HH:mm").format("HH:mm")+') '+data["maintenanceTitle"];
                            optionEl.innerText = '('+moment(data["maintenanceMinute"], "HH:mm").format("HH:mm")+') '+data["maintenanceTitle"];
+                           optionEdit = document.createElement('option');//Veri select'e eklenmesi start
+                           optionEdit.value = '('+moment(data["maintenanceMinute"], "HH:mm").format("HH:mm")+') '+data["maintenanceTitle"];
+                           optionEdit.innerText = '('+moment(data["maintenanceMinute"], "HH:mm").format("HH:mm")+') '+data["maintenanceTitle"];
+
                            maintenanceAdd.appendChild(optionEl);//Veri select'e eklenmesi end
+                           maintenanceEdit.appendChild(optionEdit);
                            $('#notificationAlert').addClass('alert-success').removeClass('alert-danger');//Bakım eklenmesi notification start
                            $(".notification-text").html("Maintenance Added");
                            $('#notificationAlert').show();//Bakım eklenmesi notification end
@@ -401,6 +406,7 @@ $(document).ready(function () {
                            if(timeDiffMoment<maintenanceMinute)
                            {
                                optionEl.disabled=true;
+                               optionEdit.disabled=true;
                            }
                            else{
                                optionEl.disabled=false;
@@ -419,9 +425,12 @@ $(document).ready(function () {
                   var maintenanceEditMinute;
                   var maintenanceEditSubmit=$('#maintenanceEditSubmit');
                   var maintenanceEditSelectObject;
+
                     $("#maintenanceAddSelect").change(function() {
                          maintenanceEditSelect = $("#maintenanceAddSelect option:selected").val();
                          maintenanceEditSelectObject=$('#maintenanceAddSelect option:selected');
+
+
                     });
 
                   $('#maintenanceEdit').on('dblclick',function () {
@@ -464,6 +473,7 @@ $(document).ready(function () {
 
                                 maintenanceEditSelectObject[0].selected=true;//Güncellenen verinin seçilmesi
                                 maintenanceAdd.appendChild(optionEl);//Veri select'e eklenmesi end
+                                maintenanceEdit.appendChild(optionEdit);//Veri select'e eklenmesi end
                                 maintenanceEditSelectObject[0].remove();//Seçilen Bakım türünün kaldırılması
                                 $('#notificationAlert').addClass('alert-success').removeClass('alert-danger');//Bakım eklenmesi notification start
                                 $(".notification-text").html("Maintenance Edited");
@@ -493,6 +503,7 @@ $(document).ready(function () {
             // Add Modal için Maintenance Delete
                         var maintenanceDeleteSubmit = $('#maintenanceDeleteSubmit');
                         var maintenanceDeleteTitle;
+
                         $('#maintenanceDelete').on('dblclick',function () {
 
                             $('#ModalAdd').modal('hide');
@@ -517,8 +528,18 @@ $(document).ready(function () {
                                     },//Tüm form elemanları ile birlikte eski Bakım title'i gönderilmesi
                                 dataType:'json',
                                 success:function (data) {
+                                    var maintenanceEditJquery = $('#maintenanceEditSelect option');
 
-                                    maintenanceEditSelectObject[0].remove();//Seçilen Bakım türünün kaldırılması
+                                    maintenanceEditJquery.each(function () {//Editlenmek istenen bakım türü seçiliyor.
+                                    var maintenanceEditVal= $(this).val();
+                                    var maintenanceEditVal= maintenanceEditVal.substr(8);
+                                    if(maintenanceEditVal===maintenanceDeleteTitle)
+                                        {
+                                            $(this).remove();
+                                        }
+                                    });//Seçilen Bakım türünün Edit Modal'dan kaldırılması
+                                    maintenanceEditSelectObject[0].remove();//Seçilen Bakım türünün Add Modal'dan kaldırılması
+
                                     $('#notificationAlert').addClass('alert-success').removeClass('alert-danger');//Bakım eklenmesi notification start
                                     $(".notification-text").html("Maintenance Deleted");
                                     $('#notificationAlert').show();//Bakım eklenmesi notification end

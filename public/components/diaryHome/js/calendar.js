@@ -1,9 +1,7 @@
 $(document).ready(function () {
 
 var calendar; // Calendar değişkeni Global olarak tanımlandı
-var editData; // Editleme için events parametresinden alacağımız array
 var calendarEl = document.getElementById('calendar'); // Calendar idli div'in değişkene atanması
-
 
 var localeSelectorEl = document.getElementById('locale-selector'); // Dil için seçilen dilin aktarılması için
 var today = moment().day().today; // Bugünü moment ile formatlayıp alma
@@ -86,17 +84,18 @@ initThemeChooser({
 
                                 $(this).attr('disabled', false);
                             }
-
+                            $(this).attr('selected',false);
                         }
                         else
                         {
                             $(this).attr('selected',true);
                         }
-
+                        $('#Choose').attr('selected',true);
                     });
 
                 $('#ModalAdd #saveStart').val(moment(event.start).format('YYYY-MM-DD HH:mm:ss'));
                 $('#ModalAdd #saveEnd').val(moment(event.end).format('YYYY-MM-DD HH:mm:ss'));
+
                 $('#ModalAdd').modal('show');
                 $('#editEventSubmit').prop( "disabled", true );
 
@@ -119,10 +118,10 @@ initThemeChooser({
                             message: 'Maintenance Title: '+data.maintenanceTitle +'<br>Maintenance Minute: '+data.maintenanceMinute ,
                             size: 'small',
                             callback: function (result) {
-                                console.log('This was logged in the callback: ' + result);
+
                             }
                         });
-                        console.log(data.maintenanceTitle);
+
                     }
                 });
 
@@ -135,7 +134,7 @@ initThemeChooser({
                 type: 'GET', // Send Get data
                 success:function (rawData) {
 
-                    editData=rawData;
+
                 },
                 error: function() {
                     alert('There was an error while fetching events.');
@@ -199,44 +198,44 @@ initThemeChooser({
             preventSelect: true,
             callback: function(key, options) {
                 var locale = $('#locale-selector').val();
-                var event=$(this);
-                var eventId=$(this).attr('id');
 
+                var eventId=$(this).attr('id');
+                var event = calendar.getEventById(eventId);
                 switch (key) {
                     case 'edit':
 
+                                        $('#ModalEdit #editId').val(event.id);
+                                        $('#ModalEdit #editTitle').val(event.title);
+                                        $('#ModalEdit #editStart').val(moment(event.start).format('YYYY-MM-DD HH:mm:ss'));
+                                        $('#ModalEdit #editEnd').val(moment(event.end).format('YYYY-MM-DD HH:mm:ss'));
 
-                                for(i=0;i<editData.length;i++)
-                                {
-
-                                    if(editData[i].id==eventId)
-                                    {
-
-                                        $('#ModalEdit #editId').val(eventId);
-                                        $('#ModalEdit #editTitle').val(editData[i].title);
-                                        $('#ModalEdit #editStart').val(editData[i].start);
-                                        $('#ModalEdit #editEnd').val(editData[i].end);
                                         $.ajax({
                                             url:'/dHome/getEventsJoinMaintenance',
                                             type:'get',
                                             data:{
-                                                id: editData[i].id
+                                                id: event.id
                                             },
                                            success:function (data) {
-                                               var maintenanceEdit =document.getElementById('maintenanceEditSelect');
-                                               var optionEdit;
-                                               optionEdit = document.createElement('option');
-                                               optionEdit.value = '('+moment(data.maintenanceMinute, "HH:mm").format("HH:mm")+') '+data.maintenanceTitle;
-                                               optionEdit.innerText = '('+moment(data.maintenanceMinute, "HH:mm").format("HH:mm")+') '+data.maintenanceTitle;
-                                               optionEdit.selected=true;
-                                               maintenanceEdit.appendChild(optionEdit);
+
+                                               var maintenanceEditJquery = $('#maintenanceEditSelect option');
+                                               var optionName= '('+moment(data.maintenanceMinute, "HH:mm").format("HH:mm")+') '+data.maintenanceTitle;
+                                               maintenanceEditJquery.each(function () {//Editlenmek istenen bakım türü seçiliyor.
+
+                                                   if( $(this).val()===optionName)
+                                                   {
+                                                       $(this).attr('selected',true);
+                                                   }
+                                               });
+
+
+
 
                                            }
                                         });
 
 
-                                    }
-                                }
+
+
                                 $('#ModalEdit').modal('show');
                                 $('#editEventSubmit').prop( "disabled", false );
 

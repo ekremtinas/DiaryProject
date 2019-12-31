@@ -30,7 +30,7 @@
                     <div class="form-group btn-group-sm mt-5 col-lg-10 offset-lg-1 row">
                         <label id="maintenanceAddSelect-label"  class="btn-sm scroll-home-label" for="maintenanceAddSelect">{{ __('Maintenance:') }}</label>
                         <select  autocomplete="off" data-bvalidator="required"  placeholder="Maintenance"   name="maintenanceAddSelect" class="col-lg-8 form-control btn-sm h-50  form-control btn-sm  border-light shadow-main rounded-pill " id="maintenanceAddSelect">
-                        <option selected>Choose</option>
+                        <option id="Choose" selected>Choose</option>
 
                         </select>
                         <div class="col-lg-5 row">
