@@ -1,5 +1,6 @@
 @extends('layouts.app')
 @section('title')
+
     @if(!isset(Auth::user()->email))
         <script>window.location='/dLogin';</script>
 
@@ -124,7 +125,7 @@
             trigger: 'focus'
         })
 
-        var initialLocaleCode = '<?php if(isset(Auth::user()->lang)){ echo Auth::user()->lang; } ?>'; // Local olarak default dil seçimi
+        var initialLocaleCode = '<?php if(isset(Auth::user()->lang)){ if( Auth::user()->lang==null) {echo 'en';} else{  echo Auth::user()->lang; } } ?>'; // Local olarak default dil seçimi
         function edit(event){ // Drop ve Resize Olayları için tarih güncelleme
 
             var  start = moment(event.start).format('YYYY-MM-DD HH:mm:ss');

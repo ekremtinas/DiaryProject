@@ -3,21 +3,26 @@
 namespace App\Http\Controllers\Home;
 
 use App\Http\Controllers\Controller;
+use App\Models\EventsJoinMaintenance;
 use App\Models\Maintenance;
 use Illuminate\Http\Request;
 use mysql_xdevapi\Exception;
 
 class MaintenanceController extends Controller
 {
-    public function getMaintenance()
+    public function getMaintenance(Request $request)
     {
-        try {
-            $maintenanceData = Maintenance::all();
-            return response($maintenanceData);
-        }
-        catch (Exception $e)
+        if ($request->_token==null)
         {
-            return $e;
+            abort(404);
+        }
+        else {
+            try {
+                $maintenanceData = Maintenance::all();
+                return response($maintenanceData);
+            } catch (Exception $e) {
+                return $e;
+            }
         }
     }
     public function addMaintenance(Request $request)
@@ -62,19 +67,27 @@ class MaintenanceController extends Controller
     }
     public function deleteMaintenance(Request $request)
     {
-        $this->validate($request, [
-            'maintenanceDeleteTitle' => 'required',
-        ]);
-        $data = array(
-            'maintenanceTitle' => $request->get('maintenanceDeleteTitle'),
-        );
-        try {
-            Maintenance::where($data)->delete();
-            return response($data);
-        }
-        catch (\Exception $exception)
+        if ($request==null)
         {
-            return back()->withInput()->with('error','Maintenance not deleted');
+            abort(404);
+        }
+        else {
+            $this->validate($request, [
+                'maintenanceDeleteTitle' => 'required',
+            ]);
+            $data = array(
+                'maintenanceTitle' => $request->get('maintenanceDeleteTitle'),
+            );
+            try {
+                $maintenanceId = Maintenance::where($data)->first();
+
+                EventsJoinMaintenance::where('maintenanceId', $maintenanceId['id'])->delete();
+                Maintenance::where($data)->delete();
+
+                return response($data);
+            } catch (\Exception $exception) {
+                return back()->withInput()->with('error', 'Maintenance not deleted');
+            }
         }
     }
 }

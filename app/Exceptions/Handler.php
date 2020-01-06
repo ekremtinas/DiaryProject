@@ -34,6 +34,10 @@ class Handler extends ExceptionHandler
      */
     public function report(Exception $exception)
     {
+
+           // abort(404);
+
+
         parent::report($exception);
     }
 

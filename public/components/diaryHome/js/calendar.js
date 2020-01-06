@@ -19,7 +19,7 @@ initThemeChooser({
                 right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth' // dayGridMonth: Günlerin olduğu ay,timeGridWeek:haftanın liste halinde gösterilmesi,timeGridDay:Günün saatlerinin liste(grid) halinde gösterilmesi,listMonth:Belitrilen aydaki tüm eventlerin listelenmesi
 
             },
-            defaultView:['timeGrid'],
+            defaultView:['timeGridWeek'],
             defaultDate: today, //Varsayılan tarih
             weekNumbers: true, // Hafta Numaralarının gösterilmesi
             navLinks: true, // Günlerin ayrıntısı için gerekli link
@@ -41,9 +41,8 @@ initThemeChooser({
             },
             eventClassName:'context-menu-one', // Context-Menu için eventlara class atanması
             selectable: true, //Kullanıcının tıklayıp sürükleyerek birden fazla gün veya zaman dilimini vurgulamasına izin verir.
-            selectHelper: true, // Kullanıcı sürüklerken bir “yer tutucu” etkinliği çizilip çizilmeyeceği. Eğer True dersek biraz uzaktan sürüklenerek gider.
+            selectMirror: true, // Kullanıcı sürüklerken bir “yer tutucu” etkinliği çizilip çizilmeyeceği. Eğer True dersek biraz uzaktan sürüklenerek gider.
             allDaySlot:false,//Tüm Gün Eklenmesi İptal Edilmesi
-            selectMirror:true,
             eventOverlap:false,// Günlerin Kesişmesini Engeller
 
             loading: function(bool) {
@@ -90,12 +89,12 @@ initThemeChooser({
                         {
                             $(this).attr('selected',true);
                         }
-                        $('#Choose').attr('selected',true);
+
                     });
 
                 $('#ModalAdd #saveStart').val(moment(event.start).format('YYYY-MM-DD HH:mm:ss'));
                 $('#ModalAdd #saveEnd').val(moment(event.end).format('YYYY-MM-DD HH:mm:ss'));
-
+                $('#Choose').attr('selected',true);
                 $('#ModalAdd').modal('show');
                 $('#editEventSubmit').prop( "disabled", true );
 
@@ -113,14 +112,27 @@ initThemeChooser({
                     },
                     dataType:'json',
                     success:function (data) {
-                        bootbox.alert({
-                            title: info.event.title,
-                            message: 'Maintenance Title: '+data.maintenanceTitle +'<br>Maintenance Minute: '+data.maintenanceMinute ,
-                            size: 'small',
-                            callback: function (result) {
+                        var title =info.event.title;
+                        var message='Maintenance Title: '+data.maintenanceTitle +'<br>Maintenance Minute: '+data.maintenanceMinute ;
+                        if(data.joinError)
+                        {
+                                title='Maintenance not found';
+                                message='No maintenance type assigned';
+                        }
+                        else{
+                            title =info.event.title;
+                            message='Maintenance Title: '+data.maintenanceTitle +'<br>Maintenance Minute: '+data.maintenanceMinute ;
 
-                            }
-                        });
+                        }
+
+                                bootbox.alert({
+                                    title: title,
+                                    message: message,
+                                    size: 'small',
+                                    callback: function (result) {
+
+                                    }
+                                });
 
                     }
                 });
@@ -130,7 +142,7 @@ initThemeChooser({
 
 
             events: {
-                url: '/dHome/getEvent',
+                url: '/dHome/getEvent?_token=0GTwvcp5NWn7zBVtu6lSH4R5GhTRLaCYDoJvnqNT',
                 type: 'GET', // Send Get data
                 success:function (rawData) {
 
@@ -204,6 +216,10 @@ initThemeChooser({
                 switch (key) {
                     case 'edit':
 
+
+
+
+
                                         $('#ModalEdit #editId').val(event.id);
                                         $('#ModalEdit #editTitle').val(event.title);
                                         $('#ModalEdit #editStart').val(moment(event.start).format('YYYY-MM-DD HH:mm:ss'));
@@ -217,6 +233,14 @@ initThemeChooser({
                                             },
                                            success:function (data) {
 
+                                               var maintenanceMinute=moment(data.maintenanceMinute, "HH:mm");//Seçilen time'ın bakım time'larından büyük olması durumumda disable edilmesi
+
+                                               var ms = moment(event.end, "HH:mm").diff(moment(event.start, "HH:mm"));
+                                               var d = moment.duration(ms);
+                                               var s = Math.floor(d.asHours()) + moment.utc(ms).format(":mm");
+                                               var timeDiff = '0' + s;
+                                               timeDiffMoment = moment(timeDiff, 'HH:mm');
+
                                                var maintenanceEditJquery = $('#maintenanceEditSelect option');
                                                var optionName= '('+moment(data.maintenanceMinute, "HH:mm").format("HH:mm")+') '+data.maintenanceTitle;
                                                maintenanceEditJquery.each(function () {//Editlenmek istenen bakım türü seçiliyor.
@@ -224,7 +248,23 @@ initThemeChooser({
                                                    if( $(this).val()===optionName)
                                                    {
                                                        $(this).attr('selected',true);
+
+
                                                    }
+                                                   var optionMinute=$(this).val().substr(1,5);
+
+                                                   var optionMinuteMoment= moment(optionMinute, 'HH:mm');
+
+                                                   if(timeDiffMoment<optionMinuteMoment)
+                                                   {
+
+                                                       $(this).attr('disabled',true);
+                                                   }
+                                                   else
+                                                   {
+                                                       $(this).attr('disabled',false);
+                                                   }
+
                                                });
 
 
@@ -394,7 +434,7 @@ initThemeChooser({
     });
     editEventForm.submit(function(e){
 
-        $('#editEventSubmit').prop( "disabled", true );
+      //  $('#editEventSubmit').prop( "disabled", true );
         e.preventDefault();
         $.ajaxSetup({
             headers: {
@@ -405,7 +445,7 @@ initThemeChooser({
 
         var maintenanceSelect = editEventForm.find('#maintenanceEditSelect').val();
         var maintenanceTitle = maintenanceSelect.substr(7);
-        console.log(maintenanceTitle);
+
         $.ajax({
             type: 'POST',
             url: '/dHome/editEvent',
@@ -418,32 +458,34 @@ initThemeChooser({
                 editEnd: editEventForm.find('#editEnd').val(),
                 maintenanceTitle: maintenanceTitle,
             },
-            success:function (editData) {
-                if(editData.allDay)
+            success:function (data) {
+
+                if(data.errorEdit)
                 {
 
-                    $(".notification-text").html("Event not edited because AllDay");
+                    $(".notification-text").html("Event not edited ");
                     $('#notificationAlert').addClass('alert-danger').removeClass('alert-success');
 
                 }
 
                 else {
 
-                    var event = calendar.getEventById(editData.id);
+                    var event = calendar.getEventById(data.id);
                     event.remove();
 
                     $('#ModalEdit').modal('hide');
 
                     calendar.addEvent(
                         {
-                            id: editData.id,
-                            title: editData.title,
-                            start: editData.start,
+                            id: data.id,
+                            title:data.title,
+                            start: data.start,
                             end: data.newTime
                         });
+                    $(".notification-text").html("Event edited");
+                    $('#notificationAlert').addClass('alert-success').removeClass('alert-danger');
                 }
-                $(".notification-text").html("Event edited");
-                $('#notificationAlert').addClass('alert-success').removeClass('alert-danger');
+
 
                 $('#notificationAlert').show();
             }

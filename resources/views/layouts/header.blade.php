@@ -26,7 +26,7 @@
                         @endif
                     @else
                         <li id="dropdown" class="nav-item dropdown ">
-                            <a id="navbarDropdown" class="nav-link dropdown-toggle btn-block btn-sm rounded-pill border-top-0 " href="#" role="button"  aria-haspopup="true" aria-expanded="false" v-pre>
+                            <a id="navbarDropdown" class="nav-link dropdown-toggle btn-block btn-sm rounded-lg border-top-0 " href="#" role="button"  aria-haspopup="true" aria-expanded="false" v-pre>
                                 {{ Auth::user()->name }} <span class="caret"></span>
                             </a>
 

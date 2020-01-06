@@ -12,30 +12,37 @@ class EventsJoinMaintenanceController extends Controller
 {
     public function getEventsJoinMaintenance(Request $request)
     {
-        $eventId=$request->get('id');
+        if ($request==null)
+        {
+            abort(404);
+        }
+        else {
+            $eventId = $request->get('id');
+            $eventsjoinmaintenance = null;
+            $eventsjoinmaintenanceData = array();
+            try {
+                $eventsjoinmaintenance = DB::table('events')
+                    ->join('eventsjoinmaintenance', 'events.id', '=', 'eventsjoinmaintenance.eventId')
+                    ->join('maintenance', 'maintenance.id', '=', 'eventsjoinmaintenance.maintenanceId')
+                    ->where('events.id', $eventId)->get();
 
-       try {
-           $eventsjoinmaintenance = DB::table('events')
-               ->join('eventsjoinmaintenance', 'events.id', '=', 'eventsjoinmaintenance.eventId')
-               ->join('maintenance', 'maintenance.id', '=', 'eventsjoinmaintenance.maintenanceId')
-               ->where('events.id', $eventId)->get();
+                $eventsjoinmaintenanceData = array(
+                    'maintenanceMinute' => $eventsjoinmaintenance[0]->maintenanceMinute,
+                    'maintenanceTitle' => $eventsjoinmaintenance[0]->maintenanceTitle,
+                    'eventStart' => $eventsjoinmaintenance[0]->start,
+                    'eventEnd' => $eventsjoinmaintenance[0]->end
+                );
 
-           $eventsjoinmaintenanceData = array(
-               'maintenanceMinute' => $eventsjoinmaintenance[0]->maintenanceMinute,
-               'maintenanceTitle' => $eventsjoinmaintenance[0]->maintenanceTitle,
-               'eventStart' => $eventsjoinmaintenance[0]->start,
-               'eventEnd' => $eventsjoinmaintenance[0]->end
-           );
+                return response($eventsjoinmaintenanceData);
+            } catch (\Exception $e) {
+                abort(404);
+                $eventsjoinmaintenanceData += [
+                    'joinError' => true,
+                ];
 
-           return response($eventsjoinmaintenanceData);
-       }
-       catch (\Exception $e)
-       {
-           $eventsjoinmaintenanceData+=[
-               'joinError'=>'Not Join'
-           ];
-           return response($eventsjoinmaintenanceData);
-       }
 
+                return response($eventsjoinmaintenanceData);
+            }
+        }
     }
 }

@@ -13,27 +13,41 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 
+
 class FullCalendarController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public  function index()
-    {
-        $data =array();
-        $array= Events::all();
-        foreach ($array as $row) {
-            $data[] = array(
-                'id' => $row["id"],
-                'title' => $row["title"],
-                'start' => $row["start"],
-                'end' => $row["end"],
 
-            );
-        }
-        return response($data);
+
+
+    public  function index(Request $request)
+    {
+
+             if ($request->_token==null)
+                {
+                    abort(404);
+                }
+            else {
+
+                $data = array();
+                $array = Events::all();
+                foreach ($array as $row) {
+                    $data[] = array(
+                        'id' => $row["id"],
+                        'title' => $row["title"],
+                        'start' => $row["start"],
+                        'end' => $row["end"],
+
+                    );
+                }
+                return response($data);
+            }
+
     }
 
     /**
@@ -43,6 +57,8 @@ class FullCalendarController extends Controller
      */
     public function create(Request $request)
     {
+
+
         $this->validate($request, [
             'saveTitle' => 'required',
             'saveStart' => 'required',
@@ -182,7 +198,7 @@ class FullCalendarController extends Controller
             'editTitle' => 'required',
             'editStart' => 'required',
             'editEnd' => 'required',
-            'maintenanceTitle'=>'required',
+
 
         ]);
         $event_data = array(
@@ -195,18 +211,9 @@ class FullCalendarController extends Controller
         $maintenanceTitle=$request->get('maintenanceTitle');
         $maintenanceId=Maintenance::where('maintenanceTitle',$maintenanceTitle)->first();
 
-        $editStart=$request->get('editStart');
 
-        if(Events::where('start',$editStart)->first())
-        {
-            $event_data += [
 
-                'allDay' => true
-            ];
-            return response($event_data);
-        }
 
-        else {
             if (Events::where('id', $event_data['id'])->update($event_data)) {
 
                 $eventMaintenanceData = array(
@@ -214,6 +221,8 @@ class FullCalendarController extends Controller
                     'eventId' => $event_data['id'],
                     'maintenanceId' => $maintenanceId['id'],
                 );
+
+
                 if (EventsJoinMaintenance::where('eventId',$event_data['id'])->update($eventMaintenanceData))
                 {
                     $eventsjoinmaintenance = DB::table('events')
@@ -261,9 +270,13 @@ class FullCalendarController extends Controller
 
 
              else {
-                return back()->withInput()->with('error', 'Error');
+                 $event_data += [
+
+                     'errorEdit' => true
+                 ];
+                 return response($event_data);
             }
-        }
+
     }
 
     /**
@@ -322,19 +335,24 @@ class FullCalendarController extends Controller
      */
     public function destroy($id)
     {
-        if(Events::find($id)->delete($id))
+        if($id==null)
         {
-
-
-
-            $data[]=array([
-                'id'=>$id,
-            ]);
-            return response($data);
-
+            abort(404);
         }
-        else{
-            return back()->with('error','Error');
+        else {
+            if (Events::find($id)->delete($id)) {
+                EventsJoinMaintenance::where('eventId', $id)->delete();
+
+
+                $data[] = array([
+                    'id' => $id,
+                ]);
+
+                return response($data);
+
+            } else {
+                return back()->with('error', 'Error');
+            }
         }
     }
 }

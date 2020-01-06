@@ -166,6 +166,8 @@ return [
          * Package Service Providers...
          */
         Barryvdh\Debugbar\ServiceProvider::class,
+        Fruitcake\Cors\CorsServiceProvider::class,
+
         /*
          * Application Service Providers...
          */
@@ -226,6 +228,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'DebugBar' => Barryvdh\Debugbar\Facade::class,
+
     ],
 
 ];

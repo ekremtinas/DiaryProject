@@ -1,7 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="4a8e94e8-e1f8-4c09-a043-d33f9a42353f" name="Default Changelist" comment="" />
+    <list default="true" id="4a8e94e8-e1f8-4c09-a043-d33f9a42353f" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/config/cors.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/Diary.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Diary.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Console/Kernel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Console/Kernel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Exceptions/Handler.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Exceptions/Handler.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Home/EventsJoinMaintenanceController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Home/EventsJoinMaintenanceController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Home/FullCalendarController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Home/FullCalendarController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Home/MaintenanceController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Home/MaintenanceController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/UserHome/GetUserHomeController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/UserHome/GetUserHomeController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/UserHome/PostUserHomeController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/UserHome/PostUserHomeController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Kernel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Kernel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Middleware/Authenticate.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Middleware/Authenticate.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/app.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/app.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/components/css/main.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/components/css/main.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/components/diaryHome/css/main.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/components/diaryHome/css/main.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/components/diaryHome/js/calendar.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/components/diaryHome/js/calendar.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/components/diaryHome/js/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/components/diaryHome/js/main.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/components/diaryLogin/css/main.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/components/diaryLogin/css/main.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/components/diaryProfile/css/main.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/components/diaryProfile/css/main.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/components/diaryRegister/css/main.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/components/diaryRegister/css/main.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/UserHome/userHome.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/UserHome/userHome.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/diaryHome.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/diaryHome.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/layouts/header.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/header.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -73,17 +101,7 @@
         <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
         <item name="public: schema" type="983ebcf7:PgImplModel$Schema" />
         <item name="tables" type="d4e8921:DatabaseStructure$FamilyGroup" />
-        <item name="events: table" type="69fad909:PgImplModel$LocalTable" />
-      </path>
-      <path>
-        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
-        <item name="PostgreSQL - postgres@localhost" type="feb32156:DbDataSourceImpl" />
-        <item name="databases" type="d4e8921:DatabaseStructure$FamilyGroup" />
-        <item name="diary: database" type="162271b6:PgImplModel$Database" />
-        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
-        <item name="public: schema" type="983ebcf7:PgImplModel$Schema" />
-        <item name="tables" type="d4e8921:DatabaseStructure$FamilyGroup" />
-        <item name="eventsjoinmaintenance: table" type="69fad909:PgImplModel$LocalTable" />
+        <item name="maintenance: table" type="69fad909:PgImplModel$LocalTable" />
       </path>
     </expand>
     <select />
@@ -98,6 +116,7 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="ROOT_SYNC" value="DONT_SYNC" />
   </component>
   <component name="JsFlowSettings">
     <service-enabled>true</service-enabled>
@@ -195,6 +214,10 @@
       <path value="$PROJECT_DIR$/vendor/maximebf/debugbar" />
       <path value="$PROJECT_DIR$/vendor/barryvdh/laravel-debugbar" />
       <path value="$PROJECT_DIR$/vendor/laravelcollective/html" />
+      <path value="$PROJECT_DIR$/vendor/asm89/stack-cors" />
+      <path value="$PROJECT_DIR$/vendor/symfony/error-handler" />
+      <path value="$PROJECT_DIR$/vendor/fruitcake/laravel-cors" />
+      <path value="$PROJECT_DIR$/vendor/barryvdh/laravel-cors" />
     </include_path>
   </component>
   <component name="ProjectId" id="1TYZOWobZGZZRNisZ4431KllqU2" />
@@ -203,10 +226,10 @@
     <property name="DatabaseDriversLRU" value="postgresql" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="jsx.switch.disabled" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/public/components/diaryHome/js" />
+    <property name="last_opened_file_path" value="C:/Program Files/Git/bin/git.exe" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+    <property name="settings.editor.selected.configurable" value="vcs.Git" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -217,11 +240,11 @@
       <recent name="C:\xampp\htdocs\Diary\public\components\validetta\js" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\xampp\htdocs\Diary\config" />
       <recent name="C:\xampp\htdocs\Diary\public\components\diaryHome\js" />
       <recent name="C:\xampp\htdocs\Diary\public\components" />
       <recent name="C:\xampp\htdocs\Diary\public\components\checkify" />
       <recent name="C:\xampp\htdocs\Diary\public\components\validetta" />
-      <recent name="C:\xampp\htdocs\Diary\public\components\js" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -306,7 +329,14 @@
       <workItem from="1577271325846" duration="36090000" />
       <workItem from="1577371639400" duration="13549000" />
       <workItem from="1577430248101" duration="21428000" />
-      <workItem from="1577723037508" duration="17136000" />
+      <workItem from="1577723037508" duration="19628000" />
+      <workItem from="1577792033910" duration="10617000" />
+      <workItem from="1577899020799" duration="1294000" />
+      <workItem from="1577906886708" duration="6249000" />
+      <workItem from="1577979941116" duration="19899000" />
+      <workItem from="1578052615386" duration="6318000" />
+      <workItem from="1578303995210" duration="17681000" />
+      <workItem from="1578339954259" duration="8686000" />
     </task>
     <servers />
   </component>
