@@ -19,9 +19,9 @@
                     <img class="col-5 offset-0" src="/components/img/diaryLogo.png" alt="logo">
                 </div>
                 <div   class="card fat   rounded-lg border-light shadow-main  w-100 mb-lg-5 ">
-                    <div  id='app' class="card-body ">
+                    <div  id='vueApp' class="card-body ">
                         <h4 class="card-title text-center ">User Home</h4>
-                        <form v-if="userFirstForm" id="userFirstForm" method="post">
+                        <form id="userFirstForm"  method="post">
                             @csrf
                             <div class="form-group btn-group-sm mt-5 col-lg-8 offset-lg-2">
                                 <label id="licensePlate-label"  class="btn-sm scroll-label" for="licensePlate">{{ __('License Plate:') }}</label>
@@ -66,10 +66,10 @@
 
 
 
-                    <div style="display: none;" v-if="userSecondForm" v-show="userSecondForm" id="userSecondForm">
+                    <div  style="display: none;height: 70% !important;"  id="userSecondForm">
 
 
-                        <div tabindex="-1" class="container w-75 h-50" id='top'>
+                        <div tabindex="-1" class="container w-75 h-100" id='top'>
 
                             <div class='left' hidden>
 
@@ -98,9 +98,10 @@
 
 
                             <div class='clear'></div>
-                            <div  id='calendarSecond'></div>
-                        </div>
 
+
+                            <div class="h-100" id='calendar'></div>
+                        </div>
                         <div class="offset-lg-3 col-lg-6 mt-lg-5">
                             <div class="form-group m-0 ">
                                 <button  id="appointmentButton" type="submit" class="btn btn-sm  btn-block btn-outline-danger border-light rounded-pill shadow-main">
@@ -128,11 +129,12 @@
         @section('css')
             <link rel="stylesheet" href="/components/userHome/css/main.css" >
             <link href="/components/bvalidator/themes/red/red.css" rel="stylesheet" />
+
             <link href='/components/fullcalendar/packages/core/main.css' rel='stylesheet' />
             <link href='/components/fullcalendar/packages/bootstrap/main.css' rel='stylesheet' />
             <link href='/components/fullcalendar/packages/timegrid/main.css' rel='stylesheet' />
             <link href='/components/fullcalendar/packages/daygrid/main.css' rel='stylesheet' />
-            <link href='/components/fullcalendar/packages/list/main.css' rel='stylesheet' />
+
             <style>
 
 
@@ -144,28 +146,20 @@
             <script src="/components/bvalidator/dist/jquery.bvalidator.min.js"></script>
             <script src="/components/bvalidator/themes/presenters/bValidator.DefaultPresenter.js"></script>
             <script src="/components/bvalidator/themes/red/red.js"></script>
-            <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
             <script src='/components/fullcalendar/packages/core/main.js'></script>
             <script src='/components/fullcalendar/packages/interaction/main.js'></script>
             <script src='/components/fullcalendar/packages/bootstrap/main.js'></script>
             <script src='/components/fullcalendar/packages/daygrid/main.js'></script>
             <script src='/components/fullcalendar/packages/timegrid/main.js'></script>
-            <script src='/components/fullcalendar/packages/list/main.js'></script>
             <script src='/components/fullcalendar/js/theme-chooser.js'></script>
             <script src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.js'></script>
             <script src='/components/fullcalendar/packages/core/locales-all.js'></script>
             <script>
                 $(document).ready(function () {
 
-                    var userForm=new Vue({
-                        el:'#app',
-                        data:{
-                            userFirstForm:true,
-                            userSecondForm:false,
-                            maintenanceMinuteSum:0
 
-                        }
-                    });
 
 
 
@@ -174,6 +168,8 @@
                     $('#userFirstForm').bValidator();
 
                     var userFirstForm=$('#userFirstForm');
+                    var userSecondForm=$('#userSecondForm');
+
                     userFirstForm.submit(function (e) {
                         e.preventDefault();
                         $.ajaxSetup({
@@ -190,9 +186,9 @@
                             success:function (data) {
                                 if(data!=null)
                                 {
-                                    userForm.userFirstForm=false;
-                                    userForm.userSecondForm=true;
-                                    console.log(data)
+                                    userSecondForm.show();
+                                    userFirstForm.hide();
+                                   
                                 }
 
                             }
@@ -202,22 +198,23 @@
 
 
 
-                    var calendarSecond;
-                    document.addEventListener('DOMContentLoaded', function() {
-                        var calendarSecondEl = document.getElementById('calendarSecond');
+                        var calendar;
+                        var calendarEl = document.getElementById('calendar');
                         var initialLocaleCode = 'en';
                         var localeSelectorEl = document.getElementById('locale-selector');
+                        var today = moment().day().today; // Bugünü moment ile formatlayıp alma
                         initThemeChooser({
                             init: function(themeSystem) {
-                                calendarSecond = new FullCalendar.Calendar(calendarSecondEl, {
-                                    plugins: [ 'bootstrap', 'interaction', 'dayGrid', 'timeGrid', 'list' ],
+                                calendar = new FullCalendar.Calendar(calendarEl, {
+                                    plugins: [ 'bootstrap', 'interaction', 'dayGrid', 'timeGrid' ],
                                     themeSystem: themeSystem,
                                     header: {
                                         left: 'prevYear,prev,next,nextYear today custom',
                                         center: 'title',
-                                        right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
+                                        right: 'dayGridMonth,timeGridWeek,timeGridDay'
                                     },
-                                    defaultDate: '2019-11-12',
+                                    defaultView: ['dayGridMonth'],
+                                    defaultDate: today,
                                     weekNumbers: true,
                                     navLinks: true, // can click day/week names to navigate views
                                     editable: true,
@@ -226,16 +223,70 @@
                                     selectable: true,
                                     selectMirror: true,
                                     selectHelper:true,
+                                    allDaySlot:false,//Tüm Gün Eklenmesi İptal Edilmesi
                                     select: function(event) {
-                                        $('#ModalAdd #saveStart').val(moment(event.start).format('YYYY-MM-DD HH:mm:ss'));
-                                        $('#ModalAdd #saveEnd').val(moment(event.end).format('YYYY-MM-DD HH:mm:ss'));
-                                        $('#ModalAdd').modal('show');
+                                       alert('clicked');
                                     },
-
+                                    events: [
+                                        {
+                                            title: 'All Day Event',
+                                            start: '2020-01-01'
+                                        },
+                                        {
+                                            title: 'Long Event',
+                                            start: '2019-01-07',
+                                            end: '2019-01-10'
+                                        },
+                                        {
+                                            groupId: 999,
+                                            title: 'Repeating Event',
+                                            start: '2019-08-09T16:00:00'
+                                        },
+                                        {
+                                            groupId: 999,
+                                            title: 'Repeating Event',
+                                            start: '2019-08-16T16:00:00'
+                                        },
+                                        {
+                                            title: 'Conference',
+                                            start: '2019-08-11',
+                                            end: '2019-08-13'
+                                        },
+                                        {
+                                            title: 'Meeting',
+                                            start: '2019-08-12T10:30:00',
+                                            end: '2019-08-12T12:30:00'
+                                        },
+                                        {
+                                            title: 'Lunch',
+                                            start: '2019-08-12T12:00:00'
+                                        },
+                                        {
+                                            title: 'Meeting',
+                                            start: '2019-08-12T14:30:00'
+                                        },
+                                        {
+                                            title: 'Happy Hour',
+                                            start: '2019-08-12T17:30:00'
+                                        },
+                                        {
+                                            title: 'Dinner',
+                                            start: '2019-08-12T20:00:00'
+                                        },
+                                        {
+                                            title: 'Birthday Party',
+                                            start: '2019-08-13T07:00:00'
+                                        },
+                                        {
+                                            title: 'Click for Google',
+                                            url: 'http://google.com/',
+                                            start: '2019-08-28'
+                                        }
+                                    ]
                                 });
-                                calendarSecond.render();
+                                calendar.render();
                                 // build the locale selector's options
-                                calendarSecond.getAvailableLocaleCodes().forEach(function(localeCode) {
+                                calendar.getAvailableLocaleCodes().forEach(function(localeCode) {
                                     var optionEl = document.createElement('option');
                                     optionEl.value = localeCode;
                                     optionEl.selected = localeCode == initialLocaleCode;
@@ -245,15 +296,14 @@
                                 // when the selected option changes, dynamically change the calendar option
                                 localeSelectorEl.addEventListener('change', function() {
                                     if (this.value) {
-                                        calendarSecond.setOption('locale', this.value);
+                                        calendar.setOption('locale', this.value);
                                     }
                                 });
                             },
                             change: function(themeSystem) {
-                                calendarSecond.setOption('themeSystem', themeSystem);
+                                calendar.setOption('themeSystem', themeSystem);
                             }
                         });
-                    });
 
 
 

@@ -64,7 +64,6 @@
 
     <link href='/components/diaryHome/css/main.css' rel='stylesheet' />
     <link href='/components/fullcalendar/packages/core/main.css' rel='stylesheet' />
-
     <link href='/components/fullcalendar/packages/timegrid/main.css' rel='stylesheet' />
     <link href='/components/fullcalendar/packages/daygrid/main.css' rel='stylesheet' />
     <link href='/components/fullcalendar/packages/list/main.css' rel='stylesheet' />
@@ -118,7 +117,7 @@
     </script>
     <script>
         var timeDiffMoment;//Seçilen iki time arasındaki süre
-        $(function () {
+        $(function () {//Maintenance Add,Edit,Delete Popever JS
             $('[data-toggle="popover"]').popover()
         })
         $('.popover-dismiss').popover({
