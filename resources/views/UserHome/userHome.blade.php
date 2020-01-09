@@ -12,12 +12,10 @@
 @section('content')
 
 
-    <div id="container" class="container h-100">
+    <div id="firstContainer" class="container h-100">
         <div class="row justify-content-center h-100">
-            <div class="card-wrapper ">
-                <div style="width:550px " id="image" class="brand text-center">
-                    <img class="col-5 offset-0" src="/components/img/diaryLogo.png" alt="logo">
-                </div>
+            <div class="card-wrapper col-lg-12 pt-lg-3">
+
                 <div   class="card fat   rounded-lg border-light shadow-main  w-100 mb-lg-5 ">
                     <div  id='vueApp' class="card-body ">
                         <h4 class="card-title text-center ">User Home</h4>
@@ -64,62 +62,64 @@
 
                         </form>
 
+                        <div  style='display:none' id="secondContainer">
 
 
-                    <div  style="display: none;height: 70% !important;"  id="userSecondForm">
+                            <div tabindex="-1" class="container w-75 h-100" id='top'>
 
+                                <div class='left' hidden>
 
-                        <div tabindex="-1" class="container w-75 h-100" id='top'>
+                                    <div id='theme-system-selector' class='selector'>
+                                        Theme System:
 
-                            <div class='left' hidden>
+                                        <select hidden>
+                                            <option value='bootstrap' selected></option>
+                                        </select>
+                                    </div>
 
-                                <div id='theme-system-selector' class='selector'>
-                                    Theme System:
+                                    <div data-theme-system="bootstrap" class='selector' style='display:none'>
+                                        Theme Name:
 
-                                    <select hidden>
-                                        <option value='bootstrap' selected></option>
-                                    </select>
+                                        <select hidden>
+
+                                            <option selected  value='journal'>Journal</option>
+
+                                        </select>
+                                    </div>
+
+                                    <span id='loading' style='display:none'>loading theme...</span>
+
                                 </div>
 
-                                <div data-theme-system="bootstrap" class='selector' style='display:none'>
-                                    Theme Name:
 
-                                    <select hidden>
 
-                                        <option selected  value='journal'>Journal</option>
+                                <div class='clear'></div>
+                            </div>
+                           <div class="ml-lg-3">
+                            <div class="row"><h6>License Plate: </h6> <h6 class="ml-lg-1" id="plateHtml"></h6></div>
+                            <div class="row"><h6>Total maintenance time: </h6> <h6 class="ml-lg-1" id="minuteHtml"></h6></div>
+                           </div>
+                               <div class="h-100 mt-lg-5" id='calendar'></div>
 
-                                    </select>
+                            <div class="offset-lg-3 col-lg-6 mt-lg-5">
+                                <div class="form-group m-0 ">
+                                    <button  id="appointmentButton" type="submit" class="btn btn-sm  btn-block btn-outline-danger border-light rounded-pill shadow-main">
+                                        Make an Appointment
+                                    </button>
+
                                 </div>
-
-                                <span id='loading' style='display:none'>loading theme...</span>
-
                             </div>
 
-
-
-                            <div class='clear'></div>
-
-
-                            <div class="h-100" id='calendar'></div>
-                        </div>
-                        <div class="offset-lg-3 col-lg-6 mt-lg-5">
-                            <div class="form-group m-0 ">
-                                <button  id="appointmentButton" type="submit" class="btn btn-sm  btn-block btn-outline-danger border-light rounded-pill shadow-main">
-                                    Make an Appointment
-                                </button>
-
-                            </div>
                         </div>
 
-                    </div>
+
+
 
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
-
 
 
 
@@ -157,19 +157,20 @@
             <script src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.js'></script>
             <script src='/components/fullcalendar/packages/core/locales-all.js'></script>
             <script>
+
                 $(document).ready(function () {
 
 
 
-
-
+                    var firstFormData;
 
 
                     $('#userFirstForm').bValidator();
 
                     var userFirstForm=$('#userFirstForm');
-                    var userSecondForm=$('#userSecondForm');
-
+                    var secondContainer=$('#secondContainer');
+                    var plateHtml=$('#plateHtml');
+                    var minuteHtml=$('#minuteHtml');
                     userFirstForm.submit(function (e) {
                         e.preventDefault();
                         $.ajaxSetup({
@@ -184,12 +185,12 @@
                             data:userFirstForm.serialize(),
                             dataType:'json',
                             success:function (data) {
-                                if(data!=null)
-                                {
-                                    userSecondForm.show();
+
+                                    secondContainer.show();
                                     userFirstForm.hide();
-                                   
-                                }
+                                    plateHtml.html(data.licensePlate);
+                                    minuteHtml.html(data.totalMinute);
+
 
                             }
                         });
@@ -213,76 +214,71 @@
                                         center: 'title',
                                         right: 'dayGridMonth,timeGridWeek,timeGridDay'
                                     },
-                                    defaultView: ['dayGridMonth'],
+                                    defaultView: 'dayGridMonth',
+                                    height: 900,
                                     defaultDate: today,
                                     weekNumbers: true,
                                     navLinks: true, // can click day/week names to navigate views
-                                    editable: true,
+                                    editable: false,
                                     eventLimit: true, // allow "more" link when too many events
                                     eventClassName:'context-menu-one',
                                     selectable: true,
                                     selectMirror: true,
                                     selectHelper:true,
                                     allDaySlot:false,//Tüm Gün Eklenmesi İptal Edilmesi
+                                    eventOverlap:false,// Günlerin Kesişmesini Engeller
+                                    resizable: false,
                                     select: function(event) {
-                                       alert('clicked');
+
+                                        $.ajaxSetup({
+                                            headers: {
+                                                'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+
+                                            }
+                                        });
+                                        $.ajax({
+                                            url:'{{route("eventUserAdd")}}',
+                                            type:'post',
+                                            data:{
+                                                saveTitle: plateHtml.html(),
+                                                saveStart: moment(event.start).format('YYYY-MM-DD HH:mm:ss'),
+                                                maintenanceMinute: minuteHtml.html(),
+                                                _token: '{!! csrf_token() !!}',
+                                                saveEnd: moment(event.end).format('YYYY-MM-DD HH:mm:ss')
+                                            },
+                                            dataType:'json',
+                                            success:function (data) {
+                                                calendar.addEvent(
+                                                    {
+                                                        id: data['id'],
+                                                        title: data['title'],
+                                                        start: data['start'],
+                                                        end: data['newTime']
+                                                    });
+
+                                            }
+                                        });
                                     },
-                                    events: [
-                                        {
-                                            title: 'All Day Event',
-                                            start: '2020-01-01'
+                                    events: {
+                                        url: '/getUserEvent?_token=0GTwvcp5NWn7zBVtu6lSH4R5GhTRLaCYDoJvnqNT',
+                                        type: 'GET', // Send Get data
+                                        color: 'yellow',
+                                        textColor: 'white',
+                                        success:function (rawData) {
+
+
                                         },
-                                        {
-                                            title: 'Long Event',
-                                            start: '2019-01-07',
-                                            end: '2019-01-10'
-                                        },
-                                        {
-                                            groupId: 999,
-                                            title: 'Repeating Event',
-                                            start: '2019-08-09T16:00:00'
-                                        },
-                                        {
-                                            groupId: 999,
-                                            title: 'Repeating Event',
-                                            start: '2019-08-16T16:00:00'
-                                        },
-                                        {
-                                            title: 'Conference',
-                                            start: '2019-08-11',
-                                            end: '2019-08-13'
-                                        },
-                                        {
-                                            title: 'Meeting',
-                                            start: '2019-08-12T10:30:00',
-                                            end: '2019-08-12T12:30:00'
-                                        },
-                                        {
-                                            title: 'Lunch',
-                                            start: '2019-08-12T12:00:00'
-                                        },
-                                        {
-                                            title: 'Meeting',
-                                            start: '2019-08-12T14:30:00'
-                                        },
-                                        {
-                                            title: 'Happy Hour',
-                                            start: '2019-08-12T17:30:00'
-                                        },
-                                        {
-                                            title: 'Dinner',
-                                            start: '2019-08-12T20:00:00'
-                                        },
-                                        {
-                                            title: 'Birthday Party',
-                                            start: '2019-08-13T07:00:00'
-                                        },
-                                        {
-                                            title: 'Click for Google',
-                                            url: 'http://google.com/',
-                                            start: '2019-08-28'
+                                        error: function() {
+                                            alert('There was an error while fetching events.');
                                         }
-                                    ]
+                                    },
+                                    eventRender: function(info) {
+
+                                        $(info.el).attr("id",info.event.id).addClass('context-class');
+
+
+
+                                    }
                                 });
                                 calendar.render();
                                 // build the locale selector's options

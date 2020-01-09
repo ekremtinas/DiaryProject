@@ -45,6 +45,7 @@ class FullCalendarController extends Controller
 
                     );
                 }
+
                 return response($data);
             }
 
@@ -63,7 +64,6 @@ class FullCalendarController extends Controller
             'saveTitle' => 'required',
             'saveStart' => 'required',
             'saveEnd' => 'required',
-            'maintenanceTitle'=>'required',
         ]);
         $event_data = array(
 
@@ -126,26 +126,8 @@ class FullCalendarController extends Controller
                         $eventStartJoinMaintenanceTimeFormat = date('Y-m-d H:i:s', $eventStartJoinMaintenanceTime);
 
 
-                         $queryEventUpdate= Events::where($event_data)->update(['end' => $eventStartJoinMaintenanceTimeFormat]);
 
-
-                     /*   $eventsTimeSmall = Events::select('end')->where('end','<',$saveEnd)->orderBy('end', 'desc')->first();;
-                        $eventsTimeBig = Events::select('start')->where('start','',$eventStartJoinMaintenanceTimeFormat)->orderBy('start', 'asc')->first();;
-
-
-                        if(isset($eventsTimeBig['start']))
-                        {
-
-                            \DebugBar::info($eventsTimeSmall['end'].' - betweeen - '.$eventsTimeBig['start']);
-                            $event_data += [
-
-                                'conflict' => true
-                            ];
-                            return response($event_data);
-                        }*/
-
-
-
+                        Events::where($event_data)->update(['end' => $eventStartJoinMaintenanceTimeFormat]);
 
 
 

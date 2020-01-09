@@ -144,6 +144,8 @@ initThemeChooser({
             events: {
                 url: '/dHome/getEvent?_token=0GTwvcp5NWn7zBVtu6lSH4R5GhTRLaCYDoJvnqNT',
                 type: 'GET', // Send Get data
+                color: 'yellow',
+                textColor: 'white',
                 success:function (rawData) {
 
 

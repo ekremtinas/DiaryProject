@@ -13,8 +13,8 @@
 //User Home
 Route::get('/','UserHome\GetUserHomeController@index')->name('userHomeGet');
 Route::post('/','UserHome\PostUserHomeController@index')->name('userFirstFormPost');
-Route::post('/userSecondFormPost','UserHome\PostUserHomeController@create')->name('userSecondFormPost');//FullCalendar Event Ekleme
-
+Route::get('/getUserEvent', 'Home\FullCalendarController@index')->name('eventUserGet');
+Route::post('/addUserEvent', 'UserHome\PostUserHomeController@create')->name('eventUserAdd');//FullCalendar Event Ekleme
 
 
 //Login Route
