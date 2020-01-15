@@ -27,24 +27,35 @@
                     </div>
 
 
-                    <div class="form-group btn-group-sm mt-5 col-lg-10 offset-lg-1 row">
-                        <label id="maintenanceAddSelect-label"  class="btn-sm scroll-home-label" for="maintenanceAddSelect">{{ __('Maintenance:') }}</label>
-                        <select  autocomplete="off" data-bvalidator="required"  placeholder="Maintenance"   name="maintenanceAddSelect" class="col-lg-8 form-control btn-sm h-50  form-control btn-sm  border-light shadow-main rounded-pill " id="maintenanceAddSelect">
-                        <option id="Choose" selected>Choose</option>
-
-                        </select>
-                        <div class="col-lg-5 row">
-                            <div class="col-lg-1 offset-lg-2">  <button id="maintenanceAdd" type="button" class=" btn btn-success btn-sm small-btn-size fa fa-plus p-1" data-toggle="popover"  data-content="
+                    <div class="form-group btn-group-sm mt-5 col-lg-10 offset-lg-1 ">
+                        <div class="col-lg-10 row ">
+                            <div class="col-lg-1 offset-lg-3">  <button id="maintenanceAdd" type="button" class=" btn btn-success btn-sm small-btn-size fa fa-plus " data-toggle="popover"  data-content="
                             Double-click if you want to add maintenance type" data-placement="bottom" data-trigger="focus" title="Maintenance Add"  ></button>
                             </div>
-                            <div class="col-lg-1">    <button id="maintenanceEdit" type="button" class=" btn btn-info  btn-sm small-btn-size fa fa-pencil p-1"  data-toggle="popover"  data-content="
+                            <div class="col-lg-1 offset-lg-2">    <button id="maintenanceEdit" type="button" class=" btn btn-info  btn-sm small-btn-size fa fa-pencil "  data-toggle="popover"  data-content="
                              If you want to edit the type of maintenance. Select from the side and double-click" data-placement="bottom" data-trigger="focus" title="Maintenance Edit"></button>
                             </div>
-                            <div class="col-lg-1">  <button id="maintenanceDelete" type="button" class=" btn btn-danger btn-sm small-btn-size fa fa-trash p-1"  data-toggle="popover"  data-content="
+                            <div class="col-lg-1 offset-lg-2">  <button id="maintenanceDelete" type="button" class=" btn btn-danger btn-sm small-btn-size fa fa-trash "  data-toggle="popover"  data-content="
 
                             If you want to delete the type of maintenance. Select from the side and double-click" data-placement="bottom" data-trigger="focus" title="Maintenance Delete"></button>
                             </div>
                         </div>
+                        <table id="maintenanceTable" style="border-radius: 1rem; !important;" class="table table-responsive-lg table-borderless  btn-sm shadow-main">
+                            <tr>
+                                <td ><b>Maintenance type</b></td>
+
+                                <td><b>Choose</b></td>
+                            </tr>
+
+
+
+
+
+
+                        </table>
+
+
+
 
 
                     </div>

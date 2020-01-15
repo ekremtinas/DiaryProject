@@ -70,51 +70,7 @@ primary:not(:disabled):not(.disabled).active {
     border-color: #369 !important;
     border-radius: 50rem !important;
 }
-.context-menu-item {
-    position: relative;
-    -webkit-box-sizing: content-box;
-    -moz-box-sizing: content-box;
-    box-sizing: content-box;
-    padding: .2em 2em;
-    color: #0c5460 !important;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    background-color: #fff;
-}
-.context-menu-item:hover{
-    position: relative;
-    -webkit-box-sizing: content-box;
-    -moz-box-sizing: content-box;
-    box-sizing: content-box;
-    padding: .2em 2em;
-    color: #fff !important;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    background-color: #0c5460 !important;
-}
-.context-menu-icon::before {
-    position: absolute;
-    top: 50%;
-    left: 0;
-    width: 2em;
-    font-family: context-menu-icons;
-    font-size: 1em;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 1;
-    color: #000 !important;
-    text-align: center;
-    -webkit-transform: translateY(-50%);
-    -ms-transform: translateY(-50%);
-    -o-transform: translateY(-50%);
-    transform: translateY(-50%);
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-}
+
 .scroll-home-label{
     z-index: -1 !important;
     position: absolute !important;
@@ -153,6 +109,8 @@ primary:not(:disabled):not(.disabled).active {
     -webkit-transition: all 0.4s ease-out;  /* Saf3.2+, Chrome */
     -ms-transition: all 0.4s ease-out;  /* IE10? */
     transition: all 0.4s ease-out;
+    z-index: 999;
+
 }
 .fc-popover {
     position:absolute !important;

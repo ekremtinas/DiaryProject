@@ -301,21 +301,10 @@ $(document).ready(function () {
                        for(j=0;j<maintenanceData.length;j++)
                        {
 
-                       optionEl = document.createElement('option');
-                       optionEl.value = '('+moment(maintenanceData[j]["maintenanceMinute"], "HH:mm").format("HH:mm")+') '+maintenanceData[j]["maintenanceTitle"];
-                       optionEl.innerText = '('+moment(maintenanceData[j]["maintenanceMinute"], "HH:mm").format("HH:mm")+') '+maintenanceData[j]["maintenanceTitle"];
-                       maintenanceAdd.appendChild(optionEl);
-                       optionEdit = document.createElement('option');
-                       optionEdit.value='('+moment(maintenanceData[j]["maintenanceMinute"], "HH:mm").format("HH:mm")+') '+maintenanceData[j]['maintenanceTitle'];
-                       optionEdit.innerText = '('+moment(maintenanceData[j]["maintenanceMinute"], "HH:mm").format("HH:mm")+') '+maintenanceData[j]["maintenanceTitle"];
-                       maintenanceEdit.appendChild(optionEdit);
+                        var maintenance ='('+moment(maintenanceData[j]["maintenanceMinute"], "HH:mm").format("HH:mm")+') '+maintenanceData[j]["maintenanceTitle"];
+                       $('#maintenanceTable').append( '<tr style="line-height: 1px !important;" class="maintenanceRow" ><td  class="checkboxMaintenance">'+maintenance+'</td> <td ><input class="checkboxMaintenanceInput custom-checkbox form-check" type="checkbox" value="'+maintenance+'"  name="maintenance[]" ></td></tr>');
 
-                           var maintenanceMinute=moment(maintenanceData[j]["maintenanceMinute"], "HH:mm");//Seçilen time'ın bakım time'larından büyük olması durumumda disable edilmesi
-                           if(timeDiffMoment<maintenanceMinute)
-                           {
-                               optionEl.disabled=true;
-                               optionEdit.disabled=true;
-                           }
+
                        }
 
                    }
@@ -390,32 +379,16 @@ $(document).ready(function () {
                        dataType:'json',
                        success:function (data) {
 
-                           optionEl = document.createElement('option');//Veri select'e eklenmesi start
-                           optionEl.value = '('+moment(data["maintenanceMinute"], "HH:mm").format("HH:mm")+') '+data["maintenanceTitle"];
-                           optionEl.innerText = '('+moment(data["maintenanceMinute"], "HH:mm").format("HH:mm")+') '+data["maintenanceTitle"];
-                           optionEdit = document.createElement('option');//Veri select'e eklenmesi start
-                           optionEdit.value = '('+moment(data["maintenanceMinute"], "HH:mm").format("HH:mm")+') '+data["maintenanceTitle"];
-                           optionEdit.innerText = '('+moment(data["maintenanceMinute"], "HH:mm").format("HH:mm")+') '+data["maintenanceTitle"];
+                           var maintenance  = '('+moment(data["maintenanceMinute"], "HH:mm").format("HH:mm")+') '+data["maintenanceTitle"];
+                           $('#maintenanceTable').append('<tr style="line-height: 1px !important;" class="maintenanceRow" ><td  class="checkboxMaintenance">'+maintenance+'</td> <td ><input class="checkboxMaintenanceInput custom-checkbox form-check" type="checkbox" value="'+maintenance+'"  name="maintenance[]" ></td></tr>');
 
-                           maintenanceAdd.appendChild(optionEl);//Veri select'e eklenmesi end
-                           maintenanceEdit.appendChild(optionEdit);
+
                            $('#notificationAlert').addClass('alert-success').removeClass('alert-danger');//Bakım eklenmesi notification start
                            $(".notification-text").html("Maintenance Added");
                            $('#notificationAlert').show();//Bakım eklenmesi notification end
                            $('#MaintenanceAddModal').toggle('hide');//Bakım eklenmesi modal gizlenmesi start
                            $('#ModalAdd').modal('show');//Event eklenmesi modalı gösterilmesi
 
-                           var maintenanceMinute=moment(data["maintenanceMinute"], "HH:mm");//Seçilen time'ın bakım time'larından büyük olması durumumda disable edilmesi
-                           if(timeDiffMoment<maintenanceMinute)
-                           {
-                               optionEl.disabled=true;
-                               optionEdit.disabled=true;
-                           }
-                           else{
-                               optionEl.disabled=false;
-                               optionEdit.disabled=false;
-
-                           }
                         }
                     });
 
@@ -424,28 +397,25 @@ $(document).ready(function () {
 
         // Edit Ajax
 
-                  var maintenanceEditSelect;
-                  var maintenanceEditTitle;
-                  var maintenanceEditMinute;
+
                   var maintenanceEditSubmit=$('#maintenanceEditSubmit');
-                  var maintenanceEditSelectObject;
-                  var maintenanceEditFormSelect;
-                    $("#maintenanceAddSelect").change(function() {//Add Modal'da ki selectin seçilmesi işlemi
-                         maintenanceEditSelect = $("#maintenanceAddSelect option:selected").val();//Bakım Türü değiştirildiğinde Add Modal'da ki selectin değiştirilmesi için
-                         maintenanceEditSelectObject=$('#maintenanceAddSelect option:selected');
-                         maintenanceEditFormSelect=$('#maintenanceEditSelect option');//Edit Modal'da ki select'in değiştirilmesi için
-
-                    });
-
+                  var maintenanceChekbox=null;
+                  var maintenanceEditTitle =null;
+                  var maintenanceEditMinute =null;
                   $('#maintenanceEdit').on('dblclick',function () {//Bakım türü modalında ki edit butonuna çift tıklama
                       $('#ModalAdd').modal('hide');
                       $('#MaintenanceEditModal').toggle('show');
-                      maintenanceEditMinute=maintenanceEditSelect.substr(1, 5);//Seçilen select'ten time'ın ayrıştırılması
-                      maintenanceEditTitle=maintenanceEditSelect.substr(7);//Seçilen select'ten title'ın ayrıştırılması
-                      $('#maintenanceEditTitle').val(maintenanceEditTitle);//Bakım türü modalında ki title inputuna seçilen title eklenmesi
-                      $('#maintenanceEditMinute').val(maintenanceEditMinute);//Bakım türü modalında ki time inputuna seçilen time eklenmesi
-                      maintenanceEditSubmit.prop( "disabled", false );//Bakım türü modalında ki submit enable edilmesi
+                      $.each($("input[name='maintenance[]']:checked"), function(){//Checkbox'ın seçilmesi
+
+                          maintenanceChekbox=$(this).val();
+                      });
+                      maintenanceEditTitle = maintenanceChekbox.substr(8);
+                      maintenanceEditMinute = maintenanceChekbox.substr(1,5);
+                     $('#MaintenanceEditModal #maintenanceEditTitle').val(maintenanceEditTitle);
+                      $('#MaintenanceEditModal #maintenanceEditMinute').val(maintenanceEditMinute);
+                     maintenanceEditSubmit.prop( "disabled", false );//Bakım türü modalında ki submit enable edilmesi
                   });
+
 
                     var maintenanceEditForm=$('#maintenanceEditForm');//Bakım türü modalında ki form'un değişkene atılması
 
@@ -466,25 +436,11 @@ $(document).ready(function () {
                             data: maintenanceEditForm.serialize()+ "&maintenanceEditTitleOld=" + maintenanceEditTitle,//Tüm form elemanları ile birlikte eski Bakım title'i gönderilmesi
                             dataType:'json',
                             success:function (data) {
-                                optionEl = document.createElement('option');//Veri select'e eklenmesi start
-                                optionEl.value = '('+moment(data["maintenanceMinute"], "HH:mm").format("HH:mm")+') '+data["maintenanceTitle"];
-                                optionEl.innerText = '('+moment(data["maintenanceMinute"], "HH:mm").format("HH:mm")+') '+data["maintenanceTitle"];
-                                var optionEdit = '('+moment(data["maintenanceMinute"], "HH:mm").format("HH:mm")+') '+data["maintenanceTitle"];
-                                maintenanceEditSelectObject[0].selected=true;//Güncellenen verinin seçilmesi
-                                maintenanceAdd.appendChild(optionEl);//Veri select'e eklenmesi end
-                                maintenanceEditSelectObject[0].remove();//Seçilen Bakım türünün kaldırılması
-
-                                maintenanceEditFormSelect.each(function () {//Edit modal'da ki select'in optionlarının gezilmesi
-
-                                    if($(this).val()===maintenanceEditSelect)//option seçilen değer ile eş ise
-                                    {
-
-                                        $(this).val(optionEdit);//Option verinin değiştirilmesi
-                                        $(this).html(optionEdit);//Option html değiştirilmesi
-
-                                    }
-                                });
-
+                                $.each($("input[name='maintenance[]']:checked"), function(){//Seçilen checkbox'ın 2 üst elemanının gizlenmesi
+                                    $(this).parent().parent().hide();
+                                    });
+                               var maintenance  = '('+moment(data["maintenanceMinute"], "HH:mm").format("HH:mm")+') '+data["maintenanceTitle"];
+                                $('#maintenanceTable').append('<tr style="line-height: 1px !important;" class="maintenanceRow" ><td  class="checkboxMaintenance">'+maintenance+'</td> <td ><input class="checkboxMaintenanceInput custom-checkbox form-check" type="checkbox" value="'+maintenance+'"  name="maintenance[]" ></td></tr>');
 
                                 $('#notificationAlert').addClass('alert-success').removeClass('alert-danger');//Bakım eklenmesi notification start
                                 $(".notification-text").html("Maintenance Edited");
@@ -492,17 +448,7 @@ $(document).ready(function () {
                                 $('#MaintenanceEditModal').toggle('hide');//Bakım eklenmesi modal gizlenmesi start
                                 $('#ModalAdd').modal('show');//Event eklenmesi modalı gösterilmesi
 
-                                var maintenanceMinute=moment(data["maintenanceMinute"], "HH:mm");//Seçilen time'ın bakım time'larından büyük olması durumumda disable edilmesi
-                                if(timeDiffMoment<maintenanceMinute)//Seçilen time farkının optionlarda ki time'lardan küçük olursa optionlar disable olmazsa enable edilir.
-                                {
-                                    optionEl.disabled=true;
-                                    optionEdit.disabled=true;
-                                }
-                                else{
-                                    optionEl.disabled=false;
-                                    optionEdit.disabled=false;
 
-                                }
 
                             }
                         });
@@ -514,13 +460,18 @@ $(document).ready(function () {
             // Add Modal için Maintenance Delete
                         var maintenanceDeleteSubmit = $('#maintenanceDeleteSubmit');
                         var maintenanceDeleteTitle;
-
+                        var maintenanceChekbox;
                         $('#maintenanceDelete').on('dblclick',function () {
 
                             $('#ModalAdd').modal('hide');
                             $('#MaintenanceDeleteModal').toggle('show');
-                            $('#maintenanceDeleteSelect').html(maintenanceEditSelect);
-                            maintenanceDeleteTitle=maintenanceEditSelect.substr(8);
+                            $.each($("input[name='maintenance[]']:checked"), function(){
+                                maintenanceChekbox=$(this).val();
+                            });
+                            maintenanceDeleteTitle = maintenanceChekbox.substr(8);
+                             $('#MaintenanceDeleteModal #maintenanceDeleteSelect').html(maintenanceDeleteTitle);
+
+
                             maintenanceDeleteSubmit.prop( "disabled", false );
                         });
 
@@ -539,17 +490,10 @@ $(document).ready(function () {
                                     },//Tüm form elemanları ile birlikte eski Bakım title'i gönderilmesi
                                 dataType:'json',
                                 success:function (data) {
-                                    var maintenanceEditJquery = $('#maintenanceEditSelect option');
 
-                                    maintenanceEditJquery.each(function () {//Editlenmek istenen bakım türü seçiliyor.
-                                    var maintenanceEditVal= $(this).val();
-                                    var maintenanceEditVal= maintenanceEditVal.substr(8);
-                                    if(maintenanceEditVal===maintenanceDeleteTitle)
-                                        {
-                                            $(this).remove();
-                                        }
-                                    });//Seçilen Bakım türünün Edit Modal'dan kaldırılması
-                                    maintenanceEditSelectObject[0].remove();//Seçilen Bakım türünün Add Modal'dan kaldırılması
+                                    $.each($("input[name='maintenance[]']:checked"), function(){
+                                        $(this).parent().parent().hide();
+                                    });
 
                                     $('#notificationAlert').addClass('alert-success').removeClass('alert-danger');//Bakım eklenmesi notification start
                                     $(".notification-text").html("Maintenance deleted");

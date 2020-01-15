@@ -10,12 +10,13 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::group(['middleware' => ['Cors']], function () {
 //User Home
 Route::get('/','UserHome\GetUserHomeController@index')->name('userHomeGet');
 Route::post('/','UserHome\PostUserHomeController@index')->name('userFirstFormPost');
 Route::get('/getUserEvent', 'Home\FullCalendarController@index')->name('eventUserGet');
 Route::post('/addUserEvent', 'UserHome\PostUserHomeController@create')->name('eventUserAdd');//FullCalendar Event Ekleme
-
+Route::post('/dropUserEvent', 'Home\FullCalendarController@editTime')->name('eventUserDrop');
 
 //Login Route
 
@@ -50,7 +51,7 @@ Route::get('/dLogout','GetHomeController@logout')->name('homeLogout');
 //EventsJoinMaintenance
     Route::get('/dHome/getEventsJoinMaintenance', 'Home\EventsJoinMaintenanceController@getEventsJoinMaintenance')->name('getEventsJoinMaintenanceGet');
 
-    Route::group(['middleware' => ['Cors']], function () {
+
 //Diary Home Full Calendar POST
         Route::post('/dHome/addEvent', 'Home\FullCalendarController@create')->name('addEventPost');
         Route::post('/dHome/dropEvent', 'Home\FullCalendarController@editTime')->name('dropEventGet');
@@ -59,7 +60,7 @@ Route::get('/dLogout','GetHomeController@logout')->name('homeLogout');
         Route::post('/dHome/addMaintenance', 'Home\MaintenanceController@addMaintenance')->name('addMaintenancePost');
         Route::post('/dHome/editMaintenance', 'Home\MaintenanceController@editMaintenance')->name('editMaintenancePost');
 
-    });
+
 
 
 
@@ -67,4 +68,5 @@ Route::get('/dLogout','GetHomeController@logout')->name('homeLogout');
         Route::get('/userProfile','Profile\GetProfileController@index')->name('userProfileGet');
         Route::post('/userProfile','Profile\PostProfileController@index')->name('userProfilePost');
 
+});
 });

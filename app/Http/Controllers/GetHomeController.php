@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 
 class GetHomeController extends Controller
 {
+
     public function index(){
         return view('diaryHome');
     }

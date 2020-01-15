@@ -23,7 +23,7 @@ class Cors
     {
 
             return $next($request)
-                ->header('Response-Time', microtime(true) - $this->startTime)
+                ->header('Response-Time', date(microtime(true) - $this->startTime)*1000)
                 ->header('Access-Control-Allow-Origin', "*")
                 ->header('Access-Control-Allow-Credentials', 'true')
                 ->header('Access-Control-Allow-Method', "PUT,POST,GET,DELETE,OPTIONS")

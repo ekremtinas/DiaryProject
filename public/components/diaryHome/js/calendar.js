@@ -375,20 +375,13 @@ initThemeChooser({
 
             }
         });
-        var maintenanceSelect = addEventForm.find('#maintenanceAddSelect').val();
-        var maintenanceTitle = maintenanceSelect.substr(7);
+
 
         $.ajax({
             type: 'POST',
             url: '/dHome/addEvent',
             dataType:"json",
-            data: {
-                saveTitle: addEventForm.find('#saveTitle').val(),
-                saveStart: addEventForm.find('#saveStart').val(),
-                maintenanceTitle: maintenanceTitle,
-                _token: addEventForm.find('#_token').val(),
-                saveEnd: addEventForm.find('#saveEnd').val()
-            },
+            data: addEventForm.serialize() ,
             success:function (data) {
                 if(data.allDay)
                 {

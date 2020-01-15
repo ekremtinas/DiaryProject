@@ -22,8 +22,8 @@
                         <form id="userFirstForm"  method="post">
                             @csrf
                             <div class="form-group btn-group-sm mt-5 col-lg-8 offset-lg-2">
-                                <label id="licensePlate-label"  class="btn-sm scroll-label" for="licensePlate">{{ __('License Plate:') }}</label>
-                                <input id="licensePlate" data-bvalidator="required" type="text" class="form-control btn-sm  border-light shadow-main rounded-pill @error('licensePlate') is-invalid @enderror "  value="{{ old('licensePlate') }}"   autocomplete="off"   placeholder="License Plate"  name="licensePlate"  >
+                                <label id="licensePlate-label"  class="col-lg-6 offset-lg-3 btn-sm scroll-home-label" for="licensePlate">{{ __('License Plate:') }}</label>
+                                <input id="licensePlate" data-bvalidator="required" type="text" class="col-lg-6 offset-lg-3 form-control btn-sm  border-light shadow-main rounded-pill @error('licensePlate') is-invalid @enderror "  value="{{ old('licensePlate') }}"   autocomplete="off"   placeholder="License Plate"  name="licensePlate"  >
                                 @error('licensePlate')
                                 <span  id="licensePlate-alert" class="licensePlate-alert invalid-feedback alert-size pl-3 ml-2 rounded-pill alert-danger col-10 " role="alert">
                                         <strong>{{ $message }}</strong>
@@ -34,23 +34,25 @@
                             </div>
 
 
-                            <div class="form-group btn-group-sm mt-5 col-lg-8 offset-lg-2">
+                            <div class="form-group btn-group-sm mt-5 col-lg-6 offset-lg-3">
                             <table id="maintenanceTable" style="border-radius: 1rem; !important;" class="table table-responsive-lg table-borderless  btn-sm shadow-main">
                                 <tr>
-                                    <td >Maintenance type</td>
+                                    <td ><b>Maintenance type</b></td>
 
-                                    <td>Choose</td>
+                                    <td><b>Choose</b></td>
                                 </tr>
-                                @foreach($maintenance as $row)
-                                <tr style="line-height: 3px">
+
+                                @foreach($maintenance ?? '' as $row)
+                                <tr style="line-height: 1px !important;" >
                                     <td  >({{$row->maintenanceMinute}}) {{$row->maintenanceTitle}}</td>
 
-                                    <td ><input class="custom-checkbox form-check" type="checkbox" value="({{$row->maintenanceMinute}}) ({{$row->id}})" name="maintenance[]" ></td>
+                                    <td ><input  class="custom-checkbox form-check" type="checkbox" value="({{$row->maintenanceMinute}}) ({{$row->id}})" name="maintenance[]" ></td>
                                 </tr>
-                                @endforeach
+                                     @endforeach
+
                             </table>
                             </div>
-                            <div class="offset-lg-3 col-lg-6 mt-lg-5">
+                            <div class="offset-lg-4 col-lg-4 mt-lg-5">
 
                                 <div class="form-group m-0 ">
                                     <button  id="goOnButton" type="submit" class="btn btn-sm  btn-block btn-outline-danger border-light rounded-pill shadow-main">
@@ -122,13 +124,19 @@
     </div>
 
 
-
+    <div id="notificationAlert" style="display: none;" class=" alert-size notification alert alert-success alert-block col-3 rounded-pill btn-sm">
+        <button id="notificationHide" class="close alert-size"  type="button">
+            x
+        </button>
+        <strong class="notification-text"></strong>
+    </div>
 
 
         @endsection
         @section('css')
             <link rel="stylesheet" href="/components/userHome/css/main.css" >
             <link href="/components/bvalidator/themes/red/red.css" rel="stylesheet" />
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-contextmenu/2.7.1/jquery.contextMenu.min.css">
 
             <link href='/components/fullcalendar/packages/core/main.css' rel='stylesheet' />
             <link href='/components/fullcalendar/packages/bootstrap/main.css' rel='stylesheet' />
@@ -146,7 +154,8 @@
             <script src="/components/bvalidator/dist/jquery.bvalidator.min.js"></script>
             <script src="/components/bvalidator/themes/presenters/bValidator.DefaultPresenter.js"></script>
             <script src="/components/bvalidator/themes/red/red.js"></script>
-
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-contextmenu/2.7.1/jquery.contextMenu.min.js" defer></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.3.2/bootbox.js" defer></script>
 
             <script src='/components/fullcalendar/packages/core/main.js'></script>
             <script src='/components/fullcalendar/packages/interaction/main.js'></script>
@@ -161,6 +170,33 @@
                 $(document).ready(function () {
 
 
+                    if (window.history && window.history.pushState) {
+
+                        window.history.pushState('forward', null, './#forward');
+
+                        $(window).on('popstate', function() {
+                            bootbox.confirm({
+                                    message: "The transactions were not completed.Are you sure you want to quit?",
+                                    size: 'small',
+                                    buttons: {
+                                        confirm: {
+                                            label: 'Yes',
+                                            className: 'btn-success'
+                                        },
+                                        cancel: {
+                                            label: 'No',
+                                            className: 'btn-danger'
+                                        }
+                                    },
+                                    callback: function (result) {
+
+                                    }
+                                }
+
+                            );
+                        });
+
+                    }
 
                     var firstFormData;
 
@@ -192,13 +228,18 @@
                                     minuteHtml.html(data.totalMinute);
 
 
+                            },
+                            error:function (error) {
+                                $(".notification-text").html("Please select the type of care");
+                                $('#notificationAlert').addClass('alert-danger').removeClass('alert-success');
+                                $('#notificationAlert').show();
                             }
                         });
 
                     });
 
 
-
+                         var i=1;
                         var calendar;
                         var calendarEl = document.getElementById('calendar');
                         var initialLocaleCode = 'en';
@@ -214,55 +255,82 @@
                                         center: 'title',
                                         right: 'dayGridMonth,timeGridWeek,timeGridDay'
                                     },
-                                    defaultView: 'dayGridMonth',
-                                    height: 900,
+                                    defaultView: 'dayGridMonth',//Varsayılan Grid
+                                    height: 900,//Yüksekliğinin default olarak belirlenmesi silinmesi ve değiştirilmesi sonucunda calendarın tamamı görünmeyebilir
                                     defaultDate: today,
-                                    weekNumbers: true,
+                                    weekNumbers: true,//Hafta Numaraları Gösterilmesi
                                     navLinks: true, // can click day/week names to navigate views
-                                    editable: false,
+                                    editable: false,//Eventler değiştirilemez
                                     eventLimit: true, // allow "more" link when too many events
-                                    eventClassName:'context-menu-one',
-                                    selectable: true,
-                                    selectMirror: true,
-                                    selectHelper:true,
+
+                                    selectable: true,//Event seçilip eklenebilir
+                                    selectMirror: true,// Kullanıcı sürüklerken bir “yer tutucu” etkinliği çizilip çizilmeyeceği. Eğer True dersek biraz uzaktan sürüklenerek gider.
+                                    selectHelper:true,// Kullanıcı sürüklerken bir “yer tutucu” etkinliği çizilip çizilmeyeceği. Eğer True dersek biraz uzaktan sürüklenerek gider.
                                     allDaySlot:false,//Tüm Gün Eklenmesi İptal Edilmesi
                                     eventOverlap:false,// Günlerin Kesişmesini Engeller
-                                    resizable: false,
+                                    resizable: false,//Boyutunun değiştirilmesini engelleme
+                                    businessHours: { //Sınırlama işlemlerinin yapılması
+                                        // days of week. an array of zero-based day of week integers (0=Sunday)
+                                        daysOfWeek: [ 1, 2, 3, 4,5], // Monday - Thursday
+
+                                        startTime: '10:00', // a start time (10am in this example)
+                                        endTime: '18:00', // an end time (6pm in this example)
+                                    },
                                     select: function(event) {
 
-                                        $.ajaxSetup({
-                                            headers: {
-                                                'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
 
-                                            }
-                                        });
-                                        $.ajax({
-                                            url:'{{route("eventUserAdd")}}',
-                                            type:'post',
-                                            data:{
-                                                saveTitle: plateHtml.html(),
-                                                saveStart: moment(event.start).format('YYYY-MM-DD HH:mm:ss'),
-                                                maintenanceMinute: minuteHtml.html(),
-                                                _token: '{!! csrf_token() !!}',
-                                                saveEnd: moment(event.end).format('YYYY-MM-DD HH:mm:ss')
-                                            },
-                                            dataType:'json',
-                                            success:function (data) {
-                                                calendar.addEvent(
-                                                    {
-                                                        id: data['id'],
-                                                        title: data['title'],
-                                                        start: data['start'],
-                                                        end: data['newTime']
-                                                    });
+                                        if(i==1) {
+                                            $.ajaxSetup({
+                                                headers: {
+                                                    'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
 
-                                            }
-                                        });
+                                                }
+                                            });
+                                            $.ajax({
+                                                url: '{{route("eventUserAdd")}}',
+                                                type: 'post',
+                                                data: {
+                                                    saveTitle: plateHtml.html(),
+                                                    saveStart: moment(event.start).format('YYYY-MM-DD HH:mm:ss'),
+                                                    maintenanceMinute: minuteHtml.html(),
+                                                    _token: '{!! csrf_token() !!}',
+                                                    saveEnd: moment(event.end).format('YYYY-MM-DD HH:mm:ss')
+                                                },
+                                                dataType: 'json',
+                                                success: function (data) {
+                                                    calendar.addEvent(
+                                                        {
+                                                            id: data['id'],
+                                                            title: data['title'],
+                                                            start: data['start'],
+                                                            end: data['newTime'],//Sonradan eklenen dakikanın event'e end olarak eklenmesi
+                                                            backgroundColor:'green !important',
+                                                            borderColor:'green !important',
+                                                            editable:true,//Eklenen eventin değiştirilebilir olması
+                                                            durationEditable:false,//Eklenen eventin boyutunun değiştirilemez olması
+                                                            className:'context-menu-one',
+
+                                                        });
+                                                    $(".notification-text").html("Appointment added");
+                                                    $('#notificationAlert').addClass('alert-success').removeClass('alert-danger');
+                                                    $('#notificationAlert').show();
+
+                                                }
+                                            });
+                                        i++;
+                                        }
+                                        else
+                                        {
+                                            $(".notification-text").html("Already added appointment cannot be added any more");
+                                            $('#notificationAlert').addClass('alert-danger').removeClass('alert-success');
+                                            $('#notificationAlert').show();
+                                        }
+
                                     },
                                     events: {
                                         url: '/getUserEvent?_token=0GTwvcp5NWn7zBVtu6lSH4R5GhTRLaCYDoJvnqNT',
                                         type: 'GET', // Send Get data
-                                        color: 'yellow',
+                                       // color: 'grey !important',
                                         textColor: 'white',
                                         success:function (rawData) {
 
@@ -271,6 +339,11 @@
                                         error: function() {
                                             alert('There was an error while fetching events.');
                                         }
+                                    },
+                                    eventDrop: function(info) {
+
+                                        edit(info.event);
+
                                     },
                                     eventRender: function(info) {
 
@@ -300,6 +373,148 @@
                                 calendar.setOption('themeSystem', themeSystem);
                             }
                         });
+
+
+
+                    function edit(event){ // Drop ve Resize Olayları için tarih güncelleme
+
+                        var  start = moment(event.start).format('YYYY-MM-DD HH:mm:ss');
+                        if(event.end){
+                            var   end = moment(event.end).format('YYYY-MM-DD HH:mm:ss');
+                        }else{
+                            var   end = start;
+                        }
+
+                        var   id =  event.id;
+
+                        Event = [];
+                        Event[0] = id;
+                        Event[1] = start;
+                        Event[2] = end;
+
+                        $.ajax({
+                            url: '/dropUserEvent',
+                            type: "POST",
+                            data: {
+                                Event:Event,
+                                _token: '{!! csrf_token() !!}',
+                            },
+                            dataType:'json',
+                            success: function(data) {
+                                $(".notification-text").html("Appointment changed");
+                                $('#notificationAlert').addClass('alert-success').removeClass('alert-danger');
+                                $('#notificationAlert').show();
+                            }
+                        });
+                    }
+
+                    $.contextMenu({
+                        selector: '.context-menu-one',
+                        delegate: ".hasmenu",
+                        preventContextMenuForPopup: true,
+                        preventSelect: true,
+                        callback: function(key, options) {
+                            var locale = $('#locale-selector').val();
+
+                            var eventId=$(this).attr('id');
+                            var event = calendar.getEventById(eventId);
+                            switch (key) {
+                                case 'edit':
+
+                                    $('#ModalEdit #editId').val(event.id);
+                                    $('#ModalEdit #editTitle').val(event.title);
+                                    $('#ModalEdit #editStart').val(moment(event.start).format('YYYY-MM-DD HH:mm:ss'));
+                                    $('#ModalEdit #editEnd').val(moment(event.end).format('YYYY-MM-DD HH:mm:ss'));
+
+                                    $.ajax({
+                                        url:'/dHome/getEventsJoinMaintenance',
+                                        type:'get',
+                                        data:{
+                                            id: event.id
+                                        },
+                                        success:function (data) {
+
+
+                                        }
+                                    });
+                                     $('#ModalEdit').modal('show');
+                                    $('#editEventSubmit').prop( "disabled", false );
+                                         break;
+                                case 'delete':
+
+                                    bootbox.confirm({
+                                            message: "Is appointment delete?",
+                                            size: 'small',
+                                            locale:  locale,
+                                            buttons: {
+                                                confirm: {
+                                                    label: 'Yes',
+                                                    className: 'btn-success'
+                                                },
+                                                cancel: {
+                                                    label: 'No',
+                                                    className: 'btn-danger'
+                                                }
+                                            },
+                                            callback: function (result) {
+                                                if(result===true)
+                                                {
+
+                                                    $.ajaxSetup({
+                                                        headers: {
+                                                            'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+                                                        }
+                                                    });
+
+                                                    $.ajax({
+                                                        type: 'GET',
+                                                        url: '/dHome/destroyEvent/'+eventId,
+                                                        dataType:'json',
+                                                        success:function(data){
+                                                            $('#notificationAlert').addClass('alert-success').removeClass('alert-danger');
+                                                            $(".notification-text").html("Event deleted");
+                                                            $('#notificationAlert').show();
+                                                            event.remove();
+
+
+                                                        }
+                                                    });
+
+                                                }
+                                                else{
+                                                    $(".notification-text").html("Event not deleted");
+                                                    $('#notificationAlert').addClass('alert-danger').removeClass('alert-success');
+                                                    $('#notificationAlert').show();
+                                                }
+                                            }
+                                        }
+
+                                    );
+
+
+                                    break;
+
+                            }
+                        },
+                        items: {
+                            "edit": {name: "Edit", icon: "edit"},
+                            "delete": {name: "Delete", icon: "delete"},
+
+
+                        }
+                    });
+
+
+                    $('.context-menu-one').on('click', function(e){
+                        console.log('clicked', this);
+                    });
+
+
+
+
+
+
+
 
 
 

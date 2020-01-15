@@ -150,7 +150,9 @@
                 },
                 dataType:'json',
                 success: function(data) {
-
+                    $(".notification-text").html("Event changed");
+                    $('#notificationAlert').addClass('alert-success').removeClass('alert-danger');
+                    $('#notificationAlert').show();
                 }
             });
         }

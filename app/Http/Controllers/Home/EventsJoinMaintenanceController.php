@@ -26,16 +26,26 @@ class EventsJoinMaintenanceController extends Controller
                     ->join('maintenance', 'maintenance.id', '=', 'eventsjoinmaintenance.maintenanceId')
                     ->where('events.id', $eventId)->get();
 
+                $maintenanceTitle='';
+                $maintenanceMinute='';
+                for ($i=0;$i<count($eventsjoinmaintenance);$i++)
+                {
+                    $maintenanceTitle = $maintenanceTitle.''.$eventsjoinmaintenance[$i]->maintenanceTitle.',';//Titleların birleştirilmesi
+                    $maintenanceMinute = $maintenanceMinute.''.$eventsjoinmaintenance[$i]->maintenanceMinute.',';
+                }
+
                 $eventsjoinmaintenanceData = array(
-                    'maintenanceMinute' => $eventsjoinmaintenance[0]->maintenanceMinute,
-                    'maintenanceTitle' => $eventsjoinmaintenance[0]->maintenanceTitle,
+                    'maintenanceMinute' => $maintenanceMinute,
+                    'maintenanceTitle' => $maintenanceTitle,
                     'eventStart' => $eventsjoinmaintenance[0]->start,
                     'eventEnd' => $eventsjoinmaintenance[0]->end
                 );
 
                 return response($eventsjoinmaintenanceData);
-            } catch (\Exception $e) {
-                abort(404);
+            }
+
+            catch (\Exception $e) {
+
                 $eventsjoinmaintenanceData += [
                     'joinError' => true,
                 ];

@@ -71,10 +71,22 @@ class FullCalendarController extends Controller
             'start' => $request->get('saveStart'),
             'end' => $request->get('saveEnd'),
         );
-        $maintenanceTitle=$request->get('maintenanceTitle');
-        $maintenanceId=Maintenance::where('maintenanceTitle',$maintenanceTitle)->first();
+        $minuteSum=0;
+        foreach ($request->maintenance as $row){
+            $minute= strtotime(substr($row,1,5));
+            $minuteSum=$minuteSum+$minute;
+        }
+        $minuteSumFormat=date('H:i:s', $minuteSum);
+
+
+
+        $maintenanceTitle=$request->get('maintenance');
+        $maintenanceId=array();
+        foreach ($maintenanceTitle as $row) {
+
+             $maintenanceId[] = Maintenance::where('maintenanceTitle',substr($row,8))->first();
+        }
         $saveStart=$request->get('saveStart');
-        $saveEnd=$request->get('saveEnd');
 
 
 
@@ -94,50 +106,51 @@ class FullCalendarController extends Controller
 
                         'id' => $event['id']
                     ];
+
+
+                    $eventStartJoinMaintenanceTimeFormat=null;
+                    for($i=0;$i<count($maintenanceId);$i++) {
+
+
                     $eventMaintenanceData = array(
 
                         'eventId' => $event['id'],
-                        'maintenanceId' => $maintenanceId['id'],
+                        'maintenanceId' => $maintenanceId[$i]->id,
                     );
 
-                    if (EventsJoinMaintenance::create($eventMaintenanceData)) {
-                        $eventsjoinmaintenance = DB::table('events')
-                            ->join('eventsjoinmaintenance', 'events.id', '=', 'eventsjoinmaintenance.eventId')
-                            ->join('maintenance', 'maintenance.id', '=', 'eventsjoinmaintenance.maintenanceId')
-                            ->where('events.id', $event['id'])->get();
-                        $maintenanceMinute = $eventsjoinmaintenance[0]->maintenanceMinute;
-                        $newEvent = Events::where($event_data)->first();
-
-
-                        $maintenanceMinuteTime = Carbon::parse($maintenanceMinute, 'UTC');
-                        $maintenanceMinuteTimeCarbon = $maintenanceMinuteTime->isoFormat('HH:mm');
-
-
-                        $maintenanceMinuteTimeFormat = strtotime($maintenanceMinuteTimeCarbon);
-                        $maintenanceMinuteTimeFormatHour = date("H", $maintenanceMinuteTimeFormat);//Sadece Saatin alınması
-                        $maintenanceMinuteTimeFormatMin = strtotime($maintenanceMinuteTimeCarbon);
-                        $maintenanceMinuteTimeFormatMinI = date("i", $maintenanceMinuteTimeFormatMin);//Sadece Dakikanın alınması
-
-
-                        $eventStartTime = $newEvent->start;
-                        $eventStartTimeFormat = strtotime($eventStartTime);
-
-                        $eventStartJoinMaintenanceTime = strtotime("+{$maintenanceMinuteTimeFormatHour} hour +{$maintenanceMinuteTimeFormatMinI} minute", $eventStartTimeFormat);
-                        $eventStartJoinMaintenanceTimeFormat = date('Y-m-d H:i:s', $eventStartJoinMaintenanceTime);
-
-
-
-                        Events::where($event_data)->update(['end' => $eventStartJoinMaintenanceTimeFormat]);
-
-
-
-                        $event_data += [
-
-                            'newTime' => $eventStartJoinMaintenanceTimeFormat
-                        ];
-                        return response($event_data);
+                    EventsJoinMaintenance::create($eventMaintenanceData);
 
                     }
+
+                    $newEvent = Events::where($event_data)->first();
+
+                    $maintenanceMinuteTime = Carbon::parse($minuteSumFormat, 'UTC');//Bakım Türlerinin Dakikalarının Toplamı Event'in Start'ına Eklenmek Üzere Carbon ile parse ediliyor.
+                    $maintenanceMinuteTimeCarbon = $maintenanceMinuteTime->isoFormat('HH:mm');
+
+
+                    $maintenanceMinuteTimeFormat = strtotime($maintenanceMinuteTimeCarbon);
+                    $maintenanceMinuteTimeFormatHour = date("H", $maintenanceMinuteTimeFormat);//Sadece Saatin alınması
+                    $maintenanceMinuteTimeFormatMin = strtotime($maintenanceMinuteTimeCarbon);
+                    $maintenanceMinuteTimeFormatMinI = date("i", $maintenanceMinuteTimeFormatMin);//Sadece Dakikanın alınması
+
+
+                    $eventStartTime = $newEvent->start;
+                    $eventStartTimeFormat = strtotime($eventStartTime);
+
+                    $eventStartJoinMaintenanceTime = strtotime("+{$maintenanceMinuteTimeFormatHour} hour +{$maintenanceMinuteTimeFormatMinI} minute", $eventStartTimeFormat);
+                    $eventStartJoinMaintenanceTimeFormat = date('Y-m-d H:i:s', $eventStartJoinMaintenanceTime);
+
+
+
+                    Events::where($event_data)->update(['end' => $eventStartJoinMaintenanceTimeFormat]);
+
+
+
+                    $event_data += [
+
+                        'newTime' => $eventStartJoinMaintenanceTimeFormat
+                    ];
+                    return response($event_data);
                 }
             }
 
@@ -191,6 +204,7 @@ class FullCalendarController extends Controller
         );
 
         $maintenanceTitle=$request->get('maintenanceTitle');
+
         $maintenanceId=Maintenance::where('maintenanceTitle',$maintenanceTitle)->first();
 
 
@@ -272,29 +286,18 @@ class FullCalendarController extends Controller
         $editEvent = $request->post('Event');
         if (isset($editEvent)){
 
-
             $id = $editEvent[0];
             $start = $editEvent[1];
             $end = $editEvent[2];
 
             $editDB = Events::where('id',$id)->update(['start'=>$start,'end'=>$end]);
-
-
-
-
-            if ($editDB) {
+              if ($editDB) {
                 return response($editEvent);
             }
             else{
                 return back()->with('error','Error');
             }
-
         }
-
-
-
-
-
     }
 
     /**

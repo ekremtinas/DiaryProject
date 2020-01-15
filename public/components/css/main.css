@@ -15,13 +15,14 @@ a{
 
 /* Sağ altta gösterilen toast mesajı */
 .notification {
-    position: fixed;
-    right: 0;
-    top: 90%;
+    position: fixed !important;
+    right: 0 !important;
+    top: 90% !important;
+    z-index: 999;
 }
 /* Alert olarak verilen elemanların yazı büyüklüğü */
 .alert-size{
-    font-size: 12px;
+    font-size: 12px !important;
 }
 /* Radio Button olarak görünen switch renk ayarı  */
 .custom-control-input:checked~.custom-control-label::before {
