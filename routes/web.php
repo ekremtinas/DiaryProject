@@ -14,9 +14,21 @@ Route::group(['middleware' => ['Cors']], function () {
 //User Home
 Route::get('/','UserHome\GetUserHomeController@index')->name('userHomeGet');
 Route::post('/','UserHome\PostUserHomeController@index')->name('userFirstFormPost');
+//User Event
 Route::get('/getUserEvent', 'Home\FullCalendarController@index')->name('eventUserGet');
 Route::post('/addUserEvent', 'UserHome\PostUserHomeController@create')->name('eventUserAdd');//FullCalendar Event Ekleme
 Route::post('/dropUserEvent', 'Home\FullCalendarController@editTime')->name('eventUserDrop');
+Route::get('/destroyUserEvent/{id}', 'Home\FullCalendarController@destroy')->name('eventUserDestroy');
+Route::post('/editUserEvent', 'Home\FullCalendarController@edit')->name('eventUserEdit');
+//User Event Join Maintenance
+Route::get('/getUserEventsJoinMaintenance', 'Home\EventsJoinMaintenanceController@getEventsJoinMaintenance')->name('getUserEventsJoinMaintenanceGet');
+//User Maintenance getUserMaintenance
+Route::get('/getUserMaintenance', 'Home\MaintenanceController@getMaintenance')->name('getUserMaintenanceGet');
+
+
+
+
+
 
 //Login Route
 

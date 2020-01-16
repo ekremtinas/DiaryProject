@@ -284,10 +284,10 @@ $(document).ready(function () {
 
 // BVALIDATOR JS END
 // Add Modal için Maintenance'nin DB'den Getirilmesi
-                var maintenanceAdd = document.getElementById('maintenanceAddSelect');
-                var maintenanceEdit =document.getElementById('maintenanceEditSelect');
-                var optionEl;
-                var optionEdit;
+
+
+
+
                 $.ajax({
                    url:'/dHome/getMaintenance',
                    type:'get',
@@ -303,6 +303,7 @@ $(document).ready(function () {
 
                         var maintenance ='('+moment(maintenanceData[j]["maintenanceMinute"], "HH:mm").format("HH:mm")+') '+maintenanceData[j]["maintenanceTitle"];
                        $('#maintenanceTable').append( '<tr style="line-height: 1px !important;" class="maintenanceRow" ><td  class="checkboxMaintenance">'+maintenance+'</td> <td ><input class="checkboxMaintenanceInput custom-checkbox form-check" type="checkbox" value="'+maintenance+'"  name="maintenance[]" ></td></tr>');
+                        $('#maintenanceTableEdit').append( '<tr style="line-height: 1px !important;" class="maintenanceEditRow" ><td  class="checkboxEditMaintenance">'+maintenance+'</td> <td ><input class="checkboxEditMaintenanceInput custom-checkbox form-check" type="checkbox" value="'+maintenance+'"  name="maintenance[]" ></td></tr>');
 
 
                        }
@@ -381,6 +382,7 @@ $(document).ready(function () {
 
                            var maintenance  = '('+moment(data["maintenanceMinute"], "HH:mm").format("HH:mm")+') '+data["maintenanceTitle"];
                            $('#maintenanceTable').append('<tr style="line-height: 1px !important;" class="maintenanceRow" ><td  class="checkboxMaintenance">'+maintenance+'</td> <td ><input class="checkboxMaintenanceInput custom-checkbox form-check" type="checkbox" value="'+maintenance+'"  name="maintenance[]" ></td></tr>');
+                           $('#maintenanceTableEdit').append( '<tr style="line-height: 1px !important;" class="maintenanceEditRow" ><td  class="checkboxEditMaintenance">'+maintenance+'</td> <td ><input class="checkboxMaintenanceInput custom-checkbox form-check" type="checkbox" value="'+maintenance+'"  name="maintenance[]" ></td></tr>');
 
 
                            $('#notificationAlert').addClass('alert-success').removeClass('alert-danger');//Bakım eklenmesi notification start
@@ -441,6 +443,15 @@ $(document).ready(function () {
                                     });
                                var maintenance  = '('+moment(data["maintenanceMinute"], "HH:mm").format("HH:mm")+') '+data["maintenanceTitle"];
                                 $('#maintenanceTable').append('<tr style="line-height: 1px !important;" class="maintenanceRow" ><td  class="checkboxMaintenance">'+maintenance+'</td> <td ><input class="checkboxMaintenanceInput custom-checkbox form-check" type="checkbox" value="'+maintenance+'"  name="maintenance[]" ></td></tr>');
+                              $('#maintenanceTableEdit').append( '<tr style="line-height: 1px !important;" class="maintenanceEditRow" ><td  class="checkboxMaintenance">'+maintenance+'</td> <td ><input class="checkboxMaintenanceInput custom-checkbox form-check" type="checkbox" value="'+maintenance+'"  name="maintenance[]" ></td></tr>');/*Edit Form'a Güncellenen verinin eklenmesi*/
+                               $('#maintenanceTableEdit tr:has(td)').each(function() {
+
+                                    if($(this).find('td').text()===maintenanceChekbox)
+                                    {
+                                        $(this).find('td').hide();
+                                    }
+                                });
+
 
                                 $('#notificationAlert').addClass('alert-success').removeClass('alert-danger');//Bakım eklenmesi notification start
                                 $(".notification-text").html("Maintenance Edited");
@@ -495,6 +506,14 @@ $(document).ready(function () {
                                         $(this).parent().parent().hide();
                                     });
 
+
+                                    $('#maintenanceTableEdit tr:has(td)').each(function() {
+
+                                        if($(this).find('td').text()===maintenanceChekbox)
+                                        {
+                                            $(this).find('td').hide();
+                                        }
+                                    });
                                     $('#notificationAlert').addClass('alert-success').removeClass('alert-danger');//Bakım eklenmesi notification start
                                     $(".notification-text").html("Maintenance deleted");
                                     $('#notificationAlert').show();//Bakım eklenmesi notification end

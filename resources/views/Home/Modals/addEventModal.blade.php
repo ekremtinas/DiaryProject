@@ -40,25 +40,15 @@
                             If you want to delete the type of maintenance. Select from the side and double-click" data-placement="bottom" data-trigger="focus" title="Maintenance Delete"></button>
                             </div>
                         </div>
-                        <table id="maintenanceTable" style="border-radius: 1rem; !important;" class="table table-responsive-lg table-borderless  btn-sm shadow-main">
+                        <table id="maintenanceEditTable" style="border-radius: 1rem; !important;" class="table table-responsive-lg table-borderless  btn-sm shadow-main">
                             <tr>
                                 <td ><b>Maintenance type</b></td>
 
                                 <td><b>Choose</b></td>
                             </tr>
 
-
-
-
-
-
                         </table>
-
-
-
-
-
-                    </div>
+              </div>
 
 
                     <div class="form-group">

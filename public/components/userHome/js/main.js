@@ -64,6 +64,59 @@ $(document).ready(function () {
     });
     //Label Kaydırma End
 
+//Chrome Geri Tuşu Confirm
+
+    if (window.history && window.history.pushState) {
+
+        window.history.pushState('forward', null, './#forward');
+
+        $(window).on('popstate', function() {
+            bootbox.confirm({
+                    message: "The transactions were not completed.Are you sure you want to quit?",
+                    size: 'small',
+                    buttons: {
+                        confirm: {
+                            label: 'Yes',
+                            className: 'btn-success'
+                        },
+                        cancel: {
+                            label: 'No',
+                            className: 'btn-danger'
+                        }
+                    },
+                    callback: function (result) {
+                        console.log(result);
+                        return result;
+                    },
+                backdrop: true,
+                }
+
+            );
+        });
+
+    }
+    //Chrome Back End Button End
+//Edit Modal İçin Ajax ile Bakım Türlerinin Getirilip Modal'a eklenmesi
+
+    $.ajax({
+        url:'/getUserMaintenance',
+        type:'get',
+        data:{
+            _token:'0GTwvcp5NWn7zBVtu6lSH4R5GhTRLaCYDoJvnqNT'
+        },
+        dataType:'json',
+        success:function (maintenanceData) {
 
 
+            for(j=0;j<maintenanceData.length;j++)
+            {
+
+                var maintenance ='('+moment(maintenanceData[j]["maintenanceMinute"], "HH:mm").format("HH:mm")+') '+maintenanceData[j]["maintenanceTitle"];
+                $('#maintenanceTableEdit').append( '<tr style="line-height: 1px !important;" class="maintenanceEditRow" ><td  class="checkboxMaintenance">'+maintenance+'</td> <td ><input class="checkboxMaintenanceInput custom-checkbox form-check" type="checkbox" value="'+maintenance+'"  name="maintenance[]" ></td></tr>');
+
+
+            }
+
+        }
+    });
 });

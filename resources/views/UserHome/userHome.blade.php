@@ -122,7 +122,7 @@
             </div>
         </div>
     </div>
-
+    @include('UserHome.Modals.editUserModal')
 
     <div id="notificationAlert" style="display: none;" class=" alert-size notification alert alert-success alert-block col-3 rounded-pill btn-sm">
         <button id="notificationHide" class="close alert-size"  type="button">
@@ -170,33 +170,7 @@
                 $(document).ready(function () {
 
 
-                    if (window.history && window.history.pushState) {
 
-                        window.history.pushState('forward', null, './#forward');
-
-                        $(window).on('popstate', function() {
-                            bootbox.confirm({
-                                    message: "The transactions were not completed.Are you sure you want to quit?",
-                                    size: 'small',
-                                    buttons: {
-                                        confirm: {
-                                            label: 'Yes',
-                                            className: 'btn-success'
-                                        },
-                                        cancel: {
-                                            label: 'No',
-                                            className: 'btn-danger'
-                                        }
-                                    },
-                                    callback: function (result) {
-
-                                    }
-                                }
-
-                            );
-                        });
-
-                    }
 
                     var firstFormData;
 
@@ -421,13 +395,13 @@
                             switch (key) {
                                 case 'edit':
 
-                                    $('#ModalEdit #editId').val(event.id);
-                                    $('#ModalEdit #editTitle').val(event.title);
-                                    $('#ModalEdit #editStart').val(moment(event.start).format('YYYY-MM-DD HH:mm:ss'));
-                                    $('#ModalEdit #editEnd').val(moment(event.end).format('YYYY-MM-DD HH:mm:ss'));
+                                    $('#UserModalEdit #editId').val(event.id);
+                                    $('#UserModalEdit #editTitle').val(event.title);
+                                    $('#UserModalEdit #editStart').val(moment(event.start).format('YYYY-MM-DD HH:mm:ss'));
+                                    $('#UserModalEdit #editEnd').val(moment(event.end).format('YYYY-MM-DD HH:mm:ss'));
 
                                     $.ajax({
-                                        url:'/dHome/getEventsJoinMaintenance',
+                                        url:'/getUserEventsJoinMaintenance',
                                         type:'get',
                                         data:{
                                             id: event.id
@@ -437,7 +411,7 @@
 
                                         }
                                     });
-                                     $('#ModalEdit').modal('show');
+                                     $('#UserModalEdit').modal('show');
                                     $('#editEventSubmit').prop( "disabled", false );
                                          break;
                                 case 'delete':
@@ -468,7 +442,7 @@
 
                                                     $.ajax({
                                                         type: 'GET',
-                                                        url: '/dHome/destroyEvent/'+eventId,
+                                                        url: '/destroyUserEvent/'+eventId,
                                                         dataType:'json',
                                                         success:function(data){
                                                             $('#notificationAlert').addClass('alert-success').removeClass('alert-danger');
@@ -513,7 +487,59 @@
 
 
 
+                    var editEventForm = $('#editUserEventForm');
+                    editEventForm.submit(function(e){
 
+                        //  $('#editEventSubmit').prop( "disabled", true );
+                        e.preventDefault();
+                        $.ajaxSetup({
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+
+                            }
+                        });
+
+
+
+                        $.ajax({
+                            type: 'POST',
+                            url: '/editUserEvent',
+                            dataType:"json",
+                            data: editEventForm.serialize() ,
+                            success:function (data) {
+
+                                if(data.errorEdit)
+                                {
+
+                                    $(".notification-text").html("Event not edited ");
+                                    $('#notificationAlert').addClass('alert-danger').removeClass('alert-success');
+
+                                }
+
+                                else {
+
+                                    var event = calendar.getEventById(data.id);
+                                    event.remove();
+
+                                    $('#UserModalEdit').modal('hide');
+
+                                    calendar.addEvent(
+                                        {
+                                            id: data.id,
+                                            title:data.title,
+                                            start: data.start,
+                                            end: data.newTime
+                                        });
+                                    $(".notification-text").html("Event edited");
+                                    $('#notificationAlert').addClass('alert-success').removeClass('alert-danger');
+                                }
+
+
+                                $('#notificationAlert').show();
+                            }
+                        });
+
+                    });
 
 
 

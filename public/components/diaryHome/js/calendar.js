@@ -68,29 +68,8 @@ initThemeChooser({
                     var d = moment.duration(ms);
                     var s = Math.floor(d.asHours()) + moment.utc(ms).format(":mm");
                     var timeDiff = '0' + s;
-                    eventForm.find("#maintenanceAddSelect option,#maintenanceEditSelect option").each(function () {
-                        var maintenanceSelect = $(this).val();
-                        var maintenanceEditMinute = maintenanceSelect.substr(1, 5);
-                        if (maintenanceEditMinute != 'hoose') {
+                    timeDiffMoment = moment(timeDiff, 'HH:mm');
 
-                            timeDiffMoment = moment(timeDiff, 'HH:mm');
-                            var maintenanceEditMinuteMoment = moment(maintenanceEditMinute, 'HH:mm');
-
-                            if (timeDiffMoment < maintenanceEditMinuteMoment) {
-
-                                $(this).attr('disabled', 'disabled');
-                            } else {
-
-                                $(this).attr('disabled', false);
-                            }
-                            $(this).attr('selected',false);
-                        }
-                        else
-                        {
-                            $(this).attr('selected',true);
-                        }
-
-                    });
 
                 $('#ModalAdd #saveStart').val(moment(event.start).format('YYYY-MM-DD HH:mm:ss'));
                 $('#ModalAdd #saveEnd').val(moment(event.end).format('YYYY-MM-DD HH:mm:ss'));
@@ -203,8 +182,7 @@ initThemeChooser({
 
 
 
-
-
+// CONTEXT MENU
         $.contextMenu({
             selector: '.context-menu-one',
             delegate: ".hasmenu",
@@ -438,21 +416,13 @@ initThemeChooser({
             }
         });
 
-        var maintenanceSelect = editEventForm.find('#maintenanceEditSelect').val();
-        var maintenanceTitle = maintenanceSelect.substr(7);
+
 
         $.ajax({
             type: 'POST',
             url: '/dHome/editEvent',
             dataType:"json",
-            data: {
-                editId:editEventForm.find('#editId').val(),
-                editTitle: editEventForm.find('#editTitle').val(),
-                editStart: editEventForm.find('#editStart').val(),
-                _token: editEventForm.find('#_token').val(),
-                editEnd: editEventForm.find('#editEnd').val(),
-                maintenanceTitle: maintenanceTitle,
-            },
+            data: editEventForm.serialize() ,
             success:function (data) {
 
                 if(data.errorEdit)
@@ -488,7 +458,30 @@ initThemeChooser({
 
     });
 
+//Checkbox Seçimi sonrası uyarı
+    /*$("input[type=checkbox]").click(function() {
+        console.log("sad");
+        $.each($("input[name='maintenance[]']:checked"), function () {//Checkbox'ın seçilmesi
 
+            var maintenanceCheckbox = $(this).val();
+            var maintenanceMinute = maintenanceCheckbox.substr(1, 5);
+
+
+
+            var maintenanceMinuteMoment = moment(maintenanceMinute, 'HH:mm');
+
+            if (timeDiffMoment < maintenanceMinuteMoment) {
+
+                $(this).attr('disabled', 'disabled');
+            } else {
+
+                $(this).attr('disabled', false);
+            }
+            $(this).attr('selected', false);
+
+
+        });
+    });*/
 
 
 });

@@ -1,7 +1,7 @@
-<div class="modal fade" id="ModalEdit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" >
+<div class="modal fade" id="UserModalEdit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" >
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <form id="editEventForm" class="form-horizontal" method="POST" action="{{route('editEventPost')}}">
+            <form id="editUserEventForm" class="form-horizontal" method="POST" action="">
 
                 <input type="hidden" id="_token" name="_token" value="{{ csrf_token() }}">
                 <input type="hidden" id="editId" name="editId" value="">
@@ -37,12 +37,7 @@
                             </tr>
 
                         </table>
-
-
-
-
-
-                    </div>
+                      </div>
 
 
                     <div class="form-group">
@@ -80,3 +75,4 @@
         </div>
     </div>
 </div>
+
