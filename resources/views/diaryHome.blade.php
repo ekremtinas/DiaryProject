@@ -97,34 +97,15 @@
     <script src="/components/bvalidator/dist/jquery.bvalidator.min.js" defer></script>
     <script src="/components/bvalidator/themes/presenters/bValidator.DefaultPresenter.js" defer></script>
     <script src="/components/bvalidator/themes/red/red.js" defer></script>
-
-    <script>
-
-
-        var loadDeferredStyles = function() {
-            var addStylesNode = document.getElementById("deferred-styles");
-            var replacement = document.createElement("div");
-            replacement.innerHTML = addStylesNode.textContent;
-            document.body.appendChild(replacement)
-            addStylesNode.parentElement.removeChild(addStylesNode);
-        };
-        var raf = requestAnimationFrame || mozRequestAnimationFrame ||
-            webkitRequestAnimationFrame || msRequestAnimationFrame;
-        if (raf) raf(function() {
-            window.setTimeout(loadDeferredStyles, 0);
-        });
-        else window.addEventListener('load', loadDeferredStyles);
-    </script>
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.15/lodash.min.js"></script>
     <script>
         var timeDiffMoment;//Seçilen iki time arasındaki süre
-        $(function () {//Maintenance Add,Edit,Delete Popever JS
-            $('[data-toggle="popover"]').popover()
-        })
-        $('.popover-dismiss').popover({
-            trigger: 'focus'
-        })
+        var globalRawData;//Event get ile getirilen data
+        var globalMaintenance;//Bakım Türünü maintenanceData
 
         var initialLocaleCode = '<?php if(isset(Auth::user()->lang)){ if( Auth::user()->lang==null) {echo 'en';} else{  echo Auth::user()->lang; } } ?>'; // Local olarak default dil seçimi
+
+
         function edit(event){ // Drop ve Resize Olayları için tarih güncelleme
 
             var  start = moment(event.start).format('YYYY-MM-DD HH:mm:ss');
@@ -156,6 +137,8 @@
                 }
             });
         }
+
+
 
     </script>
 @endsection

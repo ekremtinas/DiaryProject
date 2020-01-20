@@ -55,20 +55,18 @@ initThemeChooser({
 
             select: function(event) { //Tarih / saat seçimi yapıldığında tetiklenir.
 
-
-
-
-
-
                     var eventForm = $('#addEventForm ,#editEventForm');
-                    var saveStartTime = moment(event.start).format('HH:mm');
-                    var saveEndTime = moment(event.end).format('HH:mm');
-
+                    var saveStartTime;//Seçilen time'ın başlangıcı
+                    var saveEndTime;//Seçilen time'ın başlangıcı
+                    saveStartTime = moment(event.start).format('HH:mm');
+                    saveEndTime = moment(event.end).format('HH:mm');
                     var ms = moment(saveEndTime, "HH:mm").diff(moment(saveStartTime, "HH:mm"));
                     var d = moment.duration(ms);
                     var s = Math.floor(d.asHours()) + moment.utc(ms).format(":mm");
                     var timeDiff = '0' + s;
                     timeDiffMoment = moment(timeDiff, 'HH:mm');
+
+
 
 
                 $('#ModalAdd #saveStart').val(moment(event.start).format('YYYY-MM-DD HH:mm:ss'));
@@ -126,8 +124,7 @@ initThemeChooser({
                 color: 'yellow',
                 textColor: 'white',
                 success:function (rawData) {
-
-
+                    globalRawData=rawData;
                 },
                 error: function() {
                     alert('There was an error while fetching events.');
@@ -301,6 +298,11 @@ initThemeChooser({
                                                 event.remove();
 
 
+                                             /*   _.forEach(globalRawData, function(product) {
+                                                    console.log(product.id)
+                                                    _.remove(product.id, {id: event.id});
+                                                });*/
+
                                             }
                                         });
 
@@ -458,7 +460,7 @@ initThemeChooser({
 
     });
 
-//Checkbox Seçimi sonrası uyarı
+//Checkbox Seçimi sonrası uyarı Çakışma engelleme denemesi
     /*$("input[type=checkbox]").click(function() {
         console.log("sad");
         $.each($("input[name='maintenance[]']:checked"), function () {//Checkbox'ın seçilmesi
@@ -482,6 +484,8 @@ initThemeChooser({
 
         });
     });*/
+
+
 
 
 });

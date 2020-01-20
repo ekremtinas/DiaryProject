@@ -3,14 +3,12 @@
   <component name="ChangeListManager">
     <list default="true" id="4a8e94e8-e1f8-4c09-a043-d33f9a42353f" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Home/FullCalendarController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Home/FullCalendarController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/components/diaryHome/js/calendar.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/components/diaryHome/js/calendar.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/components/diaryHome/js/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/components/diaryHome/js/main.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/components/userHome/js/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/components/userHome/js/main.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/Home/Modals/addEventModal.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/Home/Modals/addEventModal.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/Home/Modals/editEventModal.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/Home/Modals/editEventModal.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/UserHome/userHome.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/UserHome/userHome.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/diaryHome.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/diaryHome.blade.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -322,7 +320,11 @@
       <workItem from="1579098462923" duration="4640000" />
       <workItem from="1579123552863" duration="6330000" />
       <workItem from="1579175951427" duration="7179000" />
-      <workItem from="1579207322461" duration="2877000" />
+      <workItem from="1579207322461" duration="3479000" />
+      <workItem from="1579244375491" duration="17501000" />
+      <workItem from="1579527121688" duration="3574000" />
+      <workItem from="1579533969213" duration="6931000" />
+      <workItem from="1579559402220" duration="4709000" />
     </task>
     <servers />
   </component>

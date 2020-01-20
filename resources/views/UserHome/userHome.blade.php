@@ -473,8 +473,6 @@
                         items: {
                             "edit": {name: "Edit", icon: "edit"},
                             "delete": {name: "Delete", icon: "delete"},
-
-
                         }
                     });
 

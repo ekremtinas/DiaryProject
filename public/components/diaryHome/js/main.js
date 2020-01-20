@@ -296,7 +296,7 @@ $(document).ready(function () {
                     },
                    dataType:'json',
                    success:function (maintenanceData) {
-
+                       globalMaintenance=maintenanceData;
 
                        for(j=0;j<maintenanceData.length;j++)
                        {
@@ -304,7 +304,6 @@ $(document).ready(function () {
                         var maintenance ='('+moment(maintenanceData[j]["maintenanceMinute"], "HH:mm").format("HH:mm")+') '+maintenanceData[j]["maintenanceTitle"];
                        $('#maintenanceTable').append( '<tr style="line-height: 1px !important;" class="maintenanceRow" ><td  class="checkboxMaintenance">'+maintenance+'</td> <td ><input class="checkboxMaintenanceInput custom-checkbox form-check" type="checkbox" value="'+maintenance+'"  name="maintenance[]" ></td></tr>');
                         $('#maintenanceTableEdit').append( '<tr style="line-height: 1px !important;" class="maintenanceEditRow" ><td  class="checkboxEditMaintenance">'+maintenance+'</td> <td ><input class="checkboxEditMaintenanceInput custom-checkbox form-check" type="checkbox" value="'+maintenance+'"  name="maintenance[]" ></td></tr>');
-
 
                        }
 
@@ -524,6 +523,90 @@ $(document).ready(function () {
 
 
                         });
+                    //Maintenance Add,Edit,Delete Popever JS
+
+                    $(function () {
+                        $('[data-toggle="popover"]').popover()
+                    })
+                    $('.popover-dismiss').popover({
+                        trigger: 'focus'
+                    })
+                    //Web sitesi optimizasyonu içn css link etiketlerini geçiktirme
+
+                    var loadDeferredStyles = function() {
+                        var addStylesNode = document.getElementById("deferred-styles");
+                        var replacement = document.createElement("div");
+                        replacement.innerHTML = addStylesNode.textContent;
+                        document.body.appendChild(replacement)
+                        addStylesNode.parentElement.removeChild(addStylesNode);
+                    };
+                    var raf = requestAnimationFrame || mozRequestAnimationFrame ||
+                        webkitRequestAnimationFrame || msRequestAnimationFrame;
+                    if (raf) raf(function() {
+                        window.setTimeout(loadDeferredStyles, 0);
+                    });
+                    else window.addEventListener('load', loadDeferredStyles);
+            //Css link optimizasyon --------- End
+
+
+            //İnput CheckBox
+
+
+        var addEventSubmit=$('#addEventSubmit');
+        var editEventSubmit=$('#editEventSubmit');
+        var chooseMessage=$('.chooseMessage');
+        jQuery(document).on('click', "input[name='maintenance[]']" , function(event){
+            var totalHour='00';
+            var totalMinute='00';
+            var totalTime;
+            totalHour=parseInt(totalHour);
+            totalMinute=parseInt(totalMinute);
+            $.each($("input[name='maintenance[]']:checked"),function () {
+                    var maintenanceCheckbox = $(this).val();
+                    var maintenanceHour = maintenanceCheckbox.substr(1, 2);
+                    var maintenanceMinute = maintenanceCheckbox.substr(4, 2);
+
+                    maintenanceMinute=parseInt(maintenanceMinute);
+                    maintenanceHour=parseInt(maintenanceHour);
+                    totalHour=totalHour+maintenanceHour;
+                    totalMinute=totalMinute+maintenanceMinute;
+                 });
+
+            if(totalMinute>=60)
+            {
+                totalHour++;
+                totalMinute=0;
+            }
+            if(totalMinute==0)
+            {
+                totalTime='0'+totalHour+':'+'0'+totalMinute;
+
+            }
+            else
+            {
+                totalTime='0'+totalHour+':'+totalMinute;
+
+            }
+
+                if(timeDiffMoment<moment(totalTime,"HH:mm"))
+           {
+               addEventSubmit.attr('disabled',true);
+               editEventSubmit.attr('disabled',true);
+               chooseMessage.html("<div class=\"bvalidator-red-tooltip\" style=\"top:10px; left: 300.328px;\"><div class=\"bvalidator-red-arrow\"></div><div class=\"bvalidator-red-msg\"><div>Election Exceeded.</div>\n" +
+                   "</div></div>");
+           }
+           else
+           {
+               addEventSubmit.attr('disabled',false);
+               editEventSubmit.attr('disabled',false);
+               chooseMessage.html('');
+           }
+
+            totalHour=0;
+            totalMinute=0;
+
+
+    });
 
 
 });

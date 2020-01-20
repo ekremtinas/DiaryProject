@@ -28,6 +28,7 @@
 
 
                     <div class="form-group btn-group-sm mt-5 col-lg-10 offset-lg-1 ">
+                        <div class="chooseMessage"></div>
                         <div class="col-lg-10 row ">
                             <div class="col-lg-1 offset-lg-3">  <button id="maintenanceAdd" type="button" class=" btn btn-success btn-sm small-btn-size fa fa-plus " data-toggle="popover"  data-content="
                             Double-click if you want to add maintenance type" data-placement="bottom" data-trigger="focus" title="Maintenance Add"  ></button>
@@ -40,7 +41,7 @@
                             If you want to delete the type of maintenance. Select from the side and double-click" data-placement="bottom" data-trigger="focus" title="Maintenance Delete"></button>
                             </div>
                         </div>
-                        <table id="maintenanceEditTable" style="border-radius: 1rem; !important;" class="table table-responsive-lg table-borderless  btn-sm shadow-main">
+                        <table id="maintenanceTable" style="border-radius: 1rem; !important;" class="table table-responsive-lg table-borderless  btn-sm shadow-main">
                             <tr>
                                 <td ><b>Maintenance type</b></td>
 
