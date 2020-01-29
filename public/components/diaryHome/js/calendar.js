@@ -298,10 +298,7 @@ initThemeChooser({
                                                 event.remove();
 
 
-                                             /*   _.forEach(globalRawData, function(product) {
-                                                    console.log(product.id)
-                                                    _.remove(product.id, {id: event.id});
-                                                });*/
+
 
                                             }
                                         });

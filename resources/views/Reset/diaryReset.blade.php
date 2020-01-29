@@ -9,13 +9,13 @@
     <div id="container" class="container h-100 col-6">
         <div class="row justify-content-center h-100  col-6 offset-3 ">
             <div class="card-wrapper">
-                <div style="width:350px " id="image" class="brand text-lg-center text-center">
+                <div  id="image" class="brand text-lg-center text-center">
                     <img class="col-lg-7  col-7" src="/components/img/diaryLogo.png" alt="logo">
                 </div>
                 <div id="form" class="card fat  rounded-lg border-light shadow-main">
                     <p class="card-body ">
                         <h4 class="card-title text-center ">Reset Password</h4>
-                    <div style="width:350px " id="image" class="brand text-lg-center text-center">
+                    <div  id="image" class="brand text-lg-center text-center ">
                         <img class="col-lg-4  col-4" src="/components/img/lock.jpg" alt="logo">
                     </div>
                         <div style="font-size: small;" class="col-8 offset-2  text-center">

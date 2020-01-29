@@ -24,7 +24,8 @@ Route::post('/editUserEvent', 'Home\FullCalendarController@edit')->name('eventUs
 Route::get('/getUserEventsJoinMaintenance', 'Home\EventsJoinMaintenanceController@getEventsJoinMaintenance')->name('getUserEventsJoinMaintenanceGet');
 //User Maintenance getUserMaintenance
 Route::get('/getUserMaintenance', 'Home\MaintenanceController@getMaintenance')->name('getUserMaintenanceGet');
-
+//Get Workplace
+ Route::get('/getUserWorkplace', 'Home\FullCalendarController@getWorkplace')->name('getUserWorkplace');
 
 
 
@@ -62,8 +63,9 @@ Route::get('/dLogout','GetHomeController@logout')->name('homeLogout');
     Route::get('/dHome/deleteMaintenance', 'Home\MaintenanceController@deleteMaintenance')->name('deleteMaintenanceGet');
 //EventsJoinMaintenance
     Route::get('/dHome/getEventsJoinMaintenance', 'Home\EventsJoinMaintenanceController@getEventsJoinMaintenance')->name('getEventsJoinMaintenanceGet');
-
-
+ //Workplace Settings
+    Route::get('/dHome/getWorkplace', 'Home\FullCalendarController@getWorkplace')->name('workplaceGet');
+    Route::post('/dHome/postWorkplace', 'Home\FullCalendarController@postWorkplace')->name('workplacePost');
 //Diary Home Full Calendar POST
         Route::post('/dHome/addEvent', 'Home\FullCalendarController@create')->name('addEventPost');
         Route::post('/dHome/dropEvent', 'Home\FullCalendarController@editTime')->name('dropEventGet');

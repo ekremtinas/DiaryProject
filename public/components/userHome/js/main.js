@@ -1,4 +1,62 @@
+var globalTotalTime;
+var globalMaintenance;
+var carInfo={'car':[{'plate':'42 ER 122','carImage':'togg.jpg'},{'plate':'42 ER 123','carImage':'audi.jpg'}]};
 $(document).ready(function () {
+
+
+    //Information Notification Show
+    $('#notificationAlert').addClass('alert-success').removeClass('alert-danger');
+    $(".notification-text").html("Enter your license plate first, then confirm this");
+    $('#notificationAlert').show();
+
+
+    //Car Image Get JSON License Plate Changed
+    var carImage=$('#carImage');
+    var goOnButton=$('#goOnButton');
+    var carConfirmSwitch=$('#carConfirmSwitch');
+    var miniLoading=$('#miniLoading');
+    $('#licensePlate').on('keyup',function (info) {
+        notificationAlert.animate({left:'1500px'}).hide('slow').animate({left:'1000px'});//Notification'un kaldırılması
+        var plateInput=$(this).val();
+        var lodashCar=  _.find(carInfo.car, function(o) {  return o.plate===plateInput;});
+        miniLoading.attr('hidden', false);
+        if(lodashCar) {
+            miniLoading.attr('hidden', true);
+            carImage.attr('hidden', false).attr('height','200px');
+            carImage.find('img').attr('src', '/components/img/cars/' + lodashCar.carImage).attr('width','300px');
+
+        }
+        else
+        {
+            miniLoading.attr('hidden', false);
+            carImage.attr('hidden', true);
+        }
+
+    }).blur(function () {//Input içerisinden çıktığımızda eğer boş ise loading gif'inin gizlenmesi
+        var plateInput=$(this).val();
+        if(!plateInput) {
+            miniLoading.attr('hidden', true);
+        }
+        });
+    //Switch Confirm My Car
+    carConfirmSwitch.click(function () {
+            if($(this).prop("checked") == true)
+            {
+                goOnButton.attr('disabled',false);
+            }
+            else if($(this).prop("checked") == false)
+            {
+                goOnButton.attr('disabled',true);
+            }
+    });
+
+
+
+
+
+
+
+
     //İnputlara Tıklandığında Odaklanma
     //İnput Start
     $('input').focus(function(){
@@ -20,7 +78,7 @@ $(document).ready(function () {
     //Checkboxlara Tıklandığında Gölgelendirme Yapılması
     // Checbox Start
 
-    $('input[type=checkbox]').focus(function () {
+    $("input[name='maintenance[]']").focus(function () {
         $('#maintenanceTable').attr('style','box-shadow :0 1px 3px rgba(0, 0, 0, 0.16), 0 1px 1px rgba(0, 0, 0, 0.23) !important;');
 
     }).blur(function () {
@@ -28,15 +86,15 @@ $(document).ready(function () {
     });
     //Checkbox End
 
-    $("input[type=checkbox]").click(function(){
+    $("input[name='maintenance[]']").click(function(){
 
-        if($("input[type=checkbox]:checked").length >3)
+        if($("input[name='maintenance[]']:checked").length >3)
         {
-            $("input[type=checkbox]").prop("checked", false);
+            $("input[name='maintenance[]']").prop("checked", false);
 
         }
         else {
-            $("input[type=checkbox]").removeAttr("disabled");
+            $("input[name='maintenance[]']").removeAttr("disabled");
         }
 
 
@@ -63,6 +121,7 @@ $(document).ready(function () {
         licensePlateLabel.animate({top: '0px'}).hide();
     });
     //Label Kaydırma End
+
 
 //Chrome Geri Tuşu Confirm
 
@@ -96,7 +155,7 @@ $(document).ready(function () {
 
     }
     //Chrome Back End Button End
-//Edit Modal İçin Ajax ile Bakım Türlerinin Getirilip Modal'a eklenmesi
+// Ajax ile Bakım Türlerinin Getirilip Tablo'ya eklenmesi
 
     $.ajax({
         url:'/getUserMaintenance',
@@ -119,4 +178,94 @@ $(document).ready(function () {
 
         }
     });
+
+    var editUserEventSubmit=$('#editUserEventSubmit');
+    var chooseMessage=$('#chooseMessage');
+    jQuery(document).on('click', "input[name='maintenance[]']" , function(event){
+        var totalHour='00';
+        var totalMinute='00';
+        var totalTime;
+        totalHour=parseInt(totalHour);
+        totalMinute=parseInt(totalMinute);
+        $.each($("input[name='maintenance[]']:checked"),function () {
+            var maintenanceCheckbox = $(this).val();
+            var maintenanceHour = maintenanceCheckbox.substr(1, 2);
+            var maintenanceMinute = maintenanceCheckbox.substr(4, 2);
+
+            maintenanceMinute=parseInt(maintenanceMinute);
+            maintenanceHour=parseInt(maintenanceHour);
+            totalHour=totalHour+maintenanceHour;
+            totalMinute=totalMinute+maintenanceMinute;
+        });
+
+        if(totalMinute>=60)
+        {
+            totalHour++;
+            totalMinute=0;
+        }
+        if(totalMinute==0)
+        {
+            totalTime='0'+totalHour+':'+'0'+totalMinute;
+
+        }
+        else
+        {
+            totalTime='0'+totalHour+':'+totalMinute;
+
+        }
+       globalTotalTime=moment(totalTime,"HH:mm");
+
+       if(timeDiffMoment<moment(totalTime,"HH:mm"))
+       {
+
+           editUserEventSubmit.attr('disabled',true);
+           chooseMessage.html("<div class=\"bvalidator-red-tooltip\" style=\"top:10px; left: 300.328px;\"><div class=\"bvalidator-red-arrow\"></div><div class=\"bvalidator-red-msg\"><div>Election Exceeded.</div>\n" +
+               "</div></div>");
+       }
+       else
+       {
+
+           editUserEventSubmit.attr('disabled',false);
+           chooseMessage.html('');
+       }
+
+        totalHour=0;
+        totalMinute=0;
+
+
+    });
+    //FullCalendar Top Button
+    var count=0;
+  if (window.matchMedia('(max-width: 767px)').matches) {
+
+       //console.log('as');
+
+
+    }
+    $( window ).resize(
+        function (){
+
+            $.each($(".btn-primary"),function () {
+
+                  for (i=3;i<count;i++) {
+                    if (window.matchMedia('(max-width: 767px)').matches) {
+
+                        $(this).hide();
+
+
+                    } else {
+
+
+                        $(this).show();
+
+
+                    }
+                }
+                count++;
+        });
+            count=0;
+        });
+
+
+
 });

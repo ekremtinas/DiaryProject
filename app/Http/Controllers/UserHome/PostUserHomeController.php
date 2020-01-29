@@ -23,7 +23,7 @@ class PostUserHomeController extends Controller
             'maintenance' => $request->get('maintenance'),
             'totalMinute'=>$minuteSumFormat,
         );
-
+        \DebugBar::info($request->get('maintenance'));
         return response($userEventData);
     }
     public function create(Request $request)

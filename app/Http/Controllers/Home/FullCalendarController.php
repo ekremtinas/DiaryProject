@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Events;
 use App\Models\EventsJoinMaintenance;
 use App\Models\Maintenance;
+use App\Models\Workplace;
 use Carbon\Carbon;
 use DebugBar\DebugBar;
 use Illuminate\Auth\Events\Login;
@@ -350,6 +351,68 @@ class FullCalendarController extends Controller
             } else {
                 return back()->with('error', 'Error');
             }
+        }
+    }
+    public function getWorkplace(Request $request){
+        if ($request->_token==null)
+        {
+            abort(404);
+        }
+        else {
+
+            $data = array();
+            $array = Workplace::all();
+            foreach ($array as $row) {
+                $data[] = array(
+                    'id' => $row["id"],
+                    'workplaceName' => $row["workplaceName"],
+                    'defaultDate' => $row["defaultDate"],
+                    'minTime' => $row["minTime"],
+                    'maxTime' => $row["maxTime"],
+                    'weekends' => $row["weekends"],
+                    'defaultView' =>$row["defaultView"]
+
+                );
+            }
+
+            return response($data);
+        }
+    }
+    public function postWorkplace(Request $request)
+    {
+        $this->validate($request, [
+            'workplaceName' => 'required',
+            'minTime' => 'required',
+            'maxTime' => 'required',
+            'defaultView' => 'required',
+        ]);
+
+        if($request->get('weekends')=='on')
+        {
+            $weekends=true;
+        }
+        else
+        {
+            $weekends=false;
+        }
+        $workplace_data = array(
+
+            'workplaceName' => $request->get('workplaceName'),
+            'defaultDate' => $request->get('defaultDate'),
+            'minTime' => $request->get('minTime'),
+            'maxTime' => $request->get('maxTime'),
+            'weekends' => $weekends,
+            'defaultView' => $request->get('defaultView'),
+        );
+
+        $id = $request->get('id');
+
+        $workplaceEdit = Workplace::where('id',$id)->update($workplace_data);
+        if ($workplaceEdit) {
+            return response($workplace_data);
+        }
+        else{
+            return back()->with('error','Error');
         }
     }
 }

@@ -302,8 +302,10 @@ $(document).ready(function () {
                        {
 
                         var maintenance ='('+moment(maintenanceData[j]["maintenanceMinute"], "HH:mm").format("HH:mm")+') '+maintenanceData[j]["maintenanceTitle"];
-                       $('#maintenanceTable').append( '<tr style="line-height: 1px !important;" class="maintenanceRow" ><td  class="checkboxMaintenance">'+maintenance+'</td> <td ><input class="checkboxMaintenanceInput custom-checkbox form-check" type="checkbox" value="'+maintenance+'"  name="maintenance[]" ></td></tr>');
-                        $('#maintenanceTableEdit').append( '<tr style="line-height: 1px !important;" class="maintenanceEditRow" ><td  class="checkboxEditMaintenance">'+maintenance+'</td> <td ><input class="checkboxEditMaintenanceInput custom-checkbox form-check" type="checkbox" value="'+maintenance+'"  name="maintenance[]" ></td></tr>');
+                       $('#maintenanceTable').append( '<tr style="line-height: 1px !important;" class="maintenanceRow" ><td  class="checkboxMaintenance">'+maintenance+'</td> <td >'
+                           +
+                           '<div class=" custom-switch custom-control ">  <input class="custom-control-input  checkboxMaintenanceInput "  type="checkbox" value="'+maintenance+'" name="maintenance[]" id="maintenance'+j+'" > <label for="maintenance'+j+'" class="custom-control-label   "></label></div></td></tr>');
+                        $('#maintenanceTableEdit').append( '<tr style="line-height: 1px !important;" class="maintenanceEditRow" ><td  class="checkboxEditMaintenance">'+maintenance+'</td> <td ><div class=" custom-switch custom-control ">  <input class="custom-control-input  checkboxEditMaintenanceInput "  type="checkbox" value="'+maintenance+'" name="maintenance[]" id="maintenance'+j+'" > <label for="maintenance'+j+'" class="custom-control-label   "></label></div></td></tr>');
 
                        }
 
@@ -380,8 +382,8 @@ $(document).ready(function () {
                        success:function (data) {
 
                            var maintenance  = '('+moment(data["maintenanceMinute"], "HH:mm").format("HH:mm")+') '+data["maintenanceTitle"];
-                           $('#maintenanceTable').append('<tr style="line-height: 1px !important;" class="maintenanceRow" ><td  class="checkboxMaintenance">'+maintenance+'</td> <td ><input class="checkboxMaintenanceInput custom-checkbox form-check" type="checkbox" value="'+maintenance+'"  name="maintenance[]" ></td></tr>');
-                           $('#maintenanceTableEdit').append( '<tr style="line-height: 1px !important;" class="maintenanceEditRow" ><td  class="checkboxEditMaintenance">'+maintenance+'</td> <td ><input class="checkboxMaintenanceInput custom-checkbox form-check" type="checkbox" value="'+maintenance+'"  name="maintenance[]" ></td></tr>');
+                           $('#maintenanceTable').append('<tr style="line-height: 1px !important;" class="maintenanceRow" ><td  class="checkboxMaintenance">'+maintenance+'</td> <td ><div class=" custom-switch custom-control ">  <input class="custom-control-input  checkboxMaintenanceInput "  type="checkbox" value="'+maintenance+'" name="maintenance[]" id="maintenance'+j+'" > <label for="maintenance'+j+'" class="custom-control-label   "></label></div></td></tr>');
+                           $('#maintenanceTableEdit').append( '<tr style="line-height: 1px !important;" class="maintenanceEditRow" ><td  class="checkboxEditMaintenance">'+maintenance+'</td> <td ><div class=" custom-switch custom-control ">  <input class="custom-control-input  checkboxEditMaintenanceInput "  type="checkbox" value="'+maintenance+'" name="maintenance[]" id="maintenance'+j+'" > <label for="maintenance'+j+'" class="custom-control-label   "></label></div></td></tr>');
 
 
                            $('#notificationAlert').addClass('alert-success').removeClass('alert-danger');//Bakım eklenmesi notification start
@@ -438,11 +440,11 @@ $(document).ready(function () {
                             dataType:'json',
                             success:function (data) {
                                 $.each($("input[name='maintenance[]']:checked"), function(){//Seçilen checkbox'ın 2 üst elemanının gizlenmesi
-                                    $(this).parent().parent().hide();
+                                    $(this).parent().parent().parent().hide();
                                     });
                                var maintenance  = '('+moment(data["maintenanceMinute"], "HH:mm").format("HH:mm")+') '+data["maintenanceTitle"];
-                                $('#maintenanceTable').append('<tr style="line-height: 1px !important;" class="maintenanceRow" ><td  class="checkboxMaintenance">'+maintenance+'</td> <td ><input class="checkboxMaintenanceInput custom-checkbox form-check" type="checkbox" value="'+maintenance+'"  name="maintenance[]" ></td></tr>');
-                              $('#maintenanceTableEdit').append( '<tr style="line-height: 1px !important;" class="maintenanceEditRow" ><td  class="checkboxMaintenance">'+maintenance+'</td> <td ><input class="checkboxMaintenanceInput custom-checkbox form-check" type="checkbox" value="'+maintenance+'"  name="maintenance[]" ></td></tr>');/*Edit Form'a Güncellenen verinin eklenmesi*/
+                                $('#maintenanceTable').append('<tr style="line-height: 1px !important;" class="maintenanceRow" ><td  class="checkboxMaintenance">'+maintenance+'</td> <td ><div class=" custom-switch custom-control ">  <input class="custom-control-input  checkboxMaintenanceInput "  type="checkbox" value="'+maintenance+'" name="maintenance[]" id="maintenance'+j+'" > <label for="maintenance'+j+'" class="custom-control-label   "></label></div></td></tr>');
+                              $('#maintenanceTableEdit').append( '<tr style="line-height: 1px !important;" class="maintenanceEditRow" ><td  class="checkboxMaintenance">'+maintenance+'</td> <td ><div class=" custom-switch custom-control ">  <input class="custom-control-input  checkboxEditMaintenanceInput "  type="checkbox" value="'+maintenance+'" name="maintenance[]" id="maintenance'+j+'" > <label for="maintenance'+j+'" class="custom-control-label   "></label></div></td></tr>');/*Edit Form'a Güncellenen verinin eklenmesi*/
                                $('#maintenanceTableEdit tr:has(td)').each(function() {
 
                                     if($(this).find('td').text()===maintenanceChekbox)
@@ -502,7 +504,7 @@ $(document).ready(function () {
                                 success:function (data) {
 
                                     $.each($("input[name='maintenance[]']:checked"), function(){
-                                        $(this).parent().parent().hide();
+                                        $(this).parent().parent().parent().hide();
                                     });
 
 
@@ -549,64 +551,206 @@ $(document).ready(function () {
             //Css link optimizasyon --------- End
 
 
-            //İnput CheckBox
+            //İnput CheckBox Select Time Sum
 
 
-        var addEventSubmit=$('#addEventSubmit');
-        var editEventSubmit=$('#editEventSubmit');
-        var chooseMessage=$('.chooseMessage');
-        jQuery(document).on('click', "input[name='maintenance[]']" , function(event){
-            var totalHour='00';
-            var totalMinute='00';
-            var totalTime;
-            totalHour=parseInt(totalHour);
-            totalMinute=parseInt(totalMinute);
-            $.each($("input[name='maintenance[]']:checked"),function () {
-                    var maintenanceCheckbox = $(this).val();
-                    var maintenanceHour = maintenanceCheckbox.substr(1, 2);
-                    var maintenanceMinute = maintenanceCheckbox.substr(4, 2);
+                var addEventSubmit=$('#addEventSubmit');
+                var editEventSubmit=$('#editEventSubmit');
+                var chooseMessage=$('.chooseMessage');
+                jQuery(document).on('click', "input[name='maintenance[]']" , function(event){
+                    var totalHour='00';
+                    var totalMinute='00';
+                    var totalTime;
+                    totalHour=parseInt(totalHour);
+                    totalMinute=parseInt(totalMinute);
+                    $.each($("input[name='maintenance[]']:checked"),function () {
+                            var maintenanceCheckbox = $(this).val();
+                            var maintenanceHour = maintenanceCheckbox.substr(1, 2);
+                            var maintenanceMinute = maintenanceCheckbox.substr(4, 2);
 
-                    maintenanceMinute=parseInt(maintenanceMinute);
-                    maintenanceHour=parseInt(maintenanceHour);
-                    totalHour=totalHour+maintenanceHour;
-                    totalMinute=totalMinute+maintenanceMinute;
-                 });
+                            maintenanceMinute=parseInt(maintenanceMinute);
+                            maintenanceHour=parseInt(maintenanceHour);
+                            totalHour=totalHour+maintenanceHour;
+                            totalMinute=totalMinute+maintenanceMinute;
+                         });
 
-            if(totalMinute>=60)
-            {
-                totalHour++;
-                totalMinute=0;
+                    if(totalMinute>=60)
+                    {
+                        totalHour++;
+                        totalMinute=0;
+                    }
+                    if(totalMinute==0)
+                    {
+                        totalTime='0'+totalHour+':'+'0'+totalMinute;
+
+                    }
+                    else
+                    {
+                        totalTime='0'+totalHour+':'+totalMinute;
+
+                    }
+
+                        if(timeDiffMoment<moment(totalTime,"HH:mm"))
+                   {
+                       addEventSubmit.attr('disabled',true);
+                       editEventSubmit.attr('disabled',true);
+                       chooseMessage.html("<div class=\"bvalidator-red-tooltip\" style=\"top:10px; left: 300.328px;\"><div class=\"bvalidator-red-arrow\"></div><div class=\"bvalidator-red-msg\"><div>Election Exceeded.</div>\n" +
+                           "</div></div>");
+                   }
+                   else
+                   {
+                       addEventSubmit.attr('disabled',false);
+                       editEventSubmit.attr('disabled',false);
+                       chooseMessage.html('');
+                   }
+
+                    totalHour=0;
+                    totalMinute=0;
+
+
+            });
+
+
+            //FullCalendar Top Button
+            var count=0;
+            if (window.matchMedia('(max-width: 767px)').matches) {
+
+                //console.log('as');
+
+
             }
-            if(totalMinute==0)
+            $( window ).resize(
+                function (){
+
+                    $.each($(".btn-primary"),function () {
+
+                        for (i=3;i<count;i++) {
+                            if (window.matchMedia('(max-width: 767px)').matches) {
+
+                                $(this).hide();
+
+
+                            } else {
+
+
+                                $(this).show();
+
+
+                            }
+                        }
+                        count++;
+                    });
+                    count=0;
+                });
+
+            //Workplace Setting
+            var workplaceSettingsForm = $('#workplaceSettingsForm');
+            var workplaceSettingsSubmit = $('#workplaceSettingsSubmit');
+                $('#workplaceButton').click(function () {
+
+
+                    $.ajax({
+                        url:'/dHome/getWorkplace',
+                        type:'get',
+                        data:{
+                            _token:'0GTwvcp5NWn7zBVtu6lSH4R5GhTRLaCYDoJvnqNT'
+                        },
+                        dataType:'json',
+                        success:function (data) {
+
+                                workplaceSettingsForm.find('#id').val(data[0]["id"]);
+                                workplaceSettingsForm.find('#workplaceName').val(data[0]["workplaceName"]);
+                                workplaceSettingsForm.find('#defaultDate').val(data[0]["defaultDate"]);
+                                workplaceSettingsForm.find('#minTime').val(data[0]["minTime"]);
+                                workplaceSettingsForm.find('#maxTime').val(data[0]["maxTime"]);
+                                workplaceSettingsForm.find('#weekends').attr('checked',data[0]["weekends"]);
+                                workplaceSettingsForm.find('#defaultView').find('#'+data[0]["defaultView"]).attr('checked',true);
+                                 $("#workplaceSettingsModal").modal('show');
+                        }
+                    });
+
+                });
+
+                //Workplace Submit Ajax Set
+            workplaceSettingsForm.submit(function (e) {
+                workplaceSettingsSubmit.prop( "disabled", true );
+                e.preventDefault();
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+
+                    }
+                });
+                $.ajax({
+                    url:'/dHome/postWorkplace',
+                    type:'post',
+                    data:workplaceSettingsForm.serialize(),
+                    dataType:'json',
+                    success:function (data) {
+
+                        workplaceSettingsForm.find('#workplaceName').val(data["workplaceName"]);
+                        workplaceSettingsForm.find('#defaultDate').val(data["defaultDate"]);
+                        workplaceSettingsForm.find('#minTime').val(data["minTime"]);
+                        workplaceSettingsForm.find('#maxTime').val(data["maxTime"]);
+                        workplaceSettingsForm.find('#weekends').attr('checked',data["weekends"]);
+                        workplaceSettingsForm.find('#defaultView').find('#'+data["defaultView"]).attr('checked',true);
+                        workplaceSettingsSubmit.prop( "disabled", false );
+                        $('#notificationAlert').addClass('alert-success').removeClass('alert-danger');//İş yeri güncellemesi notification start
+                        $(".notification-text").html("Workplace Settings Updated");
+                        $('#notificationAlert').show();//İş yeri güncellemesi notification end
+                    }
+                });
+
+            });
+
+
+
+
+
+            //Workplace Setting Input Label Scroll
+
+            //Workplace Name
+            var workplaceNameLabel= workplaceSettingsForm.find('#workplaceName-label');
+            var workplaceName= workplaceSettingsForm.find('#workplaceName');
+            workplaceName.focus(function()
             {
-                totalTime='0'+totalHour+':'+'0'+totalMinute;
 
-            }
-            else
+                workplaceNameLabel.show().animate({top: '-22px'});
+            }).blur(function () {
+                workplaceNameLabel.animate({top: '00px'});
+            });
+            //Workplace Default Date
+            var defaultDateLabel= workplaceSettingsForm.find('#defaultDate-label');
+            var defaultDate= workplaceSettingsForm.find('#defaultDate');
+            defaultDate.focus(function()
             {
-                totalTime='0'+totalHour+':'+totalMinute;
 
-            }
+                defaultDateLabel.show().animate({top: '-22px'});
+            }).blur(function () {
+                defaultDateLabel.animate({top: '00px'});
+            });
+            //Workplace Min Time
+            var minTimeLabel= workplaceSettingsForm.find('#minTime-label');
+            var minTime= workplaceSettingsForm.find('#minTime');
+            minTime.focus(function()
+            {
 
-                if(timeDiffMoment<moment(totalTime,"HH:mm"))
-           {
-               addEventSubmit.attr('disabled',true);
-               editEventSubmit.attr('disabled',true);
-               chooseMessage.html("<div class=\"bvalidator-red-tooltip\" style=\"top:10px; left: 300.328px;\"><div class=\"bvalidator-red-arrow\"></div><div class=\"bvalidator-red-msg\"><div>Election Exceeded.</div>\n" +
-                   "</div></div>");
-           }
-           else
-           {
-               addEventSubmit.attr('disabled',false);
-               editEventSubmit.attr('disabled',false);
-               chooseMessage.html('');
-           }
+                minTimeLabel.show().animate({top: '-22px'});
+            }).blur(function () {
+                minTimeLabel.animate({top: '00px'});
+            });
+            //Workplace Max Time
+            var maxTimeLabel= workplaceSettingsForm.find('#maxTime-label');
+            var maxTime= workplaceSettingsForm.find('#maxTime');
+            maxTime.focus(function()
+            {
 
-            totalHour=0;
-            totalMinute=0;
+                maxTimeLabel.show().animate({top: '-22px'});
+            }).blur(function () {
+                maxTimeLabel.animate({top: '00px'});
+            });
 
 
-    });
 
 
 });

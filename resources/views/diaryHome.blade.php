@@ -12,8 +12,17 @@
 @endsection
 @section('content')
 
-        <div class="loading" id="loading"><img width="100px" height="100px" src="/components/img/gif/loading.gif"></div>
-        <div tabindex="-1" class="container w-75 h-50" id='top'>
+    <div style="" class="loading" id="loading"><div class="sk-cube-grid">
+            <div class="sk-cube sk-cube1"></div>
+            <div class="sk-cube sk-cube2"></div>
+            <div class="sk-cube sk-cube3"></div>
+            <div class="sk-cube sk-cube4"></div>
+            <div class="sk-cube sk-cube5"></div>
+            <div class="sk-cube sk-cube6"></div>
+            <div class="sk-cube sk-cube7"></div>
+            <div class="sk-cube sk-cube8"></div>
+            <div class="sk-cube sk-cube9"></div>
+        </div></div>   <div tabindex="-1" class="container w-75 h-50" id='top'>
 
             <div class='left' hidden>
 
@@ -56,7 +65,7 @@
 
             @include('Home.Modals.addEventModal')
             @include('Home.Modals.editEventModal')
-
+            @include('Home.Modals.workplaceSettingsModal')
 
     @endif
 @endsection
@@ -97,7 +106,7 @@
     <script src="/components/bvalidator/dist/jquery.bvalidator.min.js" defer></script>
     <script src="/components/bvalidator/themes/presenters/bValidator.DefaultPresenter.js" defer></script>
     <script src="/components/bvalidator/themes/red/red.js" defer></script>
-    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.15/lodash.min.js"></script>
+
     <script>
         var timeDiffMoment;//Seçilen iki time arasındaki süre
         var globalRawData;//Event get ile getirilen data

@@ -28,7 +28,7 @@
 
 
                     <div class="form-group btn-group-sm mt-5 col-lg-10 offset-lg-1 ">
-
+                        <div class="chooseMessage"></div>
                         <table id="maintenanceTableEdit" style="border-radius: 1rem; !important;" class="table table-responsive-lg table-borderless  btn-sm shadow-main">
                             <tr>
                                 <td ><b>Maintenance type</b></td>
@@ -69,7 +69,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Close</button>
-                    <button id="editEventSubmit" type="submit" class="btn btn-success  btn-sm">Save changes</button>
+                    <button id="editUserEventSubmit" type="submit" class="btn btn-success  btn-sm">Save changes</button>
                 </div>
             </form>
         </div>
