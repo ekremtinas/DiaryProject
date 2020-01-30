@@ -1,0 +1,24 @@
+input:focus {
+
+    box-shadow :0 1px 3px rgba(0, 0, 0, 0.16), 0 1px 1px rgba(0, 0, 0, 0.23) !important;
+}
+select:focus {
+
+    box-shadow :0 1px 3px rgba(0, 0, 0, 0.16), 0 1px 1px rgba(0, 0, 0, 0.23) !important;
+}
+.password-equal-alert {
+    position: absolute;
+    top: 37%;
+}
+.password-alert {
+    position: absolute;
+    top: 110%;
+}
+.email-alert {
+    position: absolute;
+    top: 38%;
+}
+.name-alert {
+    position: absolute;
+    top: 24%;
+}

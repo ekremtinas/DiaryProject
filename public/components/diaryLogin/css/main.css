@@ -1,0 +1,23 @@
+/* İnput'a tıklandığında alt gölgesinin boyutunun kısalması */
+input:focus {
+
+    box-shadow :0 1px 3px rgba(0, 0, 0, 0.16), 0 1px 1px rgba(0, 0, 0, 0.23) !important;
+}
+
+/* Şifre yenileme mesajı padding ayarı */
+.alert-forgot-password {
+    position: relative;
+    padding: 1px 1.25rem;
+    margin-bottom: 1rem;
+    border: 1px solid transparent;
+    border-radius: .25rem;
+}
+.email-alert {
+    position: absolute;
+    top: 37%;
+}
+.password-alert{
+    position: absolute;
+    top:115%;
+
+}
