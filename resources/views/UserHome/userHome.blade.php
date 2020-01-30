@@ -163,7 +163,7 @@
         @section('css')
             <link rel="stylesheet" href="/components/userHome/css/main.css" >
             <link href="/components/bvalidator/themes/red/red.css" rel="stylesheet" />
-            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-contextmenu/2.7.1/jquery.contextMenu.min.css">
+            <link rel="stylesheet" href="/components/userHome/css/jquery.contextMenu.min.css">
 
             <link href='/components/fullcalendar/packages/core/main.css' rel='stylesheet' />
             <link href='/components/fullcalendar/packages/bootstrap/main.css' rel='stylesheet' />
@@ -180,8 +180,8 @@
             <script src="/components/bvalidator/dist/jquery.bvalidator.min.js"></script>
             <script src="/components/bvalidator/themes/presenters/bValidator.DefaultPresenter.js"></script>
             <script src="/components/bvalidator/themes/red/red.js"></script>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-contextmenu/2.7.1/jquery.contextMenu.min.js" defer></script>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.3.2/bootbox.js" defer></script>
+            <script src="/components/userHome/js/jquery.contextMenu.min.js" defer></script>
+            <script src="/components/userHome/js/bootbox.js" defer></script>
 
             <script src='/components/fullcalendar/packages/core/main.js'></script>
             <script src='/components/fullcalendar/packages/interaction/main.js'></script>
@@ -189,9 +189,9 @@
             <script src='/components/fullcalendar/packages/daygrid/main.js'></script>
             <script src='/components/fullcalendar/packages/timegrid/main.js'></script>
             <script src='/components/fullcalendar/js/theme-chooser.js'></script>
-            <script src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.js'></script>
+            <script src='/components/userHome/js/moment.js'></script>
             <script src='/components/fullcalendar/packages/core/locales-all.js'></script>
-            <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.15/lodash.min.js"></script>
+            <script src="/components/userHome/js/lodash.min.js"></script>
             <script>
                     var timeDiffMoment;
             $(document).ready(function () {
@@ -210,7 +210,34 @@
                     weekends=false;
                     defaultView=false;
                       userFirstForm.submit(function (e) {
-
+                          /*     var s = document.createElement("script");
+                                                  s.src = "/components/fullcalendar/packages/core/main.js";
+                                                  document.head.appendChild(s);
+                                                  s = document.createElement("script");
+                                                  s.src = "/components/fullcalendar/packages/interaction/main.js";
+                                                  document.head.appendChild(s);
+                                                  s = document.createElement("script");
+                                                  s.src = "/components/fullcalendar/packages/bootstrap/main.js";
+                                                  document.head.appendChild(s);
+                                                  s = document.createElement("script");
+                                                  s.src = "/components/fullcalendar/packages/daygrid/main.js";
+                                                  document.head.appendChild(s);
+                                                  s = document.createElement("script");
+                                                  s.src = "/components/fullcalendar/packages/timegrid/main.js";
+                                                  document.head.appendChild(s);
+                                                  s = document.createElement("script");
+                                                  s.src = "/components/fullcalendar/js/theme-chooser.js";
+                                                  document.head.appendChild(s);
+                                                  s = document.createElement("script");
+                                                  s.src = "/components/fullcalendar/packages/core/locales-all.js";
+                                                  document.head.appendChild(s);
+                                                  s = document.createElement("script");
+                                                  s.src = "/components/userHome/js/jquery.contextMenu.min.js";
+                                                  document.head.appendChild(s);
+                                                  s = document.createElement("script");
+                                                  s.src = "/components/userHome/js/bootbox.js";
+                                                  document.head.appendChild(s);
+                        */
                         e.preventDefault();
                         $.ajaxSetup({
                             headers: {
@@ -262,13 +289,11 @@
                                 $('.pageTitle').html(workplaceName+' | Diary');
 
 
-
-
                                 var i = 1;
                                 var calendar;
                                 var calendarEl = document.getElementById('calendar');
                                 var initialLocaleCode = 'en';
-                                var localeSelectorEl = document.getElementById('locale-selector')
+                                var localeSelectorEl = document.getElementById('locale-selector');
 
                                 initThemeChooser({
                                     init: function (themeSystem) {
@@ -317,7 +342,6 @@
                                                     var timeDiff = '0' + s;
 
                                                     timeDiffMoment = moment(timeDiff, 'HH:mm');
-
 
                                                     if (globalTotalTime <= timeDiffMoment) {
 
@@ -386,7 +410,7 @@
                                             events: {
                                                 url: '/getUserEvent?_token=0GTwvcp5NWn7zBVtu6lSH4R5GhTRLaCYDoJvnqNT',
                                                 type: 'GET', // Send Get data
-                                                // color: 'grey !important',
+// color: 'grey !important',
                                                 textColor: 'white',
                                                 success: function (rawData) {
 
@@ -409,7 +433,7 @@
                                             }
                                         });
                                         calendar.render();
-                                        // build the locale selector's options
+// build the locale selector's options
                                         calendar.getAvailableLocaleCodes().forEach(function (localeCode) {
                                             var optionEl = document.createElement('option');
                                             optionEl.value = localeCode;
@@ -417,7 +441,7 @@
                                             optionEl.innerText = localeCode;
                                             localeSelectorEl.appendChild(optionEl);
                                         });
-                                        // when the selected option changes, dynamically change the calendar option
+// when the selected option changes, dynamically change the calendar option
                                         localeSelectorEl.addEventListener('change', function () {
                                             if (this.value) {
                                                 calendar.setOption('locale', this.value);
@@ -477,7 +501,7 @@
                                                 $('#UserModalEdit #editTitle').val(title[0]);
                                                 $('#UserModalEdit #editStart').val(moment(event.start).format('YYYY-MM-DD HH:mm:ss'));
                                                 $('#UserModalEdit #editEnd').val(moment(event.end).format('YYYY-MM-DD HH:mm:ss'));
-                                                //Edit Formunda Bakım Türlerinin Seçilmesi
+//Edit Formunda Bakım Türlerinin Seçilmesi
                                                 var maintenance=title[1].split(",");
                                                 var i=0;
                                                 $.each($(".maintenanceEditRow .checkboxMaintenanceInput"),function () {
@@ -580,7 +604,7 @@
                                 var editEventForm = $('#editUserEventForm');
                                 editEventForm.submit(function(e){
 
-                                    //  $('#editEventSubmit').prop( "disabled", true );
+//  $('#editEventSubmit').prop( "disabled", true );
                                     e.preventDefault();
                                     $.ajaxSetup({
                                         headers: {
@@ -641,10 +665,6 @@
                                     });
 
                                 });
-
-
-
-
                             },
                             error:function () {
                                 defaultDate= moment().day().today;
@@ -652,6 +672,14 @@
                                 maxTime="18:00:00";
                                 weekends=false;
                                 defaultView=false;
+                            },
+                            complete : function( qXHR, textStatus ) {
+                                // attach error case
+
+                                if (textStatus === 'success') {
+
+
+                                }
                             }
                         });
 

@@ -157,6 +157,8 @@ $(document).ready(function () {
     //Chrome Back End Button End
 // Ajax ile Bakım Türlerinin Getirilip Tablo'ya eklenmesi
 
+
+    //Bakım Türlerinin Getirilmesi
     $.ajax({
         url:'/getUserMaintenance',
         type:'get',
@@ -178,6 +180,8 @@ $(document).ready(function () {
 
         }
     });
+
+
 
     var editUserEventSubmit=$('#editUserEventSubmit');
     var chooseMessage=$('#chooseMessage');
