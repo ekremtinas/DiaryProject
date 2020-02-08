@@ -3,15 +3,16 @@
   <component name="ChangeListManager">
     <list default="true" id="4a8e94e8-e1f8-4c09-a043-d33f9a42353f" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/dataSources/4971b7fe-ee86-4461-8e34-92cf21ceb6ff.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/4971b7fe-ee86-4461-8e34-92cf21ceb6ff.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/4971b7fe-ee86-4461-8e34-92cf21ceb6ff/storage_v2/_src_/database/diary.w2OyBQ/schema/public.abK9xQ.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/4971b7fe-ee86-4461-8e34-92cf21ceb6ff/storage_v2/_src_/database/diary.w2OyBQ/schema/public.abK9xQ.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/components/img/diaryLogo.png" beforeDir="false" afterPath="$PROJECT_DIR$/public/components/img/diaryLogo.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Home/FullCalendarController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Home/FullCalendarController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/UserHome/PostUserHomeController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/UserHome/PostUserHomeController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/components/userHome/css/main.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/components/userHome/css/main.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/components/userHome/js/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/components/userHome/js/main.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/logo1.ico" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/UserHome/Modals/editUserModal.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/UserHome/Modals/editUserModal.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/UserHome/userHome.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/UserHome/userHome.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/layouts/app.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/app.blade.php" afterDir="false" />
     </list>
-    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -34,47 +35,7 @@
     <option name="HIDDEN_KINDS">
       <set />
     </option>
-    <expand>
-      <path>
-        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
-        <item name="PostgreSQL - postgres@localhost" type="feb32156:DbDataSourceImpl" />
-      </path>
-      <path>
-        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
-        <item name="PostgreSQL - postgres@localhost" type="feb32156:DbDataSourceImpl" />
-        <item name="databases" type="d4e8921:DatabaseStructure$FamilyGroup" />
-      </path>
-      <path>
-        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
-        <item name="PostgreSQL - postgres@localhost" type="feb32156:DbDataSourceImpl" />
-        <item name="databases" type="d4e8921:DatabaseStructure$FamilyGroup" />
-        <item name="diary: database" type="162271b6:PgImplModel$Database" />
-      </path>
-      <path>
-        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
-        <item name="PostgreSQL - postgres@localhost" type="feb32156:DbDataSourceImpl" />
-        <item name="databases" type="d4e8921:DatabaseStructure$FamilyGroup" />
-        <item name="diary: database" type="162271b6:PgImplModel$Database" />
-        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
-      </path>
-      <path>
-        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
-        <item name="PostgreSQL - postgres@localhost" type="feb32156:DbDataSourceImpl" />
-        <item name="databases" type="d4e8921:DatabaseStructure$FamilyGroup" />
-        <item name="diary: database" type="162271b6:PgImplModel$Database" />
-        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
-        <item name="public: schema" type="983ebcf7:PgImplModel$Schema" />
-      </path>
-      <path>
-        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
-        <item name="PostgreSQL - postgres@localhost" type="feb32156:DbDataSourceImpl" />
-        <item name="databases" type="d4e8921:DatabaseStructure$FamilyGroup" />
-        <item name="diary: database" type="162271b6:PgImplModel$Database" />
-        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
-        <item name="public: schema" type="983ebcf7:PgImplModel$Schema" />
-        <item name="tables" type="d4e8921:DatabaseStructure$FamilyGroup" />
-      </path>
-    </expand>
+    <expand />
     <select />
   </component>
   <component name="FileTemplateManagerImpl">
@@ -189,6 +150,8 @@
       <path value="$PROJECT_DIR$/vendor/symfony/error-handler" />
       <path value="$PROJECT_DIR$/vendor/fruitcake/laravel-cors" />
       <path value="$PROJECT_DIR$/vendor/barryvdh/laravel-cors" />
+      <path value="$PROJECT_DIR$/vendor/league/commonmark" />
+      <path value="$PROJECT_DIR$/vendor/league/commonmark-ext-table" />
     </include_path>
   </component>
   <component name="ProjectId" id="1TYZOWobZGZZRNisZ4431KllqU2" />
@@ -220,33 +183,11 @@
       <recent name="C:\xampp\htdocs\Diary\public\components\vue\@fullcalendar" />
     </key>
   </component>
-  <component name="RunDashboard">
-    <option name="ruleStates">
-      <list>
-        <RuleState>
-          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
-        </RuleState>
-        <RuleState>
-          <option name="name" value="StatusDashboardGroupingRule" />
-        </RuleState>
-      </list>
-    </option>
-  </component>
   <component name="RunManager">
     <configuration name="phpunit.xml" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
       <TestRunner scope="XML" />
       <method v="2" />
     </configuration>
-  </component>
-  <component name="ServiceViewManager">
-    <option name="allServicesViewState">
-      <serviceView>
-        <treeState>
-          <expand />
-          <select />
-        </treeState>
-      </serviceView>
-    </option>
   </component>
   <component name="SvnConfiguration">
     <configuration />

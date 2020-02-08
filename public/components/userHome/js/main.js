@@ -1,6 +1,6 @@
 var globalTotalTime;
 var globalMaintenance;
-var carInfo={'car':[{'plate':'42 ER 122','carImage':'togg.jpg'},{'plate':'42 ER 123','carImage':'audi.jpg'}]};
+var carInfo={'car':[{'plate':'42 ER 122','carImage':'togg.jpg'},{'plate':'42 ER 123','carImage':'audi.jpg'},{'plate':'42 ER 124','carImage':'audi.jpg'},{'plate':'42 ER 125','carImage':'togg.jpg'}]};
 $(document).ready(function () {
 
 
@@ -173,7 +173,7 @@ $(document).ready(function () {
             {
 
                 var maintenance ='('+moment(maintenanceData[j]["maintenanceMinute"], "HH:mm").format("HH:mm")+') '+maintenanceData[j]["maintenanceTitle"];
-                $('#maintenanceTableEdit').append( '<tr style="line-height: 1px !important;" class="maintenanceEditRow" ><td  class="checkboxMaintenance">'+maintenance+'</td> <td ><input class="checkboxMaintenanceInput custom-checkbox form-check" type="checkbox" value="'+maintenance+'"  name="maintenance[]" ></td></tr>');
+                $('#maintenanceTableEdit').append( '<tr style="line-height: 1px !important;" class="maintenanceEditRow" ><td  class="checkboxMaintenance">'+maintenance+'</td> <td ><div class=" custom-switch custom-control ">  <input class="custom-control-input  checkboxMaintenanceInput "  type="checkbox" value="'+maintenance+'" name="maintenance[]" id="maintenanceEdit'+j+'" > <label for="maintenanceEdit'+j+'" class="custom-control-label   "></label></div></td></tr>');/*Edit Form'a Güncellenen verinin eklenmesi*/
 
 
             }

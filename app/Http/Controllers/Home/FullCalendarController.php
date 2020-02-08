@@ -223,7 +223,12 @@ class FullCalendarController extends Controller
 
             if (Events::where('id', $event_data['id'])->update($event_data)) {
 
+
+                $EventJoinAll=EventsJoinMaintenance::where('eventId',$event_data['id'])->get();
+
                 $eventStartJoinMaintenanceTimeFormat=null;
+                EventsJoinMaintenance::where('eventId', $event_data['id'])->delete();
+
                 for($i=0;$i<count($maintenanceId);$i++) {
 
 
@@ -232,11 +237,11 @@ class FullCalendarController extends Controller
                         'eventId' => $event_data['id'],
                         'maintenanceId' => "".$maintenanceId[$i]->id."",
                     );
-
-                    EventsJoinMaintenance::where('eventId',$event_data['id'])->update($eventMaintenanceData);
+                     EventsJoinMaintenance::create($eventMaintenanceData);
 
 
                 }
+
 
                         $newEvent = Events::where($event_data)->first();
 
@@ -260,15 +265,17 @@ class FullCalendarController extends Controller
 
                         Events::where($event_data)->update(['end' => $eventStartJoinMaintenanceTimeFormat]);
 
-
+                        $eventsjoinmaintenance = DB::table('events')->select('maintenance.maintenanceTitle')
+                            ->join('eventsjoinmaintenance', 'events.id', '=', 'eventsjoinmaintenance.eventId')
+                            ->join('maintenance', 'maintenance.id', '=', 'eventsjoinmaintenance.maintenanceId')
+                            ->where('events.id', $event_data['id'])->get();
+                        $maintenanceTitle = $eventsjoinmaintenance->toArray();
 
                         $event_data += [
 
-                            'newTime' => $eventStartJoinMaintenanceTimeFormat
+                            'newTime' => $eventStartJoinMaintenanceTimeFormat,
+                            'maintenanceTitle'=> $maintenanceTitle
                         ];
-
-
-
 
                     return response($event_data);
                 }

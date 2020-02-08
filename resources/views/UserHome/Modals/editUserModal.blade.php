@@ -28,7 +28,7 @@
 
 
                     <div class="form-group btn-group-sm mt-5 col-lg-10 offset-lg-1 ">
-                        <div class="chooseMessage"></div>
+                        <div id="chooseMessage"></div>
                         <table id="maintenanceTableEdit" style="border-radius: 1rem; !important;" class="table table-responsive-lg table-borderless  btn-sm shadow-main">
                             <tr>
                                 <td ><b>Maintenance type</b></td>
