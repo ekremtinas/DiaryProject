@@ -54,8 +54,13 @@ initThemeChooser({
             },
 
             select: function(event) { //Tarih / saat seçimi yapıldığında tetiklenir.
+                    $('#editEventForm')[0].reset();//Diğer Form'da ki verilerin temizlenmesi işlemi bu işlemin yapılmasının nedeni iki form da aynı anda dom üzerinde durduğu için hatalara neden oluyor
+                    $('#editEventForm').find("input[name='maintenance[]']:checked").prop('checked', false);
 
-                    var eventForm = $('#addEventForm ,#editEventForm');
+                    var chooseMessage=$('.chooseMessage');//Bakım türü aşımı mesajının kaldırılması
+                    chooseMessage.html('');//Bakım türü aşımı mesajının kaldırılması
+
+
                     var saveStartTime;//Seçilen time'ın başlangıcı
                     var saveEndTime;//Seçilen time'ın başlangıcı
                     saveStartTime = moment(event.start).format('HH:mm');
@@ -64,14 +69,13 @@ initThemeChooser({
                     var d = moment.duration(ms);
                     var s = Math.floor(d.asHours()) + moment.utc(ms).format(":mm");
                     var timeDiff = '0' + s;
-                    timeDiffMoment = moment(timeDiff, 'HH:mm');
+                    timeDiffMoment = moment(timeDiff, 'HH:mm');//Seçilen aradaki dakika farkının alınması
 
 
 
 
                 $('#ModalAdd #saveStart').val(moment(event.start).format('YYYY-MM-DD HH:mm:ss'));
                 $('#ModalAdd #saveEnd').val(moment(event.end).format('YYYY-MM-DD HH:mm:ss'));
-                $('#Choose').attr('selected',true);
                 $('#ModalAdd').modal('show');
                 $('#editEventSubmit').prop( "disabled", true );
 
@@ -187,14 +191,15 @@ initThemeChooser({
             preventSelect: true,
             callback: function(key, options) {
                 var locale = $('#locale-selector').val();
-
+                var chooseMessage=$('.chooseMessage');
                 var eventId=$(this).attr('id');
                 var event = calendar.getEventById(eventId);
                 switch (key) {
                     case 'edit':
 
-
-
+                                       $('#addEventForm').find("input[name='maintenance[]']:checked").prop('checked', false);
+                                       $('#addEventForm')[0].reset();
+                                        chooseMessage.html('');
 
 
                                         $('#ModalEdit #editId').val(event.id);
@@ -218,29 +223,22 @@ initThemeChooser({
                                                var timeDiff = '0' + s;
                                                timeDiffMoment = moment(timeDiff, 'HH:mm');
 
-                                               var maintenanceEditJquery = $('#maintenanceEditSelect option');
-                                               var optionName= '('+moment(data.maintenanceMinute, "HH:mm").format("HH:mm")+') '+data.maintenanceTitle;
-                                               maintenanceEditJquery.each(function () {//Editlenmek istenen bakım türü seçiliyor.
+                                               var optionName= data.maintenanceTitle.split(',');
 
-                                                   if( $(this).val()===optionName)
+
+                                               $.each($('#maintenanceTableEdit').find("input[name='maintenance[]']"), function() {//Checkbox'ın seçilmesi//Editlenmek istenen bakım türü seçiliyor.
+                                                   $(this).prop('checked', false);
+
+                                                   for (var j = 0; j < optionName.length; j++)
                                                    {
-                                                       $(this).attr('selected',true);
+                                                        if ($(this).val().substr(8) == optionName[j]) {
+                                                           $(this).prop('checked', true);
+                                                           // console.log($(this))
 
 
-                                                   }
-                                                   var optionMinute=$(this).val().substr(1,5);
+                                                        }
+                                               }
 
-                                                   var optionMinuteMoment= moment(optionMinute, 'HH:mm');
-
-                                                   if(timeDiffMoment<optionMinuteMoment)
-                                                   {
-
-                                                       $(this).attr('disabled',true);
-                                                   }
-                                                   else
-                                                   {
-                                                       $(this).attr('disabled',false);
-                                                   }
 
                                                });
 
