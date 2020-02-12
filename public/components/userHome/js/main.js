@@ -59,7 +59,7 @@ $(document).ready(function () {
 
     //İnputlara Tıklandığında Odaklanma
     //İnput Start
-    $('input').focus(function(){
+    $('input[type=text]').focus(function(){
 
         $("nav").css("-webkit-filter", "blur(5px)");
         $("#image").css("-webkit-filter", "blur(4px)");
@@ -125,7 +125,8 @@ $(document).ready(function () {
 
 //Chrome Geri Tuşu Confirm
 
-    if (window.history && window.history.pushState) {
+
+    if (window.history && window.history.pushState ) {
 
         window.history.pushState('forward', null, './#forward');
 
@@ -144,8 +145,17 @@ $(document).ready(function () {
                         }
                     },
                     callback: function (result) {
-                        console.log(result);
-                        return result;
+
+                       if(result)
+                       {
+
+                           location.reload();
+                           return result;
+                       }
+                       else
+                       {
+                           return !result;
+                       }
                     },
                 backdrop: true,
                 }
@@ -154,6 +164,9 @@ $(document).ready(function () {
         });
 
     }
+   /* window.onbeforeunload = function(e) {
+       console.log(e)
+    };*///Refresh Button Works
     //Chrome Back End Button End
 // Ajax ile Bakım Türlerinin Getirilip Tablo'ya eklenmesi
 

@@ -17,8 +17,9 @@ a{
 .notification {
     position: fixed !important;
     right: 0 !important;
-    top: 90% !important;
+    top: 80% !important;
     z-index: 999;
+    left: auto !important;
 }
 /* Alert olarak verilen elemanların yazı büyüklüğü */
 .alert-size{

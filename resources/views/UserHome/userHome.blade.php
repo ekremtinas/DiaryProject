@@ -6,7 +6,7 @@
 @section('shadow')
     shadow-main
 @endsection
-@section('locale')
+@section('localeUser')
     <select style="display: none;" class="custom-select-sm col-1 custom-select rounded-pill shadow-main" id="locale-selector"></select>
 @endsection
 @section('layoutDiv')
@@ -40,7 +40,7 @@
                             <img class="col-lg-2 offset-lg-5" hidden id="miniLoading" src="/components/img/gif/miniLoading.gif">
                             <div id="carImage" hidden class="form-group btn-group-sm mt-5 col-lg-8 offset-lg-2 row">
 
-                                <img  class="col-lg-6 carImageZoom  offset-lg-3 border-light shadow-main col-10 offset-1" src=""  \>
+                                <img  class="col-lg-6 carImageZoom rounded-lg  offset-lg-3 border-light shadow-main col-10 offset-1" src=""  \>
                                 <div class="form-group btn-sm mt-2 col-lg-6  offset-lg-3">
                                     <div class="custom-switch custom-control ">
                                         <input class="custom-control-input    "  type="checkbox" name="carConfirmSwitch" id="carConfirmSwitch" >
@@ -132,10 +132,15 @@
                                 <div class='clear'></div>
                             </div>
                            <div class="ml-lg-3 ml-3">
-                            <div class="row"><h6>License Plate: </h6> <h6 class="ml-lg-1" id="plateHtml"></h6></div>
-                            <div class="row"><h6>Total Maintenance: </h6> <h6 class="ml-lg-1" id="minuteHtml"></h6></div>
+                               <div style="font-size: 12px !important;" class="row list-group list-group-horizontal-xl">
+                                   <div class="col-lg-3 list-group-item "><b>License Plate: </b> <b class="ml-lg-1" id="plateHtml"></b></div>
+                                   <div class="col-lg-3 list-group-item"><b>Total Maintenance: </b> <b class="ml-lg-1" id="minuteHtml">00:00:00</b></div>
+                                   <div class="col-lg-3 list-group-item"><b>Selected Maintenance: </b> <b class="ml-lg-1" id="selectedMaintenane">00:00:00</b></div>
+                                   <div class="col-lg-3 list-group-item"></div>
+
+                               </div>
                            </div>
-                               <div class="h-100 mt-lg-3" id='calendar'>  </div>
+                               <div class="h-100 mt-lg-3 mt-5" id='calendar'>  </div>
 
 
 
@@ -295,19 +300,18 @@
              function calendarBuild(defaultView,defaultDate,minTime,maxTime,weekends,plateHtml,minuteHtml){
 
 
-                 var i = 1;
-                 var calendar;
+                 var calendarUser;
                  var calendarEl = document.getElementById('calendar');
                  var initialLocaleCode = 'en';
                  var localeSelectorEl = document.getElementById('locale-selector');
 
                  initThemeChooser({
                      init: function (themeSystem) {
-                         calendar = new FullCalendar.Calendar(calendarEl, {
+                         calendarUser = new FullCalendar.Calendar(calendarEl, {
                              plugins: ['bootstrap', 'interaction', 'dayGrid', 'timeGrid'],
                              themeSystem: themeSystem,
                              header: {
-                                 left: 'prevYear,prev,next,nextYear today custom',
+                                 left: 'prev,next today custom',
                                  center: 'title',
                                  right: 'dayGridMonth,timeGridWeek,timeGridDay'
                              },
@@ -342,11 +346,13 @@
                                  var ms = moment(saveEndTime, "HH:mm").diff(moment(saveStartTime, "HH:mm"));
                                  var d = moment.duration(ms);
                                  var s = Math.floor(d.asHours()) + moment.utc(ms).format(":mm");
-                                 var timeDiff = '0' + s;
+                                 var timeDiff = '0' + s;//Seçilen time aralığı
+                                 $('#selectedMaintenane').html(timeDiff+':00');//Calendar üzerinde ki title'lara veri eklenmesi
+
                                  var today=moment().day().today;
                                  var saveStartDate = moment(event.start);
                                  var todayFormat=moment(today);
-                                 if(todayFormat>=saveStartDate)
+                                 if(todayFormat>=saveStartDate)//Şuandan itibaren event eklenmesi sağlanıyor öncesi bu bildirim ile belirtiliyor
                                  {
                                      $(".notification-text").html("You can't make an appointment before now");
                                      $('#notificationAlert').addClass('alert-danger').removeClass('alert-success');
@@ -354,7 +360,11 @@
 
                                  }
                                  else {
-                                     bootbox.confirm({
+                                     timeDiffMoment = moment(timeDiff, 'HH:mm');
+
+                                     if (globalTotalTime <= timeDiffMoment) {
+
+                                         bootbox.confirm({
                                          message: "Do you want to add an appointment",
                                          size: 'small',
                                          buttons: {
@@ -370,12 +380,6 @@
                                          callback: function (result) {
                                              if (result === true) {
 
-
-                                                     timeDiffMoment = moment(timeDiff, 'HH:mm');
-
-                                                     if (globalTotalTime <= timeDiffMoment) {
-
-
                                                          $.ajaxSetup({
                                                              headers: {
                                                                  'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
@@ -384,7 +388,7 @@
                                                          });
 
                                                          $.ajax({
-                                                             url: '{{route("eventUserAdd")}}',
+                                                             url: '/addUserEvent',
                                                              type: 'post',
                                                              data: {
                                                                  saveTitle: plateHtml.html(),
@@ -396,7 +400,7 @@
                                                              },
                                                              dataType: 'json',
                                                              success: function (data) {
-                                                                 calendar.addEvent(
+                                                                 calendarUser.addEvent(
                                                                      {
                                                                          id: data['id'],
                                                                          title: data['title'] + ' | ' + globalMaintenance['maintenance'],
@@ -422,29 +426,30 @@
                                                              }
                                                          });
 
-                                                         i++;
                                                          $(".notification-text").html("Election not Exceeded.");
                                                          $('#notificationAlert').addClass('alert-success').removeClass('alert-danger');
                                                          $('#notificationAlert').show();
-                                                     } else {
-
-                                                         $(".notification-text").html("Election Exceeded.");
-                                                         $('#notificationAlert').addClass('alert-danger').removeClass('alert-success');
-                                                         $('#notificationAlert').show();
-
                                                      }
 
 
-
-                                             }
                                              else {
                                                  $(".notification-text").html("Appointment not added");
                                                  $('#notificationAlert').addClass('alert-danger').removeClass('alert-success');
                                                  $('#notificationAlert').show();
                                              }
+
                                          }
 
                                      });
+                                     }
+                                     else {
+
+                                         $(".notification-text").html("Election Exceeded.");
+                                         $('#notificationAlert').addClass('alert-danger').removeClass('alert-success');
+                                         $('#notificationAlert').show();
+
+                                     }
+
                                  }
                              },
                              events: {
@@ -479,10 +484,10 @@
 
                              }
                          });
-                         calendar.render();
+                         calendarUser.render();
             // build the locale selector's options
                          var i=0;
-                         calendar.getAvailableLocaleCodes().forEach(function (localeCode) {
+                         calendarUser.getAvailableLocaleCodes().forEach(function (localeCode) {
                              if(i==0) {
                                  $('#locale-selector').attr('style', 'display:inherit');
                              i++;
@@ -495,12 +500,12 @@
             // when the selected option changes, dynamically change the calendar option
                          localeSelectorEl.addEventListener('change', function () {
                              if (this.value) {
-                                 calendar.setOption('locale', this.value);
+                                 calendarUser.setOption('locale', this.value);
                              }
                          });
                      },
                      change: function (themeSystem) {
-                         calendar.setOption('themeSystem', themeSystem);
+                         calendarUser.setOption('themeSystem', themeSystem);
                      }
                  });
                  function edit(info){ // Drop ve Resize Olayları için tarih güncelleme
@@ -581,7 +586,7 @@
                          var locale = $('#locale-selector').val();
 
                          var eventId=$(this).attr('id');
-                         var event = calendar.getEventById(eventId);
+                         var event = calendarUser.getEventById(eventId);
                          switch (key) {
                              case 'edit':
 
@@ -723,7 +728,7 @@
 
                              else {
 
-                                 var event = calendar.getEventById(data.id);
+                                 var event = calendarUser.getEventById(data.id);
                                  event.remove();
 
                                  $('#UserModalEdit').modal('hide');
@@ -739,7 +744,7 @@
                                         }
 
                                     });
-                                 calendar.addEvent(
+                                 calendarUser.addEvent(
                                      {
                                          id: data.id,
                                          title: data.title + ' | ' +maintenanceTitleString,

@@ -27,16 +27,16 @@
                     </div>
 
 
-                    <div class="form-group btn-group-sm mt-5 col-lg-10 offset-lg-1 ">
+                    <div class="form-group btn-group-sm mt-5 col-lg-10 col-10 offset-1 offset-lg-1 ">
                         <div class="chooseMessage"></div>
-                        <div class="col-lg-10 row ">
-                            <div class="col-lg-1 offset-lg-3">  <button id="maintenanceAdd" type="button" class=" btn btn-success btn-sm small-btn-size fa fa-plus " data-toggle="popover"  data-content="
+                        <div class="col-lg-10 col-10 row ">
+                            <div class="col-lg-1 col-1 offset-3 offset-lg-3">  <button id="maintenanceAdd" type="button" class=" btn btn-success btn-sm small-btn-size fa fa-plus " data-toggle="popover"  data-content="
                             Double-click if you want to add maintenance type" data-placement="bottom" data-trigger="focus" title="Maintenance Add"  ></button>
                             </div>
-                            <div class="col-lg-1 offset-lg-2">    <button id="maintenanceEdit" type="button" class=" btn btn-info  btn-sm small-btn-size fa fa-pencil "  data-toggle="popover"  data-content="
+                            <div class="col-lg-1 col-1 offset-2 offset-lg-2">    <button id="maintenanceEdit" type="button" class=" btn btn-info  btn-sm small-btn-size fa fa-pencil "  data-toggle="popover"  data-content="
                              If you want to edit the type of maintenance. Select from the side and double-click" data-placement="bottom" data-trigger="focus" title="Maintenance Edit"></button>
                             </div>
-                            <div class="col-lg-1 offset-lg-2">  <button id="maintenanceDelete" type="button" class=" btn btn-danger btn-sm small-btn-size fa fa-trash "  data-toggle="popover"  data-content="
+                            <div class="col-lg-1 col-1 offset-2 offset-lg-2">  <button id="maintenanceDelete" type="button" class=" btn btn-danger btn-sm small-btn-size fa fa-trash "  data-toggle="popover"  data-content="
 
                             If you want to delete the type of maintenance. Select from the side and double-click" data-placement="bottom" data-trigger="focus" title="Maintenance Delete"></button>
                             </div>

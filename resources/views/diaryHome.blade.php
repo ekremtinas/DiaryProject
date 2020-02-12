@@ -8,7 +8,7 @@
     <title>Home | Diary</title>
 @endsection
 @section('locale')
-    <select class="custom-select-sm col-1 custom-select rounded-pill shadow-main" id="locale-selector"></select>
+    <select style="margin-right: 50%;" class="custom-select-sm col-1 custom-select rounded-pill shadow-main" id="locale-selector"></select>
 @endsection
 @section('content')
 

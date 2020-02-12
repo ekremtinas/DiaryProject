@@ -3,17 +3,18 @@
   <database-model serializer="dbm" dbms="POSTGRES" family-id="POSTGRES" format-version="4.17">
     <root id="1">
       <ServerVersion>12.1</ServerVersion>
+      <StartupTime>1581521706</StartupTime>
     </root>
     <database id="2" parent="1" name="diary">
       <ObjectId>16405</ObjectId>
       <Owner>postgres</Owner>
       <IntrospectionStateNumber>3788</IntrospectionStateNumber>
-      <Relations>sequence|table|49522|49524|1
+      <Relations>sequence|table|57503|57505|1
+sequence|table|16422|16424|1
+sequence|table|49522|49524|1
 sequence|table|49554|49556|1
 sequence|table|49562|49564|1
 sequence|table|49570|49572|1
-sequence|table|16422|16424|1
-sequence|table|57503|57505|1
 </Relations>
     </database>
     <database id="3" parent="1" name="postgres">
@@ -398,6 +399,7 @@ sequence|table|57503|57505|1
     </table>
     <table id="116" parent="15" name="eventsjoinmaintenance">
       <ObjectId>49572</ObjectId>
+      <Outdated>1</Outdated>
       <Owner>postgres</Owner>
       <StateNumber>1723</StateNumber>
     </table>
