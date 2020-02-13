@@ -18,7 +18,7 @@
 @section('content')
 
 
-    <div id="firstContainer" class="container h-100">
+    <div id="firstContainer" class="container w-100 h-100">
         <div class="row justify-content-center h-100">
             <div class="card-wrapper col-lg-12 pt-lg-3">
 
@@ -136,7 +136,8 @@
                                    <div class="col-lg-3 list-group-item "><b>License Plate: </b> <b class="ml-lg-1" id="plateHtml"></b></div>
                                    <div class="col-lg-3 list-group-item"><b>Total Maintenance: </b> <b class="ml-lg-1" id="minuteHtml">00:00:00</b></div>
                                    <div class="col-lg-3 list-group-item"><b>Selected Maintenance: </b> <b class="ml-lg-1" id="selectedMaintenane">00:00:00</b></div>
-                                   <div class="col-lg-3 list-group-item"></div>
+                                   <div class="col-lg-2 list-group-item"><b>Before this day: </b><div style="background-color:#C3C3C3;width: 20px;height: 20px;"></div></div>
+                                   <div class="col-lg-1 list-group-item"><b>Today: </b><div style="background-color:#D6E0EB;width: 20px;height: 20px;"></div></div>
 
                                </div>
                            </div>
@@ -329,7 +330,10 @@
                              selectMirror: true,// Kullanıcı sürüklerken bir “yer tutucu” etkinliği çizilip çizilmeyeceği. Eğer True dersek biraz uzaktan sürüklenerek gider.
                              selectHelper: true,// Kullanıcı sürüklerken bir “yer tutucu” etkinliği çizilip çizilmeyeceği. Eğer True dersek biraz uzaktan sürüklenerek gider.
                              allDaySlot: false,//Tüm Gün Eklenmesi İptal Edilmesi
-                             eventOverlap: false,// Günlerin Kesişmesini Engeller
+                             slotEventOverlap: false,// Günlerin Kesişmesini Engeller
+                             resourceEventOverlap:false,
+                             eventOverlap:false,
+                             selectOverlap:false,//Seçilen alan kesişmesini engeller
                              resizable: false,//Boyutunun değiştirilmesini engelleme
                              loading: function(bool) {
                                  if (bool) {
@@ -412,6 +416,7 @@
                                                                          durationEditable: false,//Eklenen eventin boyutunun değiştirilemez olması
                                                                          className: 'context-menu-one',
 
+
                                                                      });
                                                                  $(".notification-text").html("Appointment added");
                                                                  $('#notificationAlert').addClass('alert-success').removeClass('alert-danger');
@@ -473,13 +478,16 @@
                              eventRender: function (info) {
 
                                  $(info.el).attr("id", info.event.id).addClass('context-class');
-                                 /* var today=moment().day().today;//Bugünden önceki timeların rengini değiştirme
-                                  var startDate = moment(info.event.start);
-                                  var todayFormat=moment(today);
-                                  if(todayFormat>startDate)
-                                  {
-                                     // $('.fc-day').attr("style","background-color:red");
-                                  }*/
+
+
+                             },
+                             dayRender: function( dayRenderInfo ) {
+                               var today=moment().day().today;//Bugünden önceki timeların rengini değiştirme
+                               var todayFormat=moment(today);
+                               if(todayFormat-86400000>moment(dayRenderInfo.date))
+                               {
+                                dayRenderInfo.el.style.backgroundColor='#C3C3C3';
+                              }
 
 
                              }

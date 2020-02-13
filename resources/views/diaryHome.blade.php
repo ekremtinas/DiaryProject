@@ -7,6 +7,9 @@
     @else
     <title>Home | Diary</title>
 @endsection
+@section('shadow')
+    shadow-main
+@endsection
 @section('locale')
     <select style="margin-right: 50%;" class="custom-select-sm col-1 custom-select rounded-pill shadow-main" id="locale-selector"></select>
 @endsection
@@ -22,7 +25,7 @@
             <div class="sk-cube sk-cube7"></div>
             <div class="sk-cube sk-cube8"></div>
             <div class="sk-cube sk-cube9"></div>
-        </div></div>   <div tabindex="-1" class="container w-75 h-50" id='top'>
+        </div></div>   <div tabindex="-1" class="container w-100 h-50 shadow-main p-3 rounded-lg mt-lg-4" id='top'>
 
             <div class='left' hidden>
 
@@ -52,8 +55,14 @@
 
             <div class='clear'></div>
 
-
-            <div  id='calendar'></div>
+        <div class="ml-lg-3 ml-3">
+            <div style="font-size: 12px !important;" class="row list-group list-group-horizontal-xl pr-lg-2">
+                <div class="col-lg-2 list-group-item "><b>Before this day: <div style="background-color:#C3C3C3;width: 20px;height: 20px;"></div></b></div>
+                <div class="col-lg-2 list-group-item "><b>Today: <div style="background-color:#D6E0EB;width: 20px;height: 20px;"></div></b></div>
+                <div class="col-lg-8 list-group-item "></div>
+            </div>
+        </div>
+            <div class="mt-lg-3 " id='calendar'></div>
         </div>
 
             <div id="notificationAlert" style="display: none;" class=" alert-size notification alert alert-success alert-block col-3 rounded-pill btn-sm">

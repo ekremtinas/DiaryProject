@@ -28,6 +28,7 @@ $(document).ready(function () {
                 resizable: true, // Boyutun uzatılmasının aktifleştirilmesi
                 eventLimit: true, // Bir günde görüntülenen etkinlik sayısını sınırlar.Dokümantasyondan view parametresi alınarak sınırlandırılabilir.
                 droppable:false,
+                selectOverlap:false,//Seçilen alan kesişmesini engeller
                 views: {
                     timeGrid: {
                         eventLimit: 6 // adjust to 6 only for timeGridWeek/timeGridDay
@@ -126,7 +127,6 @@ $(document).ready(function () {
                 events: {
                     url: '/dHome/getEvent?_token=0GTwvcp5NWn7zBVtu6lSH4R5GhTRLaCYDoJvnqNT',
                     type: 'GET', // Send Get data
-                    color: 'yellow',
                     textColor: 'white',
                     success:function (rawData) {
                         globalRawData=rawData;
@@ -152,7 +152,17 @@ $(document).ready(function () {
                     edit(info.event);
 
                 },
+                dayRender: function( dayRenderInfo ) {
+                    var today=moment().day().today;//Bugünden önceki timeların rengini değiştirme
+                    var todayFormat=moment(today);
 
+                    if(todayFormat-86400000>moment(dayRenderInfo.date))
+                    {
+                        dayRenderInfo.el.style.backgroundColor='#C3C3C3';
+                    }
+
+
+                }
 
 
 
