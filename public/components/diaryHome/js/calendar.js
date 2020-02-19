@@ -138,7 +138,7 @@ $(document).ready(function () {
                 eventRender: function(info) {
 
                     $(info.el).attr("id",info.event.id).addClass('context-class');
-
+                    $(info.el).attr("title",info.event.title);
 
 
                 },

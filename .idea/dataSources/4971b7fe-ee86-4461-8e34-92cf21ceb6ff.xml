@@ -10,12 +10,12 @@
       <Owner>postgres</Owner>
       <IntrospectionStateNumber>1958</IntrospectionStateNumber>
       <Relations>sequence|table|16619|16621|1
-sequence|table|16627|16629|1
-sequence|table|16635|16637|1
 sequence|table|16599|16601|1
-sequence|table|16611|16613|1
 sequence|table|16571|16573|1
 sequence|table|16579|16581|1
+sequence|table|16611|16613|1
+sequence|table|16627|16629|1
+sequence|table|16635|16637|1
 </Relations>
     </database>
     <database id="3" parent="1" name="postgres">

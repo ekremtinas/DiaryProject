@@ -135,9 +135,9 @@
                                <div style="font-size: 12px !important;" class="row list-group list-group-horizontal-xl">
                                    <div class="col-lg-3 list-group-item "><b>License Plate: </b> <b class="ml-lg-1" id="plateHtml"></b></div>
                                    <div class="col-lg-3 list-group-item"><b>Total Maintenance: </b> <b class="ml-lg-1" id="minuteHtml">00:00:00</b></div>
-                                   <div class="col-lg-3 list-group-item"><b>Selected Maintenance: </b> <b class="ml-lg-1" id="selectedMaintenane">00:00:00</b></div>
                                    <div class="col-lg-2 list-group-item"><b>Before this day: </b><div style="background-color:#C3C3C3;width: 20px;height: 20px;"></div></div>
                                    <div class="col-lg-1 list-group-item"><b>Today: </b><div style="background-color:#D6E0EB;width: 20px;height: 20px;"></div></div>
+                                   <div class="col-lg-1 list-group-item"><b>Reserved: </b><div style="background-color:rgb(122, 122, 122);width: 20px;height: 20px;"></div></div>
 
                                </div>
                            </div>
@@ -200,6 +200,7 @@
             <script src="/components/userHome/js/lodash.min.js"></script>
             <script>
                     var timeDiffMoment;
+
             $(document).ready(function () {
 
 
@@ -299,8 +300,7 @@
 
                 });
              function calendarBuild(defaultView,defaultDate,minTime,maxTime,weekends,plateHtml,minuteHtml){
-
-
+                 var gloabalEvents;
                  var calendarUser;
                  var calendarEl = document.getElementById('calendar');
                  var initialLocaleCode = 'en';
@@ -335,6 +335,7 @@
                              eventOverlap:false,
                              selectOverlap:false,//Seçilen alan kesişmesini engeller
                              resizable: false,//Boyutunun değiştirilmesini engelleme
+                           
                              loading: function(bool) {
                                  if (bool) {
                                      $('#loading').show();
@@ -351,7 +352,6 @@
                                  var d = moment.duration(ms);
                                  var s = Math.floor(d.asHours()) + moment.utc(ms).format(":mm");
                                  var timeDiff = '0' + s;//Seçilen time aralığı
-                                 $('#selectedMaintenane').html(timeDiff+':00');//Calendar üzerinde ki title'lara veri eklenmesi
 
                                  var today=moment().day().today;
                                  var saveStartDate = moment(event.start);
@@ -364,41 +364,67 @@
 
                                  }
                                  else {
-                                     timeDiffMoment = moment(timeDiff, 'HH:mm');
+                                                var globalStart;
+                                     _.forEach(gloabalEvents,function (value) {
 
-                                     if (globalTotalTime <= timeDiffMoment) {
 
-                                         bootbox.confirm({
-                                         message: "Do you want to add an appointment",
-                                         size: 'small',
-                                         buttons: {
-                                             confirm: {
-                                                 label: 'Yes',
-                                                 className: 'btn-success'
-                                             },
-                                             cancel: {
-                                                 label: 'No',
-                                                 className: 'btn-danger'
-                                             }
-                                         },
-                                         callback: function (result) {
-                                             if (result === true) {
+                                       if(moment(event.end)<=moment(value.start))
+                                         {
 
-                                                         $.ajaxSetup({
-                                                             headers: {
-                                                                 'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+                                             console.log('End:::'+event.end+'<'+value.start)
+                                             globalStart=value.start;
+                                         }
 
-                                                             }
-                                                         });
 
-                                                         $.ajax({
-                                                             url: '/addUserEvent',
-                                                             type: 'post',
-                                                             data: {
-                                                                 saveTitle: plateHtml.html(),
-                                                                 saveStart: moment(event.start).format('YYYY-MM-DD HH:mm:ss'),
-                                                                 maintenanceMinute: minuteHtml.html(),
-                                                                 _token: '{!! csrf_token() !!}',
+                                     });
+                                     var globalStartDate;//Seçilen time'ın başlangıcı
+                                     globalStartDate = moment(globalStart).format('HH:mm');
+                                     console.log(globalStart)
+                                     if(moment(globalStart)>moment(event.start))
+                                     {
+                                         var msGlobal = moment(globalStart).diff(moment(event.start));
+
+                                     }
+                                     /*else{
+                                         var msGlobal = moment(event.start, "HH:mm").diff(moment(globalEndDate, "HH:mm"));
+
+                                     }*/
+                                    var dGlobal  = moment.duration(msGlobal );
+                                     var minuteHtmlGlobal  = moment.duration(minuteHtml.html() );
+                                     console.log(dGlobal)
+                                     console.log(minuteHtmlGlobal)
+                                     if(dGlobal>=minuteHtmlGlobal){
+                                          bootbox.confirm({
+                                          message: "Do you want to add an appointment",
+                                          size: 'small',
+                                          buttons: {
+                                              confirm: {
+                                                  label: 'Yes',
+                                                  className: 'btn-success'
+                                              },
+                                              cancel: {
+                                                  label: 'No',
+                                                  className: 'btn-danger'
+                                              }
+                                          },
+                                          callback: function (result) {
+                                              if (result === true) {
+
+                                                          $.ajaxSetup({
+                                                              headers: {
+                                                                  'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+
+                                                              }
+                                                          });
+
+                                                          $.ajax({
+                                                              url: '/addUserEvent',
+                                                              type: 'post',
+                                                              data: {
+                                                                  saveTitle: plateHtml.html(),
+                                                                  saveStart: moment(event.start).format('YYYY-MM-DD HH:mm:ss'),
+                                                                  maintenanceMinute: minuteHtml.html(),
+                                                                  _token: '{!! csrf_token() !!}',
                                                                  saveEnd: moment(event.end).format('YYYY-MM-DD HH:mm:ss'),
                                                                  maintenance: globalMaintenance['maintenance']
                                                              },
@@ -446,7 +472,7 @@
                                          }
 
                                      });
-                                     }
+                                    }
                                      else {
 
                                          $(".notification-text").html("Election Exceeded.");
@@ -457,14 +483,18 @@
 
                                  }
                              },
+                             eventDataTransform:function (eventInput) {
+                                 eventInput.title='Reserved'
+                             },
                              events: {
                                  url: '/getUserEvent?_token=0GTwvcp5NWn7zBVtu6lSH4R5GhTRLaCYDoJvnqNT',
                                  type: 'GET', // Send Get data
-            // color: 'grey !important',
+                                color: '#7A7A7A !important',
                                  textColor: 'white',
+
                                  success: function (rawData) {
 
-
+                                    gloabalEvents=rawData;
                                  },
                                  error: function () {
                                      alert('There was an error while fetching events.');
@@ -479,18 +509,25 @@
 
                                  $(info.el).attr("id", info.event.id).addClass('context-class');
 
+                                     //$(info.el).find('.fc-title').html('Reserved');
+                                     //$(info.el).find('.fc-title').parent().parent().attr('style', 'background-color:#7A7A7A !important;border-color:#7A7A7A !important;cursor:no-drop;')
 
                              },
                              dayRender: function( dayRenderInfo ) {
-                               var today=moment().day().today;//Bugünden önceki timeların rengini değiştirme
-                               var todayFormat=moment(today);
-                               if(todayFormat-86400000>moment(dayRenderInfo.date))
-                               {
-                                dayRenderInfo.el.style.backgroundColor='#C3C3C3';
-                              }
+                                 var today=moment().day().today;//Bugünden önceki timeların rengini değiştirme
+                                 var todayFormat=moment(today);
+                                 if(todayFormat-86400000>moment(dayRenderInfo.date))
+                                 {
+                                     dayRenderInfo.el.style.backgroundColor='#C3C3C3';
+                                 }
+                                 else{
+
+
+                                 }
 
 
                              }
+
                          });
                          calendarUser.render();
             // build the locale selector's options
