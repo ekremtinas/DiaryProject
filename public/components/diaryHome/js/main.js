@@ -749,8 +749,34 @@ $(document).ready(function () {
             }).blur(function () {
                 maxTimeLabel.animate({top: '00px'});
             });
+            //Bridges Get Ajax
+            var bridgesSelector =$('#bridges-selector');
+            $.ajax({
+                        url:'/bridges',
+                        type:'get',
+                         dataType:'json',
+                        success:function (data) {
+                            console.log(data)
+                            var i=0;
+                            bridgesSelector.each(function (value) {
+                                $(this).append("<option value='"+data[i]['bridge_name']+"'>"+data[i]['bridge_name']+"</option>");
+                            });
+                        }
+                    });
 
 
+            //Bridge Add
+            var bridgeAdd= $('#bridgeAdd');
+            $( "#dialog" ).dialog({
+                autoOpen: false,
+                title: "Bridge Add",
+                height: 250,
+                closeText: "",
+
+            });
+            bridgeAdd.on('dblclick',function () {
+                $( "#dialog" ).dialog( "open" );
+            });
 
 
 });

@@ -4,11 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Events extends Model
+class BridgeDateTime extends Model
 {
-    protected $table ='events';
+    protected $table ='bridge_datetime';
     protected $fillable = [
-        'title','start', 'end','user_id','bridge_id'
+        'start','end','bridge_id'
     ];
     protected $primaryKey = 'id';
 }

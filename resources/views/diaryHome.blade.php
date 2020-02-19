@@ -57,11 +57,39 @@
 
         <div class="ml-lg-3 ml-3">
             <div style="font-size: 12px !important;" class="row list-group list-group-horizontal-xl pr-lg-2">
+                <div class="col-lg-4 list-group-item ">  <select class="custom-select-sm col-5 custom-select rounded-pill shadow-main" id="bridges-selector"></select>
+                    <button id="bridgeAdd" type="button" style="padding: 6px !important;" class=" btn btn-success  fa fa-plus " data-toggle="popover"  data-content="
+                            Double-click if you want to add bridge" data-placement="bottom" data-trigger="focus" title="Bridge Add"  ></button>
+                    <button id="bridgeEdit" type="button" style="padding: 6px !important;" class=" btn btn-info  fa fa-pencil " data-toggle="popover"  data-content="
+                            Double-click if you want to edit bridge" data-placement="bottom" data-trigger="focus" title="Bridge Edit"  ></button>
+                    <button id="bridgeDelete" type="button" style="padding: 6px !important;" class=" btn btn-danger  fa fa-trash " data-toggle="popover"  data-content="
+                            Double-click if you want to delete bridge" data-placement="bottom" data-trigger="focus" title="Bridge Delete"  ></button>
+                    <div id="dialog"  title="Basic dialog">
+                        <div class="form-group">
+                            <form id="bridgeAddForm"  method="post">
+                            <div class="form-group btn-group-sm mt-lg-4 col-lg-10 offset-lg-1 ">
+                                <label id="bridgeName-label"  class="btn-sm scroll-home-label" for="bridgeName">{{ __('Bridge Name:') }}</label>
+                                <input id="bridgeName" data-bvalidator="required" type="text" class="form-control btn-sm  border-light shadow-main rounded-pill @error('bridgeName') is-invalid @enderror "  value=""   autocomplete="off"   placeholder="Bridge Name"  name="bridgeName"  >
+                                @error('bridgeName')
+                                <span  id="bridgeName-alert" class="title-alert invalid-feedback alert-size pl-3 ml-2 rounded-pill alert-danger col-10 " role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+
+                                @enderror
+
+                            </div>
+                            <button type="submit" id="bridgeAddSubmit" class="offset-lg-3 col-lg-6 btn btn-success btn-sm text-lg-center">Save changes</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
                 <div class="col-lg-2 list-group-item "><b>Before this day: <div style="background-color:#C3C3C3;width: 20px;height: 20px;"></div></b></div>
                 <div class="col-lg-2 list-group-item "><b>Today: <div style="background-color:#D6E0EB;width: 20px;height: 20px;"></div></b></div>
-                <div class="col-lg-8 list-group-item "></div>
+
+                <div class="col-lg-4 list-group-item "></div>
             </div>
         </div>
+
             <div class="mt-lg-3 " id='calendar'></div>
         </div>
 
@@ -94,7 +122,26 @@
 
     <style>
 
+        .ui-widget-header,.ui-state-default, ui-button {
+            font-size: 16px !important;
+            background:#b9cd6d !important;
+        }
+        .ui-dialog-titlebar{
+            background: green !important;
+            border-color: green !important;
+        }
+        .ui-dialog-content{
+            font-size: 13px !important;
+            background: white !important;
+        }
+        .ui-dialog{
+            border: none !important;
+        }
 
+
+        .ui-icon-closethick{
+            color: black !important;
+        }
     </style>
 @endsection
 @section('script')

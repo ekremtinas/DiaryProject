@@ -82,5 +82,13 @@ Route::get('/dLogout','GetHomeController@logout')->name('homeLogout');
         Route::get('/userProfile','Profile\GetProfileController@index')->name('userProfileGet');
         Route::post('/userProfile','Profile\PostProfileController@index')->name('userProfilePost');
 
+
+    Route::get('/bridges','Home\BridgesController@bridgesGet')->name('bridgesGet');
+    Route::post('/bridges','Home\BridgesController@bridgesAdd')->name('bridgesAdd');
+    Route::post('/bridges','Home\BridgesController@bridgesEdit')->name('bridgesEdit');
+    Route::post('/bridges','Home\BridgesController@bridgesDelete')->name('bridgesDelete');
+
+
+
 });
 });
