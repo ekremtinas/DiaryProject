@@ -110,10 +110,16 @@ $(document).ready(function () {
 
                 var notificationHide=$('#notificationHide');
                 var notificationAlert=$('#notificationAlert');
+                $("[class*=main]").on('click',function () {
+                    setTimeout(function(){
+                        notificationAlert.animate({left:'1500px'}).hide('slow').animate({left:'1000px'});
+                    }, 10000);
+                });
                 notificationHide.on('click',function () {
                     notificationAlert.animate({left:'1500px'}).hide('slow').animate({left:'1000px'});
 
                 });
+
 
 // Notification End
 
@@ -749,6 +755,7 @@ $(document).ready(function () {
             }).blur(function () {
                 maxTimeLabel.animate({top: '00px'});
             });
+
             //Bridges Get Ajax
             var bridgesSelector =$('#bridges-selector');
             $.ajax({
@@ -756,18 +763,21 @@ $(document).ready(function () {
                         type:'get',
                          dataType:'json',
                         success:function (data) {
-                            console.log(data)
-                            var i=0;
-                            bridgesSelector.each(function (value) {
-                                $(this).append("<option value='"+data[i]['bridge_name']+"'>"+data[i]['bridge_name']+"</option>");
-                            });
+
+                            for (var i=0;i<data.length;i++) {
+
+                                    bridgesSelector.append("<option  data-id='"+data[i]['id']+"' value='" + data[i]['bridge_name'] + "'>" + data[i]['bridge_name'] + "</option>");
+
+
+                             }
+
                         }
                     });
 
 
             //Bridge Add
             var bridgeAdd= $('#bridgeAdd');
-            $( "#dialog" ).dialog({
+            $( "#dialogAdd" ).dialog({
                 autoOpen: false,
                 title: "Bridge Add",
                 height: 250,
@@ -775,8 +785,172 @@ $(document).ready(function () {
 
             });
             bridgeAdd.on('dblclick',function () {
-                $( "#dialog" ).dialog( "open" );
+                $( "#dialogAdd" ).dialog( "open" );
+            });
+            var bridgeAddForm = $('#bridgeAddForm');
+            var bridgeAddSubmit = $('#bridgeAddSubmit');
+            bridgeAddForm.submit(function (e) {
+                bridgeAddSubmit.prop('disabled',true);
+
+                e.preventDefault();
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+
+                    }
+                });
+                $.ajax({
+                    url:'/bridgesAdd',
+                    type:'post',
+                    data:bridgeAddForm.serialize(),
+                    dataType:'json',
+                    success:function (data) {
+                        bridgesSelector.append("<option data-id='"+data['id']+"'  value='" + data['bridge_name'] + "'>" + data['bridge_name'] + "</option>");
+                        $( "#dialogAdd" ).dialog( "close");
+                        bridgeAddSubmit.prop( "disabled", false );
+                        $('#notificationAlert').addClass('alert-success').removeClass('alert-danger');//İş yeri güncellemesi notification start
+                        $(".notification-text").html("Bridges Added");
+                        $('#notificationAlert').show();//İş yeri güncellemesi notification end
+                    }
+                });
+            });
+
+            //Bridge Delete
+                var bridgeDelete= $('#bridgeDelete');
+                var bridgeDeleteForm = $('#bridgeDeleteForm');
+                var selectedBridge;
+                $( "#dialogDelete" ).dialog({
+                    autoOpen: false,
+                    title: "Bridge Delete",
+                    height: 170,
+                    closeText: "",
+
+                }).prev(".ui-dialog-titlebar").attr("style","background-color:#e22620 !important;border-color:#e22620 !important;");
+
+                bridgesSelector.on('change',function(){
+                    selectedBridge = $(this).children("option:selected"). val();
+                    var selectedBridgeId = $(this).children("option:selected").data('id');
+                    $('#bridgeDeleteSelect').html(selectedBridge);
+                    bridgeDeleteForm.find('#bridgeId').attr('value',selectedBridgeId);
+
+                });
+
+                bridgeDelete.on('dblclick',function () {
+                    if(selectedBridge!=null) {
+                        $("#dialogDelete").dialog("open");
+                    }
+                    else
+                        {
+                            $('#notificationAlert').addClass('alert-danger').removeClass('alert-success');
+                            $(".notification-text").html("Please choose a bridge");
+                            $('#notificationAlert').show();
+                        }
+                });
+
+
+
+            var bridgeDeleteSubmit = $('#bridgeDeleteSubmit');
+            bridgeDeleteForm.submit(function (e) {
+            bridgeDeleteSubmit.prop('disabled',true);
+
+            e.preventDefault();
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+
+                }
+            });
+            $.ajax({
+                url:'/bridgesDelete',
+                type:'post',
+                data:{
+                    bridgeId:bridgeDeleteForm.find('#bridgeId').val(),
+                    _token:bridgeDeleteForm.find('input[name="_token"]').val()
+                },
+                dataType:'json',
+                success:function (data) {
+                    $( "#dialogDelete" ).dialog( "close" );
+                    bridgesSelector.each(function () {
+                        console.log($(this).find('option:selected').data('id'))
+                        if($(this).find('option:selected').data('id')==data['id'])
+                        {
+                            $(this).find('option:selected').remove();
+                        }
+                    });
+                    bridgeDeleteSubmit.prop( "disabled", false );
+                    $('#notificationAlert').addClass('alert-danger').removeClass('alert-success');
+                    $(".notification-text").html("Bridges Deleted");
+                    $('#notificationAlert').show();
+                }
+                });
+            });
+
+        //Bridge Edit
+            var bridgeEdit= $('#bridgeEdit');
+            var bridgeEditForm = $('#bridgeEditForm');
+            var selectedBridge;
+            $( "#dialogEdit" ).dialog({
+                autoOpen: false,
+                title: "Bridge Edit",
+                height: 200,
+                closeText: "",
+
+            }).prev(".ui-dialog-titlebar").attr("style","background-color:#369 !important; border-color:#369 !important;");
+
+            bridgesSelector.on('change',function(){
+                selectedBridge = $(this).children("option:selected"). val();
+                var selectedBridgeId = $(this).children("option:selected").data('id');
+                console.log(selectedBridge)
+                bridgeEditForm.find('#bridgeNameEdit').val(selectedBridge);
+                bridgeEditForm.find('#bridgeIdEdit').attr('value',selectedBridgeId);
+
+            });
+
+            bridgeEdit.on('dblclick',function () {
+                if(selectedBridge!=null) {
+                    $("#dialogEdit").dialog("open");
+                }
+                else
+                {
+                    $('#notificationAlert').addClass('alert-danger').removeClass('alert-success');
+                    $(".notification-text").html("Please choose a bridge");
+                    $('#notificationAlert').show();
+                }
             });
 
 
+
+            var bridgeEditSubmit = $('#bridgeEditSubmit');
+            bridgeEditForm.submit(function (e) {
+                bridgeEditSubmit.prop('disabled',true);
+                console.log(bridgeEditForm.serialize())
+                e.preventDefault();
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+
+                    }
+                });
+                $.ajax({
+                    url:'/bridgesEdit',
+                    type:'post',
+                    data:bridgeEditForm.serialize(),
+                    dataType:'json',
+                    success:function (data) {
+                        $( "#dialogEdit" ).dialog( "close" );
+                        bridgesSelector.each(function () {
+
+                            if($(this).find('option:selected').data('id')==data['id'])
+                            {
+                                $(this).find('option:selected').remove();
+                            }
+                        });
+                        bridgesSelector.append("<option data-id='"+data['id']+"'  value='" + data['bridge_name'] + "'>" + data['bridge_name'] + "</option>");
+                        bridgeEditSubmit.prop( "disabled", false );
+                        $('#notificationAlert').addClass('alert-succes').removeClass('alert-danger');
+                        $(".notification-text").html("Bridges Edited");
+                        $('#notificationAlert').show();
+                    }
+                });
+            });
 });

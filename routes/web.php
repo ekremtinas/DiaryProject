@@ -84,9 +84,9 @@ Route::get('/dLogout','GetHomeController@logout')->name('homeLogout');
 
 
     Route::get('/bridges','Home\BridgesController@bridgesGet')->name('bridgesGet');
-    Route::post('/bridges','Home\BridgesController@bridgesAdd')->name('bridgesAdd');
-    Route::post('/bridges','Home\BridgesController@bridgesEdit')->name('bridgesEdit');
-    Route::post('/bridges','Home\BridgesController@bridgesDelete')->name('bridgesDelete');
+    Route::post('/bridgesAdd','Home\BridgesController@bridgesAdd')->name('bridgesAdd');
+    Route::post('/bridgesEdit','Home\BridgesController@bridgesEdit')->name('bridgesEdit');
+    Route::post('/bridgesDelete','Home\BridgesController@bridgesDelete')->name('bridgesDelete');
 
 
 

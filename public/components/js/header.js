@@ -5,11 +5,7 @@ $(document).ready(function () {
     });
 
 
-    $('#calendar').on('click', function () {
-
-        $('#logout-div').hide("fast");
-    });
-    $('#top').on('click', function () {
+    $("[class*=main]").on('dblclick', function () {
 
         $('#logout-div').hide("fast");
     });
