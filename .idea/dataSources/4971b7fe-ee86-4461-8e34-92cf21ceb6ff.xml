@@ -3,22 +3,22 @@
   <database-model serializer="dbm" dbms="POSTGRES" family-id="POSTGRES" format-version="4.17">
     <root id="1">
       <ServerVersion>12.1</ServerVersion>
-      <StartupTime>1582036693</StartupTime>
+      <StartupTime>1582992542</StartupTime>
     </root>
     <database id="2" parent="1" name="diary">
       <ObjectId>16570</ObjectId>
       <Owner>postgres</Owner>
-      <IntrospectionStateNumber>2160</IntrospectionStateNumber>
-      <Relations>sequence|table|16635|16637|1
+      <IntrospectionStateNumber>2262</IntrospectionStateNumber>
+      <Relations>sequence|table|16571|16573|1
+sequence|table|16579|16581|1
 sequence|table|16599|16601|1
 sequence|table|16619|16621|1
 sequence|table|16627|16629|1
-sequence|table|16571|16573|1
-sequence|table|16579|16581|1
-sequence|table|33066|33068|1
-sequence|table|33098|33100|1
-sequence|table|33090|33092|1
+sequence|table|16635|16637|1
 sequence|table|33045|33047|1
+sequence|table|33098|33100|1
+sequence|table|33066|33068|1
+sequence|table|33090|33092|1
 </Relations>
     </database>
     <database id="3" parent="1" name="postgres">
@@ -76,7 +76,7 @@ sequence|table|33045|33047|1
       <Comment>standard public schema</Comment>
       <StateNumber>276</StateNumber>
       <Owner>postgres</Owner>
-      <IntrospectionStateNumber>2161</IntrospectionStateNumber>
+      <IntrospectionStateNumber>2263</IntrospectionStateNumber>
       <Current>1</Current>
     </schema>
     <access-method id="16" parent="2" name="heap">
@@ -494,15 +494,13 @@ sequence|table|33045|33047|1
     <column id="77" parent="37" name="user_id">
       <Position>5</Position>
       <DataType>integer|0s</DataType>
-      <NotNull>1</NotNull>
-      <StateNumber>2158</StateNumber>
+      <StateNumber>2257</StateNumber>
       <TypeId>23</TypeId>
     </column>
     <column id="78" parent="37" name="bridge_id">
       <Position>6</Position>
       <DataType>integer|0s</DataType>
-      <NotNull>1</NotNull>
-      <StateNumber>2158</StateNumber>
+      <StateNumber>2261</StateNumber>
       <TypeId>23</TypeId>
     </column>
     <column id="79" parent="37" name="created_at">

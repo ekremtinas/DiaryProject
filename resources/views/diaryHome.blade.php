@@ -25,7 +25,8 @@
             <div class="sk-cube sk-cube7"></div>
             <div class="sk-cube sk-cube8"></div>
             <div class="sk-cube sk-cube9"></div>
-        </div></div>   <div tabindex="-1" class="container w-100 h-50 shadow-main p-3 rounded-lg mt-lg-4" id='top'>
+        </div></div>
+    <div tabindex="-1" class="container w-100 h-50 shadow-main p-3 rounded-lg mt-lg-4" id='top'>
 
             <div class='left' hidden>
 
@@ -60,7 +61,7 @@
                 <div class="col-lg-4 list-group-item ">
 
                     <select class="custom-select-sm col-6  custom-select rounded-pill shadow-main" id="bridges-selector">
-                        <option  class="optionStyle">Bridge Choose</option>
+                        <option value="Bridge Choose" class="optionStyle">Bridge Choose</option>
                     </select>
 
                     <button id="bridgeAdd" type="button" style="padding: 6px !important;" class=" btn btn-success  fa fa-plus " data-toggle="popover"  data-content="
@@ -202,7 +203,12 @@
              background-color: #e22620 !important;
 
         }
-
+        .custom-control-label::before, .custom-file-label, .custom-select {
+            -webkit-transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out !important;
+            transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out !important;
+            transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out !important;
+            transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out !important;
+        }
 
     </style>
 @endsection

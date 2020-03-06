@@ -4,7 +4,7 @@
         <div class="modal-content">
             <form id="addEventForm" class="form-horizontal" method="POST" action="{{route('addEventPost')}}">
 
-                <input type="hidden" id="_token" name="_token" value="{{ csrf_token() }}">
+                <input type="hidden"  name="_token" value="{{ csrf_token() }}">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Diary Add</h5>
                     <button type="button" class="close btn-sm" data-dismiss="modal" aria-label="Close">

@@ -1,3 +1,4 @@
+var bridgesSelector =$('#bridges-selector');
 $(document).ready(function () {
 //Home Main
 
@@ -311,7 +312,7 @@ $(document).ready(function () {
                        $('#maintenanceTable').append( '<tr style="line-height: 1px !important;" class="maintenanceRow" ><td  class="checkboxMaintenance">'+maintenance+'</td> <td >'
                            +
                            '<div class=" custom-switch custom-control ">  <input class="custom-control-input  checkboxMaintenanceInput "  type="checkbox" value="'+maintenance+'" name="maintenance[]" id="maintenance'+j+'" > <label for="maintenance'+j+'" class="custom-control-label   "></label></div></td></tr>');
-                        $('#maintenanceTableEdit').append( '<tr style="line-height: 1px !important;" class="maintenanceEditRow" ><td  class="checkboxEditMaintenance">'+maintenance+'</td> <td ><div class=" custom-switch custom-control ">  <input class="custom-control-input  checkboxEditMaintenanceInput "  type="checkbox" value="'+maintenance+'" name="maintenance[]" id="maintenance'+j+'" > <label for="maintenance'+j+'" class="custom-control-label   "></label></div></td></tr>');
+                        $('#maintenanceTableEdit').append( '<tr style="line-height: 1px !important;" class="maintenanceEditRow" ><td  class="checkboxEditMaintenance">'+maintenance+'</td> <td ><div class=" custom-switch custom-control ">  <input class="custom-control-input  checkboxEditMaintenanceInput "  type="checkbox" value="'+maintenance+'" name="maintenance[]" id="maintenanceEdit'+j+'" > <label for="maintenance'+j+'" class="custom-control-label   "></label></div></td></tr>');
 
                        }
 
@@ -389,7 +390,7 @@ $(document).ready(function () {
 
                            var maintenance  = '('+moment(data["maintenanceMinute"], "HH:mm").format("HH:mm")+') '+data["maintenanceTitle"];
                            $('#maintenanceTable').append('<tr style="line-height: 1px !important;" class="maintenanceRow" ><td  class="checkboxMaintenance">'+maintenance+'</td> <td ><div class=" custom-switch custom-control ">  <input class="custom-control-input  checkboxMaintenanceInput "  type="checkbox" value="'+maintenance+'" name="maintenance[]" id="maintenance'+j+'" > <label for="maintenance'+j+'" class="custom-control-label   "></label></div></td></tr>');
-                           $('#maintenanceTableEdit').append( '<tr style="line-height: 1px !important;" class="maintenanceEditRow" ><td  class="checkboxEditMaintenance">'+maintenance+'</td> <td ><div class=" custom-switch custom-control ">  <input class="custom-control-input  checkboxEditMaintenanceInput "  type="checkbox" value="'+maintenance+'" name="maintenance[]" id="maintenance'+j+'" > <label for="maintenance'+j+'" class="custom-control-label   "></label></div></td></tr>');
+                           $('#maintenanceTableEdit').append( '<tr style="line-height: 1px !important;" class="maintenanceEditRow" ><td  class="checkboxEditMaintenance">'+maintenance+'</td> <td ><div class=" custom-switch custom-control ">  <input class="custom-control-input  checkboxEditMaintenanceInput "  type="checkbox" value="'+maintenance+'" name="maintenance[]" id="maintenanceEdit'+j+'" > <label for="maintenance'+j+'" class="custom-control-label   "></label></div></td></tr>');
 
 
                            $('#notificationAlert').addClass('alert-success').removeClass('alert-danger');//Bakım eklenmesi notification start
@@ -450,7 +451,7 @@ $(document).ready(function () {
                                     });
                                var maintenance  = '('+moment(data["maintenanceMinute"], "HH:mm").format("HH:mm")+') '+data["maintenanceTitle"];
                                 $('#maintenanceTable').append('<tr style="line-height: 1px !important;" class="maintenanceRow" ><td  class="checkboxMaintenance">'+maintenance+'</td> <td ><div class=" custom-switch custom-control ">  <input class="custom-control-input  checkboxMaintenanceInput "  type="checkbox" value="'+maintenance+'" name="maintenance[]" id="maintenance'+j+'" > <label for="maintenance'+j+'" class="custom-control-label   "></label></div></td></tr>');
-                              $('#maintenanceTableEdit').append( '<tr style="line-height: 1px !important;" class="maintenanceEditRow" ><td  class="checkboxMaintenance">'+maintenance+'</td> <td ><div class=" custom-switch custom-control ">  <input class="custom-control-input  checkboxEditMaintenanceInput "  type="checkbox" value="'+maintenance+'" name="maintenance[]" id="maintenance'+j+'" > <label for="maintenance'+j+'" class="custom-control-label   "></label></div></td></tr>');/*Edit Form'a Güncellenen verinin eklenmesi*/
+                              $('#maintenanceTableEdit').append( '<tr style="line-height: 1px !important;" class="maintenanceEditRow" ><td  class="checkboxMaintenance">'+maintenance+'</td> <td ><div class=" custom-switch custom-control ">  <input class="custom-control-input  checkboxEditMaintenanceInput "  type="checkbox" value="'+maintenance+'" name="maintenance[]" id="maintenanceEdit'+j+'" > <label for="maintenance'+j+'" class="custom-control-label   "></label></div></td></tr>');/*Edit Form'a Güncellenen verinin eklenmesi*/
                                $('#maintenanceTableEdit tr:has(td)').each(function() {
 
                                     if($(this).find('td').text()===maintenanceChekbox)
@@ -757,7 +758,7 @@ $(document).ready(function () {
             });
 
             //Bridges Get Ajax
-            var bridgesSelector =$('#bridges-selector');
+
             $.ajax({
                         url:'/bridges',
                         type:'get',
@@ -778,6 +779,11 @@ $(document).ready(function () {
             //Bridge Add
             var bridgeAdd= $('#bridgeAdd');
             $( "#dialogAdd" ).dialog({
+                position: {
+                    my: "center",
+                    at: "center",
+                    of: window
+                },
                 autoOpen: false,
                 title: "Bridge Add",
                 height: 250,
@@ -786,6 +792,8 @@ $(document).ready(function () {
             });
             bridgeAdd.on('dblclick',function () {
                 $( "#dialogAdd" ).dialog( "open" );
+                $( "#dialogDelete" ).dialog( "close" );
+                $( "#dialogEdit" ).dialog( "close" );
             });
             var bridgeAddForm = $('#bridgeAddForm');
             var bridgeAddSubmit = $('#bridgeAddSubmit');
@@ -820,6 +828,11 @@ $(document).ready(function () {
                 var bridgeDeleteForm = $('#bridgeDeleteForm');
                 var selectedBridge;
                 $( "#dialogDelete" ).dialog({
+                    position: {
+                        my: "center",
+                        at: "center",
+                        of: window
+                    },
                     autoOpen: false,
                     title: "Bridge Delete",
                     height: 170,
@@ -836,14 +849,16 @@ $(document).ready(function () {
                 });
 
                 bridgeDelete.on('dblclick',function () {
-                    if(selectedBridge!=null) {
-                        $("#dialogDelete").dialog("open");
+                    if(selectedBridge==null || selectedBridge=="Bridge Choose") {
+                        $('#notificationAlert').addClass('alert-danger').removeClass('alert-success');
+                        $(".notification-text").html("Please choose a bridge");
+                        $('#notificationAlert').show();
                     }
                     else
                         {
-                            $('#notificationAlert').addClass('alert-danger').removeClass('alert-success');
-                            $(".notification-text").html("Please choose a bridge");
-                            $('#notificationAlert').show();
+                            $("#dialogDelete").dialog("open");
+                            $( "#dialogAdd" ).dialog( "close" );
+                            $( "#dialogEdit" ).dialog( "close" );
                         }
                 });
 
@@ -890,6 +905,11 @@ $(document).ready(function () {
             var bridgeEditForm = $('#bridgeEditForm');
             var selectedBridge;
             $( "#dialogEdit" ).dialog({
+                position: {
+                    my: "center",
+                    at: "center",
+                    of: window
+                },
                 autoOpen: false,
                 title: "Bridge Edit",
                 height: 200,
@@ -900,21 +920,23 @@ $(document).ready(function () {
             bridgesSelector.on('change',function(){
                 selectedBridge = $(this).children("option:selected"). val();
                 var selectedBridgeId = $(this).children("option:selected").data('id');
-                console.log(selectedBridge)
+
                 bridgeEditForm.find('#bridgeNameEdit').val(selectedBridge);
                 bridgeEditForm.find('#bridgeIdEdit').attr('value',selectedBridgeId);
 
             });
 
             bridgeEdit.on('dblclick',function () {
-                if(selectedBridge!=null) {
-                    $("#dialogEdit").dialog("open");
-                }
-                else
-                {
+                if(selectedBridge==null || selectedBridge=="Bridge Choose") {
                     $('#notificationAlert').addClass('alert-danger').removeClass('alert-success');
                     $(".notification-text").html("Please choose a bridge");
                     $('#notificationAlert').show();
+                }
+                else
+                {
+                    $("#dialogEdit").dialog("open");
+                    $( "#dialogAdd" ).dialog( "close" );
+                    $( "#dialogDelete" ).dialog( "close" );
                 }
             });
 
@@ -923,7 +945,7 @@ $(document).ready(function () {
             var bridgeEditSubmit = $('#bridgeEditSubmit');
             bridgeEditForm.submit(function (e) {
                 bridgeEditSubmit.prop('disabled',true);
-                console.log(bridgeEditForm.serialize())
+
                 e.preventDefault();
                 $.ajaxSetup({
                     headers: {

@@ -3,8 +3,12 @@
 namespace App\Http\Controllers\Home;
 
 use App\Http\Controllers\Controller;
+use App\Models\BridgeDateTime;
 use App\Models\Bridges;
+use DebugBar\DebugBar;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use mysql_xdevapi\Exception;
 
 class BridgesController extends Controller
 {
@@ -96,4 +100,61 @@ class BridgesController extends Controller
             }
         }
     }
+    //Bridge Date Time Eklenmesi İşlemi
+
+    public function bridgeDTAdd(Request $request){
+
+        \DebugBar::info($request);
+
+        $this->validate($request, [
+            'bridge_name' => 'required',
+            'bridge_id' => 'required',
+            'start' => 'required',
+            'end' => 'required',
+        ]);
+        $bridge_data = array(
+
+            'bridge_id'=>$request->get('bridge_id'),
+            'start' => $request->get('start'),
+            'end' => $request->get('end'),
+        );
+        $bridgeName=$request->get('bridge_name');
+        try
+        {
+            BridgeDateTime::create($bridge_data);
+            $bridge_data+=[
+                'bridge_name'=>$bridgeName
+            ];
+            return response($request);
+        }
+        catch (Exception $exception){
+            return back()->withInput()->with('error', 'Bridge DateTime not add');
+        }
+    }
+    public  function bridgeDTGet(Request $request)
+    {
+        $data = array();
+        $array = BridgeDateTime::all();
+
+        foreach ($array as $row) {
+
+            $bridgejoinbridgedt = DB::table('bridge_datetime')->select('bridges.bridge_name')
+                ->join('bridges', 'bridge_datetime.bridge_id', '=', 'bridges.id')
+                ->where('bridge_datetime.id', $row["id"])->get();
+            $bridgeName = $bridgejoinbridgedt[0]->bridge_name;
+
+            \DebugBar::info($bridgeName);
+            $data[] = array(
+                'id' => $row["id"],
+                'title' => $bridgeName,
+                'start' => $row["start"],
+                'end' => $row["end"],
+
+            );
+        }
+
+        return response($data);
+    }
+
+
 }

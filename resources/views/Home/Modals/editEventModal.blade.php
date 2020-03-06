@@ -3,7 +3,7 @@
         <div class="modal-content">
             <form id="editEventForm" class="form-horizontal" method="POST" action="{{route('editEventPost')}}">
 
-                <input type="hidden" id="_token" name="_token" value="{{ csrf_token() }}">
+                <input type="hidden" name="_token" value="{{ csrf_token() }}">
                 <input type="hidden" id="editId" name="editId" value="">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Diary Edit</h5>

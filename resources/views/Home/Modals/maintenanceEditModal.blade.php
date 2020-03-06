@@ -2,7 +2,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <form method="post" id="maintenanceEditForm" action="">
-                @csrf
+                <input type="hidden"  name="_token" value="{{ csrf_token() }}">
             <div class="modal-header">
                 <h5 class="modal-title">Maintenance Edit</h5>
                 <button id="maintenanceEditCloseX" type="button" data-dismiss="modal" class="close" aria-label="Close">
