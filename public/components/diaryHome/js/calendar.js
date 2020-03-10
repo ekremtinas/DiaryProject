@@ -47,13 +47,13 @@ $(document).ready(function () {
                 selectMirror: true, // Kullanıcı sürüklerken bir “yer tutucu” etkinliği çizilip çizilmeyeceği. Eğer True dersek biraz uzaktan sürüklenerek gider.
                 allDaySlot:false,//Tüm Gün Eklenmesi İptal Edilmesi
                 eventOverlap:false,// Günlerin Kesişmesini Engeller
-
+                firstDay:moment().day(),
                 loading: function(bool) {
                     if (bool) {
                         $('#loading').show();
                     }else{
                         $('#loading').hide();
-                        console.log(1)
+
                     }
                 },
 
@@ -154,6 +154,16 @@ $(document).ready(function () {
 
                     $(info.el).attr("id",info.event.id).addClass('context-class');
                     $(info.el).attr("title",info.event.title);
+                    var selectedBridge = bridgesSelector.children("option:selected").val();//Köprülerin tarih-saat aralığını seçmek için global olan selector'ün alınması
+                    if(selectedBridge=="Bridge Choose" || selectedBridge==null)
+                    {
+
+                    }
+                    else
+                    {
+                        $(info.el).attr("style","background-color:blue !important;border-color:blue !important");
+
+                    }
 
                 },
                 eventDrop: function(info) {
@@ -164,7 +174,8 @@ $(document).ready(function () {
                     }
                    else
                     {
-                        info.revert();
+                        editBridge(info.event);
+                      //  info.revert();
                     }
 
                 },
@@ -177,7 +188,8 @@ $(document).ready(function () {
                     }
                     else
                     {
-                        info.revert();
+                        editBridge(info.event);
+                        //info.revert();
                     }
 
                 },
@@ -185,10 +197,12 @@ $(document).ready(function () {
                     var today=moment().day().today;//Bugünden önceki timeların rengini değiştirme
                     var todayFormat=moment(today);
 
-                    if(todayFormat-86400000>moment(dayRenderInfo.date))
+                    if(todayFormat-86400000>moment(dayRenderInfo.date))//Burdaki sayı bir günün milisaniye cinsinden karşılığıdır.
                     {
                         dayRenderInfo.el.style.backgroundColor='#C3C3C3';
                     }
+
+
 
 
                 },

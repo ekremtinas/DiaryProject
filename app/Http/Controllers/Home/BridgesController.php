@@ -155,6 +155,24 @@ class BridgesController extends Controller
 
         return response($data);
     }
+    public function bridgeEditTime(Request $request)
+    {
+        $editEvent = $request->post('Event');
+        if (isset($editEvent)){
+
+            $id = $editEvent[0];
+            $start = $editEvent[1];
+            $end = $editEvent[2];
+
+            $editDB = BridgeDateTime::where('id',$id)->update(['start'=>$start,'end'=>$end]);
+            if ($editDB) {
+                return response($editEvent);
+            }
+            else{
+                return back()->with('error','Error');
+            }
+        }
+    }
 
 
 }

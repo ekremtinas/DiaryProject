@@ -91,6 +91,7 @@ Route::get('/dLogout','GetHomeController@logout')->name('homeLogout');
 //Diary(Admin) Bridge DateTime
     Route::post('/addBridgeDateTime','Home\BridgesController@bridgeDTAdd')->name('bridgeDTAdd');
     Route::get('/dHome/getBridgeDateTime','Home\BridgesController@bridgeDTGet')->name('bridgeDTGet');
+    Route::post('/dHome/bridgeEditTime', 'Home\BridgesController@bridgeEditTime')->name('bridgeEditTime');
 
 });
 });

@@ -270,7 +270,37 @@
                 }
             });
         }
+        function editBridge(event){ // Drop ve Resize Olayları için tarih güncelleme
 
+            var  start = moment(event.start).format('YYYY-MM-DD HH:mm:ss');
+            if(event.end){
+                var   end = moment(event.end).format('YYYY-MM-DD HH:mm:ss');
+            }else{
+                var   end = start;
+            }
+
+            var   id =  event.id;
+
+            Event = [];
+            Event[0] = id;
+            Event[1] = start;
+            Event[2] = end;
+
+            $.ajax({
+                url: '/dHome/bridgeEditTime',
+                type: "POST",
+                data: {
+                    Event:Event,
+                    _token: '{!! csrf_token() !!}',
+                },
+                dataType:'json',
+                success: function(data) {
+                    $(".notification-text").html("Bridge changed");
+                    $('#notificationAlert').addClass('alert-success').removeClass('alert-danger');
+                    $('#notificationAlert').show();
+                }
+            });
+        }
 
 
     </script>
