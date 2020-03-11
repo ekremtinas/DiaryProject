@@ -148,7 +148,20 @@
                 </button>
                 <strong class="notification-text">Event deleted</strong>
             </div>
+            <div id="dialogBridgeDatetimeDelete"  title="Bridge Datetime Delete">
+                <div class="form-group">
+                    <form id="bridgeDatetimeDeleteForm"  method="post">
+                        @csrf
+                        <div class="form-group btn-group-sm mt-lg-3 col-lg-10 offset-lg-1 ">
+                            <input id="bridgeDatetimeId" style="display:none;">
+                            <p>Delete <strong id="bridgeDeleteSelect"></strong> <br> <strong id="bridgeDatetimeDelete"></strong> ?</p>
 
+                        </div>
+                        <button type="submit" id="bridgeDatetimeDeleteSubmit" class="offset-lg-3 col-lg-6 btn btn-danger btn-sm text-lg-center">Delete</button>
+                    </form>
+
+                </div>
+            </div>
             @include('Home.Modals.addEventModal')
             @include('Home.Modals.editEventModal')
             @include('Home.Modals.workplaceSettingsModal')
@@ -168,7 +181,7 @@
      <link href = "https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css"
               rel = "stylesheet">
     </noscript>
-
+    <script src="/components/diaryHome/js/lodash.min.js"></script>
     <style>
 
         .ui-widget-header,.ui-state-default, ui-button {

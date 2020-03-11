@@ -1,8 +1,8 @@
+var calendar; // Calendar değişkeni Global olarak tanımlandı
+var calendarEl = document.getElementById('calendar'); // Calendar idli div'in değişkene atanması
 
 $(document).ready(function () {
 
-    var calendar; // Calendar değişkeni Global olarak tanımlandı
-    var calendarEl = document.getElementById('calendar'); // Calendar idli div'in değişkene atanması
 
     var localeSelectorEl = document.getElementById('locale-selector'); // Dil için seçilen dilin aktarılması için
     var today = moment().day().today; // Bugünü moment ile formatlayıp alma
@@ -268,8 +268,9 @@ $(document).ready(function () {
                         success:function (rawData) {
                             globalRawData=rawData;
                             renderedData=rawData;
+                            var filteredData=_.filter(renderedData, function(o) { return o.title==selectedBridge; }); //Lodash kütüphanesi ile filtreliyoruz.
                             calendar.removeAllEvents();
-                            calendar.addEventSource(rawData);
+                            calendar.addEventSource(filteredData);
 
                         },
                         error: function() {
@@ -305,121 +306,140 @@ $(document).ready(function () {
                     var event = calendar.getEventById(eventId);
                     switch (key) {
                         case 'edit':
-
-                            $('#addEventForm').find("input[name='maintenance[]']:checked").prop('checked', false);
-                            $('#addEventForm')[0].reset();
-                            chooseMessage.html('');
-
-
-                            $('#ModalEdit #editId').val(event.id);
-                            $('#ModalEdit #editTitle').val(event.title);
-                            $('#ModalEdit #editStart').val(moment(event.start).format('YYYY-MM-DD HH:mm:ss'));
-                            $('#ModalEdit #editEnd').val(moment(event.end).format('YYYY-MM-DD HH:mm:ss'));
-
-                            $.ajax({
-                                url:'/dHome/getEventsJoinMaintenance',
-                                type:'get',
-                                data:{
-                                    id: event.id
-                                },
-                                success:function (data) {
-
-                                    var maintenanceMinute=moment(data.maintenanceMinute, "HH:mm");//Seçilen time'ın bakım time'larından büyük olması durumumda disable edilmesi
-
-                                    var ms = moment(event.end, "HH:mm").diff(moment(event.start, "HH:mm"));
-                                    var d = moment.duration(ms);
-                                    var s = Math.floor(d.asHours()) + moment.utc(ms).format(":mm");
-                                    var timeDiff = '0' + s;
-                                    timeDiffMoment = moment(timeDiff, 'HH:mm');
-
-                                    var optionName= data.maintenanceTitle.split(',');
+                            var selectedBridge = bridgesSelector.children("option:selected").val();//Köprülerin tarih-saat aralığını seçmek için global olan selector'ün alınması
+                            if(selectedBridge==null || selectedBridge=='Bridge Choose') {
+                                $('#addEventForm').find("input[name='maintenance[]']:checked").prop('checked', false);
+                                $('#addEventForm')[0].reset();
+                                chooseMessage.html('');
 
 
-                                    $.each($('#maintenanceTableEdit').find("input[name='maintenance[]']"), function() {//Checkbox'ın seçilmesi//Editlenmek istenen bakım türü seçiliyor.
-                                        $(this).prop('checked', false);
+                                $('#ModalEdit #editId').val(event.id);
+                                $('#ModalEdit #editTitle').val(event.title);
+                                $('#ModalEdit #editStart').val(moment(event.start).format('YYYY-MM-DD HH:mm:ss'));
+                                $('#ModalEdit #editEnd').val(moment(event.end).format('YYYY-MM-DD HH:mm:ss'));
 
-                                        for (var j = 0; j < optionName.length; j++)
-                                        {
-                                            if ($(this).val().substr(8) == optionName[j]) {
-                                                $(this).prop('checked', true);
-                                                // console.log($(this))
+                                $.ajax({
+                                    url: '/dHome/getEventsJoinMaintenance',
+                                    type: 'get',
+                                    data: {
+                                        id: event.id
+                                    },
+                                    success: function (data) {
+
+                                        var maintenanceMinute = moment(data.maintenanceMinute, "HH:mm");//Seçilen time'ın bakım time'larından büyük olması durumumda disable edilmesi
+
+                                        var ms = moment(event.end, "HH:mm").diff(moment(event.start, "HH:mm"));
+                                        var d = moment.duration(ms);
+                                        var s = Math.floor(d.asHours()) + moment.utc(ms).format(":mm");
+                                        var timeDiff = '0' + s;
+                                        timeDiffMoment = moment(timeDiff, 'HH:mm');
+
+                                        var optionName = data.maintenanceTitle.split(',');
 
 
+                                        $.each($('#maintenanceTableEdit').find("input[name='maintenance[]']"), function () {//Checkbox'ın seçilmesi//Editlenmek istenen bakım türü seçiliyor.
+                                            $(this).prop('checked', false);
+
+                                            for (var j = 0; j < optionName.length; j++) {
+                                                if ($(this).val().substr(8) == optionName[j]) {
+                                                    $(this).prop('checked', true);
+                                                    // console.log($(this))
+
+
+                                                }
                                             }
-                                        }
 
 
-                                    });
+                                        });
 
 
+                                    }
+                                });
 
 
-                                }
-                            });
+                                $('#ModalEdit').modal('show');
+                                $('#editEventSubmit').prop("disabled", false);
 
 
-
-
-                            $('#ModalEdit').modal('show');
-                            $('#editEventSubmit').prop( "disabled", false );
-
-
-
+                            }
+                            else
+                            {
+                                $("#dialogEdit").dialog("open");
+                                $( "#dialogAdd" ).dialog( "close" );
+                                $( "#dialogDelete" ).dialog( "close" );
+                            }
 
 
                             break;
                         case 'delete':
-
-                            bootbox.confirm({
-                                    message: "Is event delete?",
-                                    size: 'small',
-                                    locale:  locale,
-                                    buttons: {
-                                        confirm: {
-                                            label: 'Yes',
-                                            className: 'btn-success'
+                            var selectedBridge = bridgesSelector.children("option:selected").val();//Köprülerin tarih-saat aralığını seçmek için global olan selector'ün alınması
+                            if(selectedBridge==null || selectedBridge=='Bridge Choose') {
+                                bootbox.confirm({
+                                        message: "Is event delete?",
+                                        size: 'small',
+                                        locale: locale,
+                                        buttons: {
+                                            confirm: {
+                                                label: 'Yes',
+                                                className: 'btn-success'
+                                            },
+                                            cancel: {
+                                                label: 'No',
+                                                className: 'btn-danger'
+                                            }
                                         },
-                                        cancel: {
-                                            label: 'No',
-                                            className: 'btn-danger'
-                                        }
-                                    },
-                                    callback: function (result) {
-                                        if(result===true)
-                                        {
+                                        callback: function (result) {
+                                            if (result === true) {
 
-                                            $.ajaxSetup({
-                                                headers: {
-                                                    'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
-                                                }
-                                            });
+                                                $.ajaxSetup({
+                                                    headers: {
+                                                        'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+                                                    }
+                                                });
 
-                                            $.ajax({
-                                                type: 'GET',
-                                                url: '/dHome/destroyEvent/'+eventId,
-                                                dataType:'json',
-                                                success:function(data){
-                                                    $('#notificationAlert').addClass('alert-success').removeClass('alert-danger');
-                                                    $(".notification-text").html("Event deleted");
-                                                    $('#notificationAlert').show();
-                                                    event.remove();
+                                                $.ajax({
+                                                    type: 'GET',
+                                                    url: '/dHome/destroyEvent/' + eventId,
+                                                    dataType: 'json',
+                                                    success: function (data) {
+                                                        $('#notificationAlert').addClass('alert-success').removeClass('alert-danger');
+                                                        $(".notification-text").html("Event deleted");
+                                                        $('#notificationAlert').show();
+                                                        event.remove();
 
 
+                                                    }
+                                                });
 
-
-                                                }
-                                            });
-
-                                        }
-                                        else{
-                                            $(".notification-text").html("Event not deleted");
-                                            $('#notificationAlert').addClass('alert-danger').removeClass('alert-success');
-                                            $('#notificationAlert').show();
+                                            } else {
+                                                $(".notification-text").html("Event not deleted");
+                                                $('#notificationAlert').addClass('alert-danger').removeClass('alert-success');
+                                                $('#notificationAlert').show();
+                                            }
                                         }
                                     }
-                                }
+                                );
+                            }
+                            else
+                            {
+                                $('#bridgeDatetimeDeleteForm').find('#bridgeDatetimeId').attr('value',eventId);
+                                $('#bridgeDatetimeDelete').html(moment(event.start).format('YYYY.MM.DD HH:mm:ss') +" - "+moment(event.end).format('YYYY.MM.DD HH:mm:ss') );
+                                $( "#dialogBridgeDatetimeDelete" ).dialog({
+                                    position: {
+                                        my: "center",
+                                        at: "center",
+                                        of: window
+                                    },
+                                    autoOpen: false,
+                                    title: "Bridge Delete",
+                                    height: 200,
+                                    closeText: "",
 
-                            );
+                                }).prev(".ui-dialog-titlebar").attr("style","background-color:#e22620 !important;border-color:#e22620 !important;");
+                                $("#dialogBridgeDatetimeDelete").dialog("open");
+                                $( "#dialogAdd" ).dialog( "close" );
+                                $( "#dialogEdit" ).dialog( "close" );
+                            }
 
 
                             break;

@@ -975,4 +975,39 @@ $(document).ready(function () {
                     }
                 });
             });
+
+            // Bridge Date Time
+
+                var bridgeDatetimeDeleteForm = $('#bridgeDatetimeDeleteForm');
+                var bridgeDatetimeDeleteSubmit = $('#bridgeDatetimeDeleteSubmit');
+                bridgeDatetimeDeleteForm.submit(function (e) {
+                    console.log(bridgeDatetimeDeleteForm.find('#bridgeDatetimeId').val())
+                    bridgeDatetimeDeleteSubmit.prop('disabled', true);
+                    var bridgeDatetimeId=bridgeDatetimeDeleteForm.find('#bridgeDatetimeId').val();
+                    e.preventDefault();
+                    $.ajaxSetup({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+
+                        }
+                    });
+                    $.ajax({
+                        url: '/dHome/bridgeDatetimeDelete',
+                        type: 'post',
+                        data: {
+                            id: bridgeDatetimeId,
+                            _token: bridgeDatetimeDeleteForm.find('input[name="_token"]').val()
+                        },
+                        dataType: 'json',
+                        success: function (data) {
+                            $("#dialogBridgeDatetimeDelete").dialog("close");
+                            var event = calendar.getEventById(bridgeDatetimeId);
+                            event.remove();
+                            bridgeDeleteSubmit.prop("disabled", false);
+                            $('#notificationAlert').addClass('alert-danger').removeClass('alert-success');
+                            $(".notification-text").html("Bridges Deleted");
+                            $('#notificationAlert').show();
+                        }
+                    });
+                });
 });
