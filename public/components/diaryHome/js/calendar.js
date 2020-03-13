@@ -1,11 +1,48 @@
 var calendar; // Calendar değişkeni Global olarak tanımlandı
 var calendarEl = document.getElementById('calendar'); // Calendar idli div'in değişkene atanması
-
+var renderedData;
+var renderedBridgeData;
 $(document).ready(function () {
 
 
     var localeSelectorEl = document.getElementById('locale-selector'); // Dil için seçilen dilin aktarılması için
     var today = moment().day().today; // Bugünü moment ile formatlayıp alma
+    
+
+
+
+
+        $.ajax({
+
+            url: '/dHome/getEvent?_token=0GTwvcp5NWn7zBVtu6lSH4R5GhTRLaCYDoJvnqNT',
+            type:'get',
+            success:function (rawData ) {
+                globalRawData=rawData;
+                renderedData=rawData;
+                calendar.removeAllEvents();
+                calendar.addEventSource(rawData);
+                calendar.render();
+
+            },
+            error: function() {
+                alert('There was an error while fetching events.');
+            }
+        });
+
+        $.ajax({
+
+            url: '/dHome/getBridgeDateTime',
+            type:'get',
+            success:function (rawData) {
+                globalRawData=rawData;
+                renderedBridgeData=rawData;
+            },
+            error: function() {
+                alert('There was an error while fetching events.');
+            }
+        });
+
+
 
     initThemeChooser({
 
@@ -79,7 +116,7 @@ $(document).ready(function () {
                     var selectedBridge = bridgesSelector.children("option:selected"). val();//Köprülerin tarih-saat aralığını seçmek için global olan selector'ünün seçili olanının değerinin alınması
                     var bridgeId = bridgesSelector.children("option:selected"). data('id');//Köprülerin tarih-saat aralığını seçmek için global olan selector'ünün seçili olanın data-id'sinin alınması
 
-                    console.log(selectedBridge);
+
                     if(selectedBridge=="Bridge Choose" || selectedBridge==null)
                     {
                         $('#ModalAdd #saveStart').val(moment(event.start).format('YYYY-MM-DD HH:mm:ss'));
@@ -139,18 +176,9 @@ $(document).ready(function () {
 
                 },
 
-                events: {
-                    url: '/dHome/getEvent?_token=0GTwvcp5NWn7zBVtu6lSH4R5GhTRLaCYDoJvnqNT',
-                    type: 'GET', // Send Get data
-                    textColor: 'white',
-                    success:function (rawData) {
-                        globalRawData=rawData;
-                    },
-                    error: function() {
-                        alert('There was an error while fetching events.');
-                    }
-                },
+                events:renderedData,
                 eventRender: function(info) {
+
 
                     $(info.el).attr("id",info.event.id).addClass('context-class');
                     $(info.el).attr("title",info.event.title);
@@ -161,6 +189,7 @@ $(document).ready(function () {
                     }
                     else
                     {
+
                         $(info.el).attr("style","background-color:blue !important;border-color:blue !important");
 
                     }
@@ -202,6 +231,22 @@ $(document).ready(function () {
                         dayRenderInfo.el.style.backgroundColor='#C3C3C3';
                     }
 
+               var selectedBridge = bridgesSelector.children("option:selected").val();//Köprülerin tarih-saat aralığını seçmek için global olan selector'ün alınması
+                    if(selectedBridge==null || selectedBridge=='Bridge Choose')
+                    {
+                        dayRenderInfo.el.style.backgroundColor='#0303E3';
+
+
+                            var filteredData=_.filter(renderedBridgeData, function(o) { return o.title==selectedBridge; }); //Lodash kütüphanesi ile filtreliyoruz.
+                            console.log(renderedBridgeData)
+
+
+                    }
+                    else
+                    {
+
+                        dayRenderInfo.el.style.backgroundColor='#C373C3';
+                    }
 
 
 
@@ -235,7 +280,7 @@ $(document).ready(function () {
             });
 
             //Bridge Select and Render
-            var renderedData;
+
             bridgesSelector.on('change',function(){
                 var selectedBridge = $(this).children("option:selected"). val();
                 var selectedBridgeId = $(this).children("option:selected").data('id');
@@ -251,6 +296,8 @@ $(document).ready(function () {
                             renderedData=rawData;
                             calendar.removeAllEvents();
                             calendar.addEventSource(rawData);
+                            calendar.render();
+
                         },
                         error: function() {
                             alert('There was an error while fetching events.');
@@ -270,8 +317,9 @@ $(document).ready(function () {
                             renderedData=rawData;
                             var filteredData=_.filter(renderedData, function(o) { return o.title==selectedBridge; }); //Lodash kütüphanesi ile filtreliyoruz.
                             calendar.removeAllEvents();
-                            calendar.addEventSource(filteredData);
 
+                            calendar.addEventSource(filteredData);
+                            calendar.render();
                         },
                         error: function() {
                             alert('There was an error while fetching events.');
@@ -282,16 +330,29 @@ $(document).ready(function () {
 
             });
 
-            $('.fc-next-button.fc-prev-button').on('click',function () {
+            $('.fc-next-button').on('click',function () {//İleri Butonu ile render etme işlemi
 
                 calendar.removeAllEvents();
                 calendar.addEventSource(renderedData);
             });
-            $('.fc-prev-button').on('click',function () {
+            $('.fc-prev-button').on('click',function () {//Geri Butonu ile render etme işlemi
 
             calendar.removeAllEvents();
             calendar.addEventSource(renderedData);
             });
+
+            $( "#dialogBridgeDatetimeDelete" ).dialog({//Bridge Event'inin Silinmesi Konusunda Dialog Kurulması
+                position: {
+                    my: "center",
+                    at: "center",
+                    of: window
+                },
+                autoOpen: false,
+                title: "Bridge Delete",
+                height: 200,
+                closeText: "",
+
+            }).prev(".ui-dialog-titlebar").attr("style","background-color:#e22620 !important;border-color:#e22620 !important;");
 
 // CONTEXT MENU
             $.contextMenu({
@@ -424,19 +485,7 @@ $(document).ready(function () {
                             {
                                 $('#bridgeDatetimeDeleteForm').find('#bridgeDatetimeId').attr('value',eventId);
                                 $('#bridgeDatetimeDelete').html(moment(event.start).format('YYYY.MM.DD HH:mm:ss') +" - "+moment(event.end).format('YYYY.MM.DD HH:mm:ss') );
-                                $( "#dialogBridgeDatetimeDelete" ).dialog({
-                                    position: {
-                                        my: "center",
-                                        at: "center",
-                                        of: window
-                                    },
-                                    autoOpen: false,
-                                    title: "Bridge Delete",
-                                    height: 200,
-                                    closeText: "",
-
-                                }).prev(".ui-dialog-titlebar").attr("style","background-color:#e22620 !important;border-color:#e22620 !important;");
-                                $("#dialogBridgeDatetimeDelete").dialog("open");
+                                 $("#dialogBridgeDatetimeDelete").dialog("open");
                                 $( "#dialogAdd" ).dialog( "close" );
                                 $( "#dialogEdit" ).dialog( "close" );
                             }

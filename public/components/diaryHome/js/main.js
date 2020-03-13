@@ -961,13 +961,22 @@ $(document).ready(function () {
                     success:function (data) {
                         $( "#dialogEdit" ).dialog( "close" );
                         bridgesSelector.each(function () {
-
-                            if($(this).find('option:selected').data('id')==data['id'])
+                            var selectorId=$(this).find('option:selected').data('id');
+                            if(selectorId==data['id'])
                             {
                                 $(this).find('option:selected').remove();
+
+
                             }
+
+
                         });
                         bridgesSelector.append("<option data-id='"+data['id']+"'  value='" + data['bridge_name'] + "'>" + data['bridge_name'] + "</option>");
+
+
+
+
+
                         bridgeEditSubmit.prop( "disabled", false );
                         $('#notificationAlert').addClass('alert-succes').removeClass('alert-danger');
                         $(".notification-text").html("Bridges Edited");
@@ -1003,7 +1012,7 @@ $(document).ready(function () {
                             $("#dialogBridgeDatetimeDelete").dialog("close");
                             var event = calendar.getEventById(bridgeDatetimeId);
                             event.remove();
-                            bridgeDeleteSubmit.prop("disabled", false);
+                            bridgeDatetimeDeleteSubmit.prop("disabled", false);
                             $('#notificationAlert').addClass('alert-danger').removeClass('alert-success');
                             $(".notification-text").html("Bridges Deleted");
                             $('#notificationAlert').show();
