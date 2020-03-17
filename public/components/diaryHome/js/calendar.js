@@ -45,19 +45,15 @@ $(document).ready(function () {
                     cevap.forEach(function(items){
                        // console.log(items['title']+" = "+items['start']+" - "+items['end'] );
                         items['title']='Available time';
-                   //     items['groupId']='1';
-                   //    items['daysOfWeek']= [0];
-                    //   items['startTime']= items['start'];
-                     //  items['endTime']= items['end'];
-                       items['rendering']='background';
-                       items['className']='fc-nonbusiness';
-                     //  items['constraint']='available_hours';
-                  //     delete items['start'];
-                    //   delete items['end'];
-                    //   delete items['id'];
-                    //   delete items['title'];
-                   //    delete items['groupId'];
-                        
+                        items['groupId']='1';
+                       items['daysOfWeek']= [0];
+                       items['startTime']= moment(items['start']).format('HH:mm');
+                       items['endTime']= moment(items['end']).format('HH:mm');
+                       delete items['start'];
+                       delete items['end'];
+                       delete items['id'];
+                       delete items['title'];
+                       delete items['groupId'];
                     });
                     console.log(2)
                    resolve(cevap);
@@ -78,7 +74,7 @@ $(document).ready(function () {
    console.log(3);
     console.log(cevap[0])
 
-    calendar.addEventSource(cevap);
+    //calendar.addEventSource(cevap);
 
     });
 
@@ -110,21 +106,27 @@ $(document).ready(function () {
                         eventLimit: 6 // adjust to 6 only for timeGridWeek/timeGridDay
                     }
                 },
-            /*  businessHours:
+              businessHours:
+
+
+                  promiseBusiness.then(function(cevap){
+                      console.log(3);
+                      console.log(cevap[0])
+
+                      //calendar.addEventSource(cevap);
+
+                  })
 
 
 
-
-
-
-                [ {
+               /* [ {
                 // days of week. an array of zero-based day of week integers (0=Sunday)
                     daysOfWeek: [ 0 ], // Monday - Thursday
 
                     startTime: '00:00', // a start time (10am in this example)
                     endTime: '00:00', // an end time (6pm in this example)
-                 }]
-               ,*/
+                 }]*/
+               ,
                 eventClassName:'context-menu-one', // Context-Menu için eventlara class atanması
                 selectable: true, //Kullanıcının tıklayıp sürükleyerek birden fazla gün veya zaman dilimini vurgulamasına izin verir.
                 selectMirror: true, // Kullanıcı sürüklerken bir “yer tutucu” etkinliği çizilip çizilmeyeceği. Eğer True dersek biraz uzaktan sürüklenerek gider.
@@ -241,7 +243,7 @@ $(document).ready(function () {
 
 
                   },
-               /* selectConstraint: "businessHours",*/
+                selectConstraint: "businessHours",
                 eventRender: function(info) {
                     var busLength= $('.fc-content-skeleton').find('table').find('.fc-nonbusiness').length;
                     var bus =$('.fc-content-skeleton').find('table').find('.fc-nonbusiness');
