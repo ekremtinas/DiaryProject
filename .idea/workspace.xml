@@ -3,9 +3,14 @@
   <component name="ChangeListManager">
     <list default="true" id="4a8e94e8-e1f8-4c09-a043-d33f9a42353f" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/dataSources/4971b7fe-ee86-4461-8e34-92cf21ceb6ff.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/4971b7fe-ee86-4461-8e34-92cf21ceb6ff.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/GetHomeController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/GetHomeController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Home/FullCalendarController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Home/FullCalendarController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/components/diaryHome/js/calendar.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/components/diaryHome/js/calendar.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/components/diaryHome/js/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/components/diaryHome/js/main.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/Login/diaryLogin.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/Login/diaryLogin.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/diaryHome.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/diaryHome.blade.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -367,7 +372,11 @@
       <workItem from="1583836169907" duration="5394000" />
       <workItem from="1583867819773" duration="13000" />
       <workItem from="1583961068497" duration="6927000" />
-      <workItem from="1584081900799" duration="17486000" />
+      <workItem from="1584081900799" duration="17924000" />
+      <workItem from="1584102904066" duration="10000" />
+      <workItem from="1584106055102" duration="12000" />
+      <workItem from="1584356516757" duration="13493000" />
+      <workItem from="1584436148615" duration="15092000" />
     </task>
     <servers />
   </component>
@@ -421,19 +430,19 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="392" y="5" key="com.intellij.database.view.ui.AbstractDbRefactoringDialog/0.0.1366.728@0.0.1366.728" timestamp="1583496873709" />
-    <state x="378" y="188" key="com.intellij.ide.util.TipDialog" timestamp="1584081904400">
+    <state x="378" y="188" key="com.intellij.ide.util.TipDialog" timestamp="1584436149285">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="378" y="188" key="com.intellij.ide.util.TipDialog/0.0.1366.728/1366.0.1920.1040@0.0.1366.728" timestamp="1583443542566" />
-    <state x="378" y="188" key="com.intellij.ide.util.TipDialog/0.0.1366.728@0.0.1366.728" timestamp="1584081904400" />
-    <state x="339" y="162" key="run.anything.popup" timestamp="1581433301080">
+    <state x="378" y="188" key="com.intellij.ide.util.TipDialog/0.0.1366.728@0.0.1366.728" timestamp="1584436149285" />
+    <state x="339" y="162" key="run.anything.popup" timestamp="1584364418438">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="339" y="162" key="run.anything.popup/0.0.1366.728@0.0.1366.728" timestamp="1581433301080" />
-    <state x="346" y="49" width="672" height="678" key="search.everywhere.popup" timestamp="1584092624755">
+    <state x="339" y="162" key="run.anything.popup/0.0.1366.728@0.0.1366.728" timestamp="1584364418438" />
+    <state x="346" y="49" width="672" height="678" key="search.everywhere.popup" timestamp="1584443502678">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="-1020" y="49" width="672" height="678" key="search.everywhere.popup/-1366.0.1366.728/0.0.1920.1040@-1366.0.1366.728" timestamp="1582193639829" />
-    <state x="346" y="49" width="672" height="678" key="search.everywhere.popup/0.0.1366.728@0.0.1366.728" timestamp="1584092624755" />
+    <state x="346" y="49" width="672" height="678" key="search.everywhere.popup/0.0.1366.728@0.0.1366.728" timestamp="1584443502678" />
   </component>
 </project>

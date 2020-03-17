@@ -223,6 +223,12 @@
             transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out !important;
         }
 
+        .fc-nonbusiness,fc-bgevent{
+            background-color: red !important;
+            cursor: no-drop;
+
+        }
+
     </style>
 @endsection
 @section('script')

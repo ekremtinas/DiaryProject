@@ -24,11 +24,11 @@ class FullCalendarController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-
+   
 
     public  function index(Request $request)
     {
-
+      
              if ($request->_token==null)
                 {
                     abort(404);

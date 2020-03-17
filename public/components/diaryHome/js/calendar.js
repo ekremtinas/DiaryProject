@@ -1,48 +1,86 @@
 var calendar; // Calendar değişkeni Global olarak tanımlandı
 var calendarEl = document.getElementById('calendar'); // Calendar idli div'in değişkene atanması
 var renderedData;
-var renderedBridgeData;
+
 $(document).ready(function () {
 
 
     var localeSelectorEl = document.getElementById('locale-selector'); // Dil için seçilen dilin aktarılması için
     var today = moment().day().today; // Bugünü moment ile formatlayıp alma
-    
+    var j=0;
+
+
+    var renderedBridgeData;
+    const promiseBridges = new Promise(function(resolve, reject){
+        if (resolve) {
+            $.ajax({
+
+                url: '/dHome/getBridgeDateTime',
+                type:'get',
+                success:function (rawData) {
+                    globalRawData=rawData;
+
+                    resolve(rawData);
+                    console.log(1)
+                },
+                error: function() {
+                    alert('There was an error while fetching events.');
+                }
+            });
+        } else {
+          reject('Error');
+        }
+      });
+
+    const promiseBusiness = new Promise(function(resolve, reject){
+        if (resolve) {
+         //   var selectedBridge = bridgesSelector.children("option:selected").val();//Köprülerin tarih-saat aralığını seçmek için global olan selector'ün alınması
+
+            promiseBridges.then(function(cevap){
+              //  var filteredData=_.filter(renderedBridgeData, function(o) { return o.title==selectedBridge; }); //Lodash kütüphanesi ile filtreliyoruz.
 
 
 
 
-        $.ajax({
-
-            url: '/dHome/getEvent?_token=0GTwvcp5NWn7zBVtu6lSH4R5GhTRLaCYDoJvnqNT',
-            type:'get',
-            success:function (rawData ) {
-                globalRawData=rawData;
-                renderedData=rawData;
-                calendar.removeAllEvents();
-                calendar.addEventSource(rawData);
-                calendar.render();
-
-            },
-            error: function() {
-                alert('There was an error while fetching events.');
-            }
-        });
-
-        $.ajax({
-
-            url: '/dHome/getBridgeDateTime',
-            type:'get',
-            success:function (rawData) {
-                globalRawData=rawData;
-                renderedBridgeData=rawData;
-            },
-            error: function() {
-                alert('There was an error while fetching events.');
-            }
-        });
+                    cevap.forEach(function(items){
+                       // console.log(items['title']+" = "+items['start']+" - "+items['end'] );
+                        items['title']='Available time';
+                   //     items['groupId']='1';
+                   //    items['daysOfWeek']= [0];
+                    //   items['startTime']= items['start'];
+                     //  items['endTime']= items['end'];
+                       items['rendering']='background';
+                       items['className']='fc-nonbusiness';
+                     //  items['constraint']='available_hours';
+                  //     delete items['start'];
+                    //   delete items['end'];
+                    //   delete items['id'];
+                    //   delete items['title'];
+                   //    delete items['groupId'];
+                        
+                    });
+                    console.log(2)
+                   resolve(cevap);
 
 
+
+
+            });
+
+        }
+
+        else {
+            reject('Error');
+        }
+    });
+
+      promiseBusiness.then(function(cevap){
+   console.log(3);
+    console.log(cevap[0])
+
+    calendar.addEventSource(cevap);
+
+    });
 
     initThemeChooser({
 
@@ -72,19 +110,29 @@ $(document).ready(function () {
                         eventLimit: 6 // adjust to 6 only for timeGridWeek/timeGridDay
                     }
                 },
-                businessHours: { //Sınırlama işlemlerinin yapılması
-                    // days of week. an array of zero-based day of week integers (0=Sunday)
-                    daysOfWeek: [ 1, 2, 3, 4,5], // Monday - Thursday
+            /*  businessHours:
 
-                    startTime: '10:00', // a start time (10am in this example)
-                    endTime: '18:00', // an end time (6pm in this example)
-                },
+
+
+
+
+
+                [ {
+                // days of week. an array of zero-based day of week integers (0=Sunday)
+                    daysOfWeek: [ 0 ], // Monday - Thursday
+
+                    startTime: '00:00', // a start time (10am in this example)
+                    endTime: '00:00', // an end time (6pm in this example)
+                 }]
+               ,*/
                 eventClassName:'context-menu-one', // Context-Menu için eventlara class atanması
                 selectable: true, //Kullanıcının tıklayıp sürükleyerek birden fazla gün veya zaman dilimini vurgulamasına izin verir.
                 selectMirror: true, // Kullanıcı sürüklerken bir “yer tutucu” etkinliği çizilip çizilmeyeceği. Eğer True dersek biraz uzaktan sürüklenerek gider.
                 allDaySlot:false,//Tüm Gün Eklenmesi İptal Edilmesi
                 eventOverlap:false,// Günlerin Kesişmesini Engeller
                 firstDay:moment().day(),
+                nowIndicator:true,
+
                 loading: function(bool) {
                     if (bool) {
                         $('#loading').show();
@@ -176,10 +224,47 @@ $(document).ready(function () {
 
                 },
 
-                events:renderedData,
+                events:function(fetchInfo, successCallback, failureCallback) {
+                    $.ajax({
+
+                        url: '/dHome/getEvent?_token=0GTwvcp5NWn7zBVtu6lSH4R5GhTRLaCYDoJvnqNT',
+                        type:'get',
+                        success:function (rawData ) {
+                            globalRawData=rawData;
+                            renderedData=rawData;
+                            successCallback(rawData);
+                        },
+                        error: function() {
+                            alert('There was an error while fetching events.');
+                        }
+                    });
+
+
+                  },
+               /* selectConstraint: "businessHours",*/
                 eventRender: function(info) {
+                    var busLength= $('.fc-content-skeleton').find('table').find('.fc-nonbusiness').length;
+                    var bus =$('.fc-content-skeleton').find('table').find('.fc-nonbusiness');
+                    for(var i=0;i<busLength;i++)
+                    {
+                        $(bus[i]).on('click',function () {
+                            alert('Müsait Değil');
+                        });
+                    }
 
+                     //   $('.fc-nonbusiness').attr('style','cursor:none !important;');
+                    if(info.event.groupId === "1"){
+                        // Just add some text or html to the event element.
+                       //  $(info.el).attr('style','background-color:blue !important;border-color:blue !important;opacity:0.5 !important');
+                      //   $(info.el).parent().parent().children(':last-child').attr('style','opacity:0.5 !important');
+                        /*   var gridTr=$('.fc-slats').find('table').find('tr');
+                           console.log(gridTr)
+                           $.each(gridTr,function (items) {
+                               $(gridTr[items]).attr('style','background-color:red !important');
+                               console.log($(gridTr[items]).data('time'))
+                           });*/
 
+                    }
                     $(info.el).attr("id",info.event.id).addClass('context-class');
                     $(info.el).attr("title",info.event.title);
                     var selectedBridge = bridgesSelector.children("option:selected").val();//Köprülerin tarih-saat aralığını seçmek için global olan selector'ün alınması
@@ -190,7 +275,7 @@ $(document).ready(function () {
                     else
                     {
 
-                        $(info.el).attr("style","background-color:blue !important;border-color:blue !important");
+                        $(info.el).attr("style","background-color:#17225e !important;border-color:#17225e !important");
 
                     }
 
@@ -208,6 +293,7 @@ $(document).ready(function () {
                     }
 
                 },
+
                 eventResize: function(info) {
 
                     var selectedBridge = bridgesSelector.children("option:selected").val();//Köprülerin tarih-saat aralığını seçmek için global olan selector'ün alınması
@@ -225,27 +311,27 @@ $(document).ready(function () {
                 dayRender: function( dayRenderInfo ) {
                     var today=moment().day().today;//Bugünden önceki timeların rengini değiştirme
                     var todayFormat=moment(today);
-
                     if(todayFormat-86400000>moment(dayRenderInfo.date))//Burdaki sayı bir günün milisaniye cinsinden karşılığıdır.
                     {
                         dayRenderInfo.el.style.backgroundColor='#C3C3C3';
                     }
 
-               var selectedBridge = bridgesSelector.children("option:selected").val();//Köprülerin tarih-saat aralığını seçmek için global olan selector'ün alınması
+                    var selectedBridge = bridgesSelector.children("option:selected").val();//Köprülerin tarih-saat aralığını seçmek için global olan selector'ün alınması
+
+
+
+
                     if(selectedBridge==null || selectedBridge=='Bridge Choose')
                     {
-                        dayRenderInfo.el.style.backgroundColor='#0303E3';
+                     //   dayRenderInfo.el.style.backgroundColor='#ecb6b6';
 
 
-                            var filteredData=_.filter(renderedBridgeData, function(o) { return o.title==selectedBridge; }); //Lodash kütüphanesi ile filtreliyoruz.
-                            console.log(renderedBridgeData)
 
 
                     }
                     else
                     {
-
-                        dayRenderInfo.el.style.backgroundColor='#C373C3';
+                     //     dayRenderInfo.el.style.backgroundColor='#64bfdd';
                     }
 
 
@@ -258,6 +344,7 @@ $(document).ready(function () {
 
 
             });
+
             calendar.render();
             calendar.setOption('locale', initialLocaleCode);
             // build the locale selector's options
@@ -329,6 +416,9 @@ $(document).ready(function () {
 
 
             });
+
+
+
 
             $('.fc-next-button').on('click',function () {//İleri Butonu ile render etme işlemi
 
