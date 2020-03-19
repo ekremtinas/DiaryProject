@@ -1012,6 +1012,9 @@ $(document).ready(function () {
                             $("#dialogBridgeDatetimeDelete").dialog("close");
                             var event = calendar.getEventById(bridgeDatetimeId);
                             event.remove();
+                            _.remove(renderedConstraint, function(n) {
+                                return n.id == bridgeDatetimeId;
+                            });
                             bridgeDatetimeDeleteSubmit.prop("disabled", false);
                             $('#notificationAlert').addClass('alert-danger').removeClass('alert-success');
                             $(".notification-text").html("Bridges Deleted");

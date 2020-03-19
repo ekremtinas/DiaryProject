@@ -104,7 +104,7 @@ class BridgesController extends Controller
 
     public function bridgeDTAdd(Request $request){
 
-        \DebugBar::info($request);
+
 
         $this->validate($request, [
             'bridge_name' => 'required',
@@ -121,11 +121,13 @@ class BridgesController extends Controller
         $bridgeName=$request->get('bridge_name');
         try
         {
-            BridgeDateTime::create($bridge_data);
+            $bdt=BridgeDateTime::create($bridge_data);
+
             $bridge_data+=[
-                'bridge_name'=>$bridgeName
+                'bridge_name'=>$bridgeName,
+                'id'=>$bdt['id']
             ];
-            return response($request);
+            return response($bridge_data);
         }
         catch (Exception $exception){
             return back()->withInput()->with('error', 'Bridge DateTime not add');

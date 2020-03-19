@@ -225,7 +225,7 @@
 
         .fc-nonbusiness,fc-bgevent{
             background-color: red !important;
-            cursor: no-drop;
+
 
         }
 

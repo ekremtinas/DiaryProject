@@ -1,7 +1,9 @@
 var calendar; // Calendar değişkeni Global olarak tanımlandı
 var calendarEl = document.getElementById('calendar'); // Calendar idli div'in değişkene atanması
 var renderedData;
-
+var renderedConstraint;
+var start;
+var end;
 $(document).ready(function () {
 
 
@@ -10,7 +12,7 @@ $(document).ready(function () {
     var j=0;
 
 
-    var renderedBridgeData;
+
     const promiseBridges = new Promise(function(resolve, reject){
         if (resolve) {
             $.ajax({
@@ -34,49 +36,28 @@ $(document).ready(function () {
 
     const promiseBusiness = new Promise(function(resolve, reject){
         if (resolve) {
-         //   var selectedBridge = bridgesSelector.children("option:selected").val();//Köprülerin tarih-saat aralığını seçmek için global olan selector'ün alınması
-
             promiseBridges.then(function(cevap){
-              //  var filteredData=_.filter(renderedBridgeData, function(o) { return o.title==selectedBridge; }); //Lodash kütüphanesi ile filtreliyoruz.
-
-
-
 
                     cevap.forEach(function(items){
-                       // console.log(items['title']+" = "+items['start']+" - "+items['end'] );
-                        items['title']='Available time';
-                        items['groupId']='1';
-                       items['daysOfWeek']= [0];
-                       items['startTime']= moment(items['start']).format('HH:mm');
-                       items['endTime']= moment(items['end']).format('HH:mm');
-                       delete items['start'];
-                       delete items['end'];
-                       delete items['id'];
-                       delete items['title'];
-                       delete items['groupId'];
+                        items['rendering']='background';
+                        items['className']='fc-nonbusiness';
+
                     });
                     console.log(2)
                    resolve(cevap);
 
-
-
-
             });
 
         }
-
         else {
             reject('Error');
         }
     });
 
       promiseBusiness.then(function(cevap){
-   console.log(3);
-    console.log(cevap[0])
-
-    //calendar.addEventSource(cevap);
-
-    });
+        renderedConstraint=cevap;
+        calendar.addEventSource(cevap);
+      });
 
     initThemeChooser({
 
@@ -100,38 +81,18 @@ $(document).ready(function () {
                 resizable: true, // Boyutun uzatılmasının aktifleştirilmesi
                 eventLimit: true, // Bir günde görüntülenen etkinlik sayısını sınırlar.Dokümantasyondan view parametresi alınarak sınırlandırılabilir.
                 droppable:false,
-                selectOverlap:false,//Seçilen alan kesişmesini engeller
+                unselectAuto:true,//Seçilen alan başka bir yere tıklandığında kaybolması
+                selectOverlap:true,//Seçilen alan kesişmesini engeller
                 views: {
                     timeGrid: {
                         eventLimit: 6 // adjust to 6 only for timeGridWeek/timeGridDay
                     }
                 },
-              businessHours:
-
-
-                  promiseBusiness.then(function(cevap){
-                      console.log(3);
-                      console.log(cevap[0])
-
-                      //calendar.addEventSource(cevap);
-
-                  })
-
-
-
-               /* [ {
-                // days of week. an array of zero-based day of week integers (0=Sunday)
-                    daysOfWeek: [ 0 ], // Monday - Thursday
-
-                    startTime: '00:00', // a start time (10am in this example)
-                    endTime: '00:00', // an end time (6pm in this example)
-                 }]*/
-               ,
                 eventClassName:'context-menu-one', // Context-Menu için eventlara class atanması
                 selectable: true, //Kullanıcının tıklayıp sürükleyerek birden fazla gün veya zaman dilimini vurgulamasına izin verir.
                 selectMirror: true, // Kullanıcı sürüklerken bir “yer tutucu” etkinliği çizilip çizilmeyeceği. Eğer True dersek biraz uzaktan sürüklenerek gider.
                 allDaySlot:false,//Tüm Gün Eklenmesi İptal Edilmesi
-                eventOverlap:false,// Günlerin Kesişmesini Engeller
+                eventOverlap:true,// Günlerin Kesişmesini Engeller
                 firstDay:moment().day(),
                 nowIndicator:true,
 
@@ -243,8 +204,36 @@ $(document).ready(function () {
 
 
                   },
-                selectConstraint: "businessHours",
+
+               selectAllow:function(selectInfo){
+                   var selectedBridge = bridgesSelector.children("option:selected"). val();//Köprülerin tarih-saat aralığını seçmek için global olan selector'ünün seçili olanının değerinin alınması
+
+
+                   if(selectedBridge=="Bridge Choose" || selectedBridge==null) {
+                       console.log(moment(moment(selectInfo.end).format('YYYY-MM-DD HH:mm:ss')))
+                       console.log(renderedConstraint)
+                       var selectDateTimeStart = moment(moment(selectInfo.start).format('YYYY-MM-DD HH:mm:ss'));
+                       var selectDateTimeEnd = moment(moment(selectInfo.end).format('YYYY-MM-DD HH:mm:ss'));
+
+                       var endBool = _.find(renderedConstraint, function (o) {
+                           return moment(o.end) >= selectDateTimeEnd;
+                       });
+                       var startBool = _.find(renderedConstraint, function (o) {
+                           return moment(o.start) <= selectDateTimeStart;
+                       });
+                       if (startBool && endBool) {
+                           return true;
+                       }
+                       else {
+                           return false;
+                       }
+                   }
+                   else{
+                       return true;
+                   }
+                },
                 eventRender: function(info) {
+
                     var busLength= $('.fc-content-skeleton').find('table').find('.fc-nonbusiness').length;
                     var bus =$('.fc-content-skeleton').find('table').find('.fc-nonbusiness');
                     for(var i=0;i<busLength;i++)
@@ -254,19 +243,7 @@ $(document).ready(function () {
                         });
                     }
 
-                     //   $('.fc-nonbusiness').attr('style','cursor:none !important;');
-                    if(info.event.groupId === "1"){
-                        // Just add some text or html to the event element.
-                       //  $(info.el).attr('style','background-color:blue !important;border-color:blue !important;opacity:0.5 !important');
-                      //   $(info.el).parent().parent().children(':last-child').attr('style','opacity:0.5 !important');
-                        /*   var gridTr=$('.fc-slats').find('table').find('tr');
-                           console.log(gridTr)
-                           $.each(gridTr,function (items) {
-                               $(gridTr[items]).attr('style','background-color:red !important');
-                               console.log($(gridTr[items]).data('time'))
-                           });*/
 
-                    }
                     $(info.el).attr("id",info.event.id).addClass('context-class');
                     $(info.el).attr("title",info.event.title);
                     var selectedBridge = bridgesSelector.children("option:selected").val();//Köprülerin tarih-saat aralığını seçmek için global olan selector'ün alınması
@@ -291,7 +268,7 @@ $(document).ready(function () {
                    else
                     {
                         editBridge(info.event);
-                      //  info.revert();
+
                     }
 
                 },
@@ -306,7 +283,7 @@ $(document).ready(function () {
                     else
                     {
                         editBridge(info.event);
-                        //info.revert();
+
                     }
 
                 },
@@ -325,8 +302,8 @@ $(document).ready(function () {
 
                     if(selectedBridge==null || selectedBridge=='Bridge Choose')
                     {
-                     //   dayRenderInfo.el.style.backgroundColor='#ecb6b6';
 
+                        //  dayRenderInfo.el.style.backgroundColor='#ecb6b6';
 
 
 
@@ -386,7 +363,7 @@ $(document).ready(function () {
                             calendar.removeAllEvents();
                             calendar.addEventSource(rawData);
                             calendar.render();
-
+                            calendar.addEventSource(renderedConstraint);
                         },
                         error: function() {
                             alert('There was an error while fetching events.');
@@ -782,9 +759,10 @@ $(document).ready(function () {
                         },
                         dataType: 'json',
                         success: function (data) {
+
                             calendar.addEvent(
                                 {
-                                   // id: data['id'],
+                                    id: data['id'],
                                     title: data['bridge_name'] ,
                                     start: data['start'],
                                     end: data['end'],
@@ -794,6 +772,17 @@ $(document).ready(function () {
 
 
                                 });
+                            console.log('------------')
+                            renderedConstraint.push({
+                                 id:data['id'],
+                                title: data['bridge_name'] ,
+                                start: data['start'],
+                                end: data['end'],
+                                rendering: 'background',
+                                className: 'fc-nonbusiness',
+
+                            });
+                            console.log(renderedConstraint)
                             $(".notification-text").html("Bridge History Added");
                             $('#notificationAlert').addClass('alert-success').removeClass('alert-danger');
                             $('#notificationAlert').show();
