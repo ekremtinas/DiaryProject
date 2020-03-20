@@ -1008,6 +1008,7 @@ $(document).ready(function () {
                             _token: bridgeDatetimeDeleteForm.find('input[name="_token"]').val()
                         },
                         dataType: 'json',
+
                         success: function (data) {
                             $("#dialogBridgeDatetimeDelete").dialog("close");
                             var event = calendar.getEventById(bridgeDatetimeId);

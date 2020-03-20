@@ -207,26 +207,39 @@ $(document).ready(function () {
 
                selectAllow:function(selectInfo){
                    var selectedBridge = bridgesSelector.children("option:selected"). val();//Köprülerin tarih-saat aralığını seçmek için global olan selector'ünün seçili olanının değerinin alınması
+                   var bool=[];
+                    console.log(renderedConstraint)
+                   if(selectedBridge=="Bridge Choose" || selectedBridge==null)
+                   {
 
 
-                   if(selectedBridge=="Bridge Choose" || selectedBridge==null) {
-                       console.log(moment(moment(selectInfo.end).format('YYYY-MM-DD HH:mm:ss')))
-                       console.log(renderedConstraint)
-                       var selectDateTimeStart = moment(moment(selectInfo.start).format('YYYY-MM-DD HH:mm:ss'));
-                       var selectDateTimeEnd = moment(moment(selectInfo.end).format('YYYY-MM-DD HH:mm:ss'));
+                        for(var i=0;i<renderedConstraint.length;i++) {
+                            if (moment(selectInfo.start) >= moment(renderedConstraint[i]['start']) && moment(selectInfo.end) <= moment(renderedConstraint[i]['end'])) {
+                                console.log('Seçilen Start: ' + selectInfo.start + ' | Event Start: ' + renderedConstraint[i]['start'])
+                                console.log('Seçilen End: ' + selectInfo.end + ' | Event End: ' + renderedConstraint[i]['end'])
+                                bool.push(true);
 
-                       var endBool = _.find(renderedConstraint, function (o) {
-                           return moment(o.end) >= selectDateTimeEnd;
-                       });
-                       var startBool = _.find(renderedConstraint, function (o) {
-                           return moment(o.start) <= selectDateTimeStart;
-                       });
-                       if (startBool && endBool) {
+                            } else {
+                                bool.push(false);
+
+                            }
+
+
+                        }
+                        var findBool= _.find(bool,function (o) {
+                       return o===true;
+                   });
+                       if(undefined !==findBool){
                            return true;
                        }
                        else {
+                           //alert('Müsait Değil');
                            return false;
                        }
+
+
+
+
                    }
                    else{
                        return true;
@@ -234,14 +247,14 @@ $(document).ready(function () {
                 },
                 eventRender: function(info) {
 
-                    var busLength= $('.fc-content-skeleton').find('table').find('.fc-nonbusiness').length;
+                  /*  var busLength= $('.fc-content-skeleton').find('table').find('.fc-nonbusiness').length;
                     var bus =$('.fc-content-skeleton').find('table').find('.fc-nonbusiness');
                     for(var i=0;i<busLength;i++)
                     {
                         $(bus[i]).on('click',function () {
                             alert('Müsait Değil');
                         });
-                    }
+                    }*/
 
 
                     $(info.el).attr("id",info.event.id).addClass('context-class');
@@ -400,14 +413,14 @@ $(document).ready(function () {
 
 
             $('.fc-next-button').on('click',function () {//İleri Butonu ile render etme işlemi
-
-                calendar.removeAllEvents();
-                calendar.addEventSource(renderedData);
+                calendar.render();
+               /* calendar.removeAllEvents();
+                calendar.addEventSource(renderedData);*/
             });
             $('.fc-prev-button').on('click',function () {//Geri Butonu ile render etme işlemi
-
-            calendar.removeAllEvents();
-            calendar.addEventSource(renderedData);
+                calendar.render();
+           /* calendar.removeAllEvents();
+            calendar.addEventSource(renderedData);*/
             });
 
             $( "#dialogBridgeDatetimeDelete" ).dialog({//Bridge Event'inin Silinmesi Konusunda Dialog Kurulması

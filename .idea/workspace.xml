@@ -4,10 +4,8 @@
     <list default="true" id="4a8e94e8-e1f8-4c09-a043-d33f9a42353f" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/dataSources/4971b7fe-ee86-4461-8e34-92cf21ceb6ff.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/4971b7fe-ee86-4461-8e34-92cf21ceb6ff.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Home/BridgesController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Home/BridgesController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/components/diaryHome/js/calendar.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/components/diaryHome/js/calendar.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/components/diaryHome/js/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/components/diaryHome/js/main.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/diaryHome.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/diaryHome.blade.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -240,25 +238,25 @@
     <property name="DatabaseDriversLRU" value="postgresql" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="jsx.switch.disabled" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/public/components/diaryHome/js" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/public/components/img/gif" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="preferences.keymap" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Diary\public\components\diaryHome\js" />
-      <recent name="C:\xampp\htdocs\Diary\public\components\img" />
-      <recent name="C:\xampp\htdocs\Diary\public" />
-      <recent name="C:\xampp\htdocs\Diary\public\components\userHome\js" />
-      <recent name="C:\xampp\htdocs\Diary\public\components\img\cars" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\xampp\htdocs\Diary\public\components\diaryHome\css" />
       <recent name="C:\xampp\htdocs\Diary\app\Models" />
       <recent name="C:\xampp\htdocs\Diary\public\components\checkify\js" />
       <recent name="C:\xampp\htdocs\Diary\public\components\checkify\css" />
       <recent name="C:\xampp\htdocs\Diary\public\components\validetta\js" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Diary\public\components\img\gif" />
+      <recent name="C:\Diary\public\components\diaryHome\js" />
+      <recent name="C:\xampp\htdocs\Diary\public\components\img" />
+      <recent name="C:\xampp\htdocs\Diary\public" />
+      <recent name="C:\xampp\htdocs\Diary\public\components\userHome\js" />
     </key>
   </component>
   <component name="RunManager">
@@ -378,6 +376,9 @@
       <workItem from="1584525567156" duration="1544000" />
       <workItem from="1584552477835" duration="2873000" />
       <workItem from="1584615987284" duration="8630000" />
+      <workItem from="1584627116377" duration="995000" />
+      <workItem from="1584705214791" duration="5042000" />
+      <workItem from="1584715627343" duration="5321000" />
     </task>
     <servers />
   </component>
@@ -435,11 +436,11 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="92" y="92" width="1182" height="544" key="com.intellij.history.integration.ui.views.FileHistoryDialog/0.0.1366.728@0.0.1366.728" timestamp="1584461455624" />
-    <state x="378" y="188" key="com.intellij.ide.util.TipDialog" timestamp="1584616059698">
+    <state x="378" y="188" key="com.intellij.ide.util.TipDialog" timestamp="1584715644759">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="378" y="188" key="com.intellij.ide.util.TipDialog/0.0.1366.728/1366.0.1920.1040@0.0.1366.728" timestamp="1583443542566" />
-    <state x="378" y="188" key="com.intellij.ide.util.TipDialog/0.0.1366.728@0.0.1366.728" timestamp="1584616059698" />
+    <state x="378" y="188" key="com.intellij.ide.util.TipDialog/0.0.1366.728@0.0.1366.728" timestamp="1584715644759" />
     <state x="374" y="0" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1584459972471">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
