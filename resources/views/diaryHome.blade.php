@@ -26,7 +26,7 @@
             <div class="sk-cube sk-cube8"></div>
             <div class="sk-cube sk-cube9"></div>
         </div></div>
-    <div tabindex="-1" class="container w-100 h-50 shadow-main p-3 rounded-lg mt-lg-4" id='top'>
+    <div tabindex="-1" class="container w-100 h-50 shadow-main p-3 rounded-lg mt-lg-4" id='top' style="z-index: -1 !important;">
 
             <div class='left' hidden>
 
@@ -134,8 +134,9 @@
                 </div>
                 <div class="col-lg-2 list-group-item "><b>Before this day: <div style="background-color:#C3C3C3;width: 20px;height: 20px;"></div></b></div>
                 <div class="col-lg-2 list-group-item "><b>Today: <div style="background-color:#D6E0EB;width: 20px;height: 20px;"></div></b></div>
-
-                <div class="col-lg-4 list-group-item "></div>
+                <div class="col-lg-2 list-group-item "><b>Available space: <div style="background-color:#FFB3B3;width: 20px;height: 20px;"></div></b></div>
+                <div class="col-lg-2 list-group-item "><button id="newAppointment" class="btn btn-outline-success rounded-pill btn-sm p-lg-2"  data-toggle="popover"  data-content="
+                            Double-click if you want to add appointment" data-placement="bottom" data-trigger="focus" title="Appointment Add" ><i class="fa fa-plus-circle"></i> Appointment</button></div>
             </div>
         </div>
 
@@ -224,7 +225,7 @@
         }
 
         .fc-nonbusiness,fc-bgevent{
-            background-color: red !important;
+            background-color: #34ce57 !important;
 
 
         }
@@ -289,7 +290,7 @@
                 }
             });
         }
-        function editBridge(event){ // Drop ve Resize Olayları için tarih güncelleme
+        function editBridge(event,renderedConstraint){ // Drop ve Resize Olayları için tarih güncelleme
 
             var  start = moment(event.start).format('YYYY-MM-DD HH:mm:ss');
             if(event.end){
@@ -304,7 +305,14 @@
             Event[0] = id;
             Event[1] = start;
             Event[2] = end;
-
+            for(var i=0;i<renderedConstraint.length;i++)
+            {
+                if(renderedConstraint[i]['id']==id)
+                {
+                    renderedConstraint[i]['start']=start;
+                    renderedConstraint[i]['end']=end;
+                }
+            }
             $.ajax({
                 url: '/dHome/bridgeEditTime',
                 type: "POST",

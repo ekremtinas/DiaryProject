@@ -30,43 +30,72 @@ $(document).ready(function () {
 // Label Kayan Animasyonu
 // Label Start
 
-                var saveTitleFB = $('#saveTitle');
-                var saveTitleLabel = $('#saveTitle-label');
-                saveTitleFB.focus(function()
-                {
-                    saveTitleLabel.show().animate({top: '-30px'});
-                  }).blur(function () {
-                    saveTitleLabel.animate({top: '0px'}).hide();
-                 });
-
                 var maintenanceAddSelectFB = $('#maintenanceAddSelect');
                 var maintenanceAddSelectLabel = $('#maintenanceAddSelect-label');
-    maintenanceAddSelectFB.focus(function()
+                maintenanceAddSelectFB.focus(function()
                 {
                     maintenanceAddSelectLabel.show().animate({top: '-30px'});
                 }).blur(function () {
-        maintenanceAddSelectLabel.animate({top: '0px'}).hide();
+                    maintenanceAddSelectLabel.animate({top: '0px'}).hide();
                 });
-
-                var saveStartFB = $('#saveStart');
-                var saveStartLabel = $('#saveStart-label');
-                saveStartFB.focus(function()
+// Add Modal İn
+                var licensePlate = $('#licensePlate');
+                var licensePlateLabel = $('#licensePlate-label');
+                 licensePlate.focus(function()
                 {
-                    saveStartLabel.show().animate({top: '-30px'});
-                }).blur(function () {
-                    saveStartLabel.animate({top: '0px'}).hide();
-                });
+                    licensePlateLabel.show().animate({top: '-25px'});
+                  }).blur(function () {
+                     licensePlateLabel.animate({top: '0px'}).hide();
+                 });
 
-                var saveEndFB = $('#saveEnd');
-                var saveEndLabel = $('#saveEnd-label');
-                saveEndFB.focus(function()
+
+
+                var fullName = $('#fullName');
+                var fullNameLabel = $('#fullName-label');
+                 fullName.focus(function()
                 {
-                    saveEndLabel.show().animate({top: '-30px'});
+                    fullNameLabel.show().animate({top: '-25px'});
                 }).blur(function () {
-                    saveEndLabel.animate({top: '0px'}).hide();
+                fullNameLabel.animate({top: '0px'}).hide();
                 });
 
+                var email = $('#email');
+                var emailLabel = $('#email-label');
+                 email.focus(function()
+                {
+                    emailLabel.show().animate({top: '-25px'});
+                }).blur(function () {
+                 emailLabel.animate({top: '0px'}).hide();
+                });
 
+                var gsm = $('#gsm');
+                var gsmLabel = $('#gsm-label');
+                gsm.focus(function()
+                {
+                    gsmLabel.show().animate({top: '-25px'});
+                }).blur(function () {
+                    gsmLabel.animate({top: '0px'}).hide();
+                });
+
+                var country = $('#country');
+                var countryLabel = $('#country-label');
+                country.focus(function()
+                {
+                    countryLabel.show().animate({top: '-25px'});
+                }).blur(function () {
+                    countryLabel.animate({top: '0px'}).hide();
+                });
+
+                var lang = $('#lang');
+                var langLabel = $('#lang-label');
+                lang.focus(function()
+                {
+                    langLabel.show().animate({top: '-25px'});
+                }).blur(function () {
+                    langLabel.animate({top: '0px'}).hide();
+                });
+
+//Edit Modal İn
                 var editTitleFB = $('#editTitle');
                 var editTitleLabel = $('#editTitle-label');
                 editTitleFB.focus(function()
@@ -290,6 +319,12 @@ $(document).ready(function () {
      }*/
 
 // BVALIDATOR JS END
+
+// Add Modal Açılması
+                var newAppointmentBtn=$('#newAppointment');
+                newAppointmentBtn.on('dblclick',function () {
+                    $('#ModalAdd').modal('show');
+                });
 // Add Modal için Maintenance'nin DB'den Getirilmesi
 
 
@@ -318,7 +353,22 @@ $(document).ready(function () {
 
                    }
                 });
+//
+                var maintenanceEye=$('#maintenanceEye');
+                var maintenance=$('#maintenance');
+                maintenanceEye.on('click',function () {
+                    if(maintenance.attr("style") === "display: none;"){
+                        maintenanceEye.find('i').addClass( "fa-angle-up" );
+                        maintenanceEye.find('i').removeClass( "fa-angle-down" );
+                        maintenance.slideDown('slow');
 
+                        }
+                    else if(maintenance.attr("style") != "display: none;"){
+                        maintenance.slideUp('slow');
+                        maintenanceEye.find('i').removeClass( "fa-angle-up" );
+                        maintenanceEye.find('i').addClass( "fa-angle-down" );
+                    }
+                });
 
 // Add Modal için Maintenance Add Ajax
                  var maintenanceAddSubmit=$('#maintenanceAddSubmit');
@@ -558,64 +608,7 @@ $(document).ready(function () {
             //Css link optimizasyon --------- End
 
 
-            //İnput CheckBox Select Time Sum
 
-
-                var addEventSubmit=$('#addEventSubmit');
-                var editEventSubmit=$('#editEventSubmit');
-                var chooseMessage=$('.chooseMessage');
-                jQuery(document).on('click', "input[name='maintenance[]']" , function(event){
-                    var totalHour='00';
-                    var totalMinute='00';
-                    var totalTime;
-                    totalHour=parseInt(totalHour);
-                    totalMinute=parseInt(totalMinute);
-                    $.each($("input[name='maintenance[]']:checked"),function () {
-                            var maintenanceCheckbox = $(this).val();
-                            var maintenanceHour = maintenanceCheckbox.substr(1, 2);
-                            var maintenanceMinute = maintenanceCheckbox.substr(4, 2);
-
-                            maintenanceMinute=parseInt(maintenanceMinute);
-                            maintenanceHour=parseInt(maintenanceHour);
-                            totalHour=totalHour+maintenanceHour;
-                            totalMinute=totalMinute+maintenanceMinute;
-                         });
-
-                    if(totalMinute>=60)
-                    {
-                        totalHour++;
-                        totalMinute=0;
-                    }
-                    if(totalMinute==0)
-                    {
-                        totalTime='0'+totalHour+':'+'0'+totalMinute;
-
-                    }
-                    else
-                    {
-                        totalTime='0'+totalHour+':'+totalMinute;
-
-                    }
-
-                        if(timeDiffMoment<moment(totalTime,"HH:mm"))
-                   {
-                       addEventSubmit.attr('disabled',true);
-                       editEventSubmit.attr('disabled',true);
-                       chooseMessage.html("<div class=\"bvalidator-red-tooltip\" style=\"top:10px; left: 300.328px;\"><div class=\"bvalidator-red-arrow\"></div><div class=\"bvalidator-red-msg\"><div>Election Exceeded.</div>\n" +
-                           "</div></div>");
-                   }
-                   else
-                   {
-                       addEventSubmit.attr('disabled',false);
-                       editEventSubmit.attr('disabled',false);
-                       chooseMessage.html('');
-                   }
-
-                    totalHour=0;
-                    totalMinute=0;
-
-
-            });
 
 
             //FullCalendar Top Button

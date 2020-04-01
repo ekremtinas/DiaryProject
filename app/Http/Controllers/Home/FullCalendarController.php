@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\Home;
 
 use App\Http\Controllers\Controller;
+use App\Models\BridgeDateTime;
+use App\Models\EndUsers;
 use App\Models\Events;
 use App\Models\EventsJoinMaintenance;
 use App\Models\Maintenance;
 use App\Models\Workplace;
+use App\User;
 use Carbon\Carbon;
 use DebugBar\DebugBar;
 use Illuminate\Auth\Events\Login;
@@ -24,11 +27,11 @@ class FullCalendarController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-   
+
 
     public  function index(Request $request)
     {
-      
+
              if ($request->_token==null)
                 {
                     abort(404);
@@ -57,58 +60,85 @@ class FullCalendarController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request)
+    public function addSelectAppoinment(Request $request)
     {
 
 
         $this->validate($request, [
-            'saveTitle' => 'required',
-            'saveStart' => 'required',
-            'saveEnd' => 'required',
+            'start' => 'required',
+            'end' => 'required',
+            'licensePlate' => 'required',
+            'fullName' => 'required',
+            'email' => 'required|email',
+            'gsm' => 'required',
+            'country' => 'required',
+            'lang' => 'required',
+            'maintenance' => 'required',
         ]);
-        $event_data = array(
 
-            'title' => $request->get('saveTitle'),
-            'start' => $request->get('saveStart'),
-            'end' => $request->get('saveEnd'),
+        $user_data = array(
+            'license_plate'=>$request->get('licensePlate'),
+            'fullname' =>  $request->get('fullName'),
+            'email' => $request->get('email'),
+            'gsm' => $request->get('gsm'),
+            'country' => $request->get('country'),
+            'lang' => $request->get('lang'),
         );
-        $minuteSum=0;
-        foreach ($request->maintenance as $row){
-            $minute= strtotime(substr($row,1,5));
-            $minuteSum=$minuteSum+$minute;
-        }
-        $minuteSumFormat=date('H:i:s', $minuteSum);
+            //User Eklenmesi Start
+             $endUserAdd=EndUsers::create($user_data);
+            //User Eklenmesi End
+             $bridgeDatetime=BridgeDateTime::where('start','<',$request->get('start'))->orderBy('start', 'desc')->first();
 
-
-
-        $maintenanceTitle=$request->get('maintenance');
-        $maintenanceId=array();
-        foreach ($maintenanceTitle as $row) {
-
-             $maintenanceId[] = Maintenance::where('maintenanceTitle',substr($row,8))->first();
-        }
-        $saveStart=$request->get('saveStart');
-
+             $appointment_data = array(
+            'title' =>  $request->get('licensePlate'),
+            'start' => $request->get('start'),
+            'end' => $request->get('end'),
+            'user_id'=>$endUserAdd['id'],
+            'bridge_id'=>$bridgeDatetime['bridge_id'],
+            );
+                 \DebugBar::info($bridgeDatetime);
 
 
 
 
-            if (Events::where('start', $saveStart)->first()) {
-                $event_data += [
+            //Bakım Türünün Toplanması Start
+            $minuteSum=0;
+            foreach ($request->maintenance as $row)
+            {
+                $minute= strtotime(substr($row,1,5));
+                $minuteSum=$minuteSum+$minute;
+            }
+            $minuteSumFormat=date('H:i:s', $minuteSum);
+            //Bakım Türünün Toplanması End
+
+            //Bakım Türünün Idlerinin Alınması Start
+            $maintenanceTitle=$request->get('maintenance');
+            $maintenanceId=array();
+            foreach ($maintenanceTitle as $row) {
+
+                 $maintenanceId[] = Maintenance::where('maintenanceTitle',substr($row,8))->first();
+            }
+            //Bakım Türünün Idlerinin Alınması End
+
+
+
+            $start=$request->get('start');
+            if (Events::where('start', $start)->first()) {/*Eventlerde Kesişmeyi Engellenmesi*/
+                $appointment_data += [
 
                     'allDay' => true
                 ];
-                return response($event_data);
+                return response($appointment_data);
             } else {
-                if (Events::create($event_data)) {
-                    $event = Events::where($event_data)->first();
+                if (Events::create($appointment_data)) {
+                    $event = Events::where($appointment_data)->first();
 
-                    $event_data += [
+                    $appointment_data += [
 
                         'id' => $event['id']
                     ];
 
-
+                    //Bakım Türünün Ara Tabloya Eklenmesi Start
                     $eventStartJoinMaintenanceTimeFormat=null;
                     for($i=0;$i<count($maintenanceId);$i++) {
 
@@ -122,8 +152,9 @@ class FullCalendarController extends Controller
                     EventsJoinMaintenance::create($eventMaintenanceData);
 
                     }
-
-                    $newEvent = Events::where($event_data)->first();
+                    //Bakım Türünün Ara Tabloya Eklenmesi End
+                    //Bakım Türünün Toplamının Starttan Sonraya Eklenmesi Start
+                    $newEvent = Events::where($appointment_data)->first();
 
                     $maintenanceMinuteTime = Carbon::parse($minuteSumFormat, 'UTC');//Bakım Türlerinin Dakikalarının Toplamı Event'in Start'ına Eklenmek Üzere Carbon ile parse ediliyor.
                     $maintenanceMinuteTimeCarbon = $maintenanceMinuteTime->isoFormat('HH:mm');
@@ -143,15 +174,15 @@ class FullCalendarController extends Controller
 
 
 
-                    Events::where($event_data)->update(['end' => $eventStartJoinMaintenanceTimeFormat]);
+                    Events::where($appointment_data)->update(['end' => $eventStartJoinMaintenanceTimeFormat]);
+                    //Bakım Türünün Toplamının Starttan Sonraya Eklenmesi End
 
 
-
-                    $event_data += [
+                    $appointment_data += [
 
                         'newTime' => $eventStartJoinMaintenanceTimeFormat
                     ];
-                    return response($event_data);
+                    return response($appointment_data);
                 }
             }
 

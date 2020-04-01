@@ -4,8 +4,14 @@
     <list default="true" id="4a8e94e8-e1f8-4c09-a043-d33f9a42353f" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/dataSources/4971b7fe-ee86-4461-8e34-92cf21ceb6ff.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/4971b7fe-ee86-4461-8e34-92cf21ceb6ff.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Home/FullCalendarController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Home/FullCalendarController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/components/css/main.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/components/css/main.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/components/diaryHome/js/calendar.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/components/diaryHome/js/calendar.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/components/diaryHome/js/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/components/diaryHome/js/main.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/Home/Modals/addEventModal.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/Home/Modals/addEventModal.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/Profile/userProfile.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/Profile/userProfile.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/diaryHome.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/diaryHome.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -78,16 +84,6 @@
         <item name="public: schema" type="983ebcf7:PgImplModel$Schema" />
         <item name="tables" type="d4e8921:DatabaseStructure$FamilyGroup" />
         <item name="bridge_datetime: table" type="69fad909:PgImplModel$LocalTable" />
-      </path>
-      <path>
-        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
-        <item name="PostgreSQL - postgres@localhost" type="feb32156:DbDataSourceImpl" />
-        <item name="databases" type="d4e8921:DatabaseStructure$FamilyGroup" />
-        <item name="diary: database" type="162271b6:PgImplModel$Database" />
-        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
-        <item name="public: schema" type="983ebcf7:PgImplModel$Schema" />
-        <item name="tables" type="d4e8921:DatabaseStructure$FamilyGroup" />
-        <item name="bridges: table" type="69fad909:PgImplModel$LocalTable" />
       </path>
       <path>
         <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
@@ -378,7 +374,15 @@
       <workItem from="1584615987284" duration="8630000" />
       <workItem from="1584627116377" duration="995000" />
       <workItem from="1584705214791" duration="5042000" />
-      <workItem from="1584715627343" duration="5321000" />
+      <workItem from="1584715627343" duration="6373000" />
+      <workItem from="1585041889445" duration="7926000" />
+      <workItem from="1585127168708" duration="9656000" />
+      <workItem from="1585142911851" duration="207000" />
+      <workItem from="1585210194767" duration="3653000" />
+      <workItem from="1585295334557" duration="1691000" />
+      <workItem from="1585471503405" duration="3673000" />
+      <workItem from="1585590485142" duration="10912000" />
+      <workItem from="1585758647439" duration="9213000" />
     </task>
     <servers />
   </component>
@@ -432,23 +436,23 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="392" y="5" key="com.intellij.database.view.ui.AbstractDbRefactoringDialog/0.0.1366.728@0.0.1366.728" timestamp="1583496873709" />
-    <state x="92" y="92" width="1182" height="544" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1584461455624">
+    <state x="92" y="92" width="1182" height="544" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1585605024739">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="92" y="92" width="1182" height="544" key="com.intellij.history.integration.ui.views.FileHistoryDialog/0.0.1366.728@0.0.1366.728" timestamp="1584461455624" />
-    <state x="378" y="188" key="com.intellij.ide.util.TipDialog" timestamp="1584715644759">
+    <state x="92" y="92" width="1182" height="544" key="com.intellij.history.integration.ui.views.FileHistoryDialog/0.0.1366.728@0.0.1366.728" timestamp="1585605024739" />
+    <state x="378" y="188" key="com.intellij.ide.util.TipDialog" timestamp="1585758662622">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="378" y="188" key="com.intellij.ide.util.TipDialog/0.0.1366.728/1366.0.1920.1040@0.0.1366.728" timestamp="1583443542566" />
-    <state x="378" y="188" key="com.intellij.ide.util.TipDialog/0.0.1366.728@0.0.1366.728" timestamp="1584715644759" />
+    <state x="378" y="188" key="com.intellij.ide.util.TipDialog/0.0.1366.728@0.0.1366.728" timestamp="1585758662622" />
     <state x="374" y="0" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1584459972471">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="374" y="0" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.0.1366.728@0.0.1366.728" timestamp="1584459972471" />
-    <state x="339" y="162" key="run.anything.popup" timestamp="1584555103875">
+    <state x="339" y="162" key="run.anything.popup" timestamp="1585759141440">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="339" y="162" key="run.anything.popup/0.0.1366.728@0.0.1366.728" timestamp="1584555103875" />
+    <state x="339" y="162" key="run.anything.popup/0.0.1366.728@0.0.1366.728" timestamp="1585759141440" />
     <state x="346" y="49" width="672" height="678" key="search.everywhere.popup" timestamp="1584443502678">
       <screen x="0" y="0" width="1366" height="728" />
     </state>

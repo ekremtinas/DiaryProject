@@ -67,7 +67,9 @@ Route::get('/dLogout','GetHomeController@logout')->name('homeLogout');
     Route::get('/dHome/getWorkplace', 'Home\FullCalendarController@getWorkplace')->name('workplaceGet');
     Route::post('/dHome/postWorkplace', 'Home\FullCalendarController@postWorkplace')->name('workplacePost');
 //Diary Home Full Calendar POST
-        Route::post('/dHome/addEvent', 'Home\FullCalendarController@create')->name('addEventPost');
+
+        Route::post('/addSelectAppoinment', 'Home\FullCalendarController@addSelectAppoinment')->name('addSelectAppoinmentPost');
+
         Route::post('/dHome/dropEvent', 'Home\FullCalendarController@editTime')->name('dropEventGet');
         Route::post('/dHome/editEvent', 'Home\FullCalendarController@edit')->name('editEventPost');
 //Maintenance POST

@@ -57,6 +57,7 @@ a{
     opacity: 0.8;
     line-height: normal;
     position: absolute;
+    z-index: 99;
 }
 .bvalidator-red-tooltip .bvalidator-red-arrow {
     border-color: #9E1C20 transparent transparent !important;
