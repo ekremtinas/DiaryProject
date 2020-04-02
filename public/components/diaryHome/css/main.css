@@ -70,6 +70,18 @@ primary:not(:disabled):not(.disabled).active {
     border-color: #369 !important;
     border-radius: 50rem !important;
 }
+.btn-dark {
+    color: #fff !important;
+    background-color: #222222 !important;
+    border-color: #222222 !important;
+    border-radius: 50rem !important;
+}
+.btn-dark:hover {
+    color: #222222 !important;
+    background-color: #fff !important;
+    border-color: #222222 !important;
+    border-radius: 50rem !important;
+}
 
 .scroll-home-label{
     z-index: -1 !important;
@@ -181,3 +193,51 @@ input{
           transform: scale3D(0, 0, 1);
       }
 }
+/*Dialog Renkleri*/
+.ui-widget-header,.ui-state-default, ui-button {
+    font-size: 16px !important;
+    background:#b9cd6d !important;
+}
+.ui-dialog-titlebar{
+    background: #22B24C !important;
+    border-color: #22B24C !important;
+}
+.ui-dialog-content{
+    font-size: 13px !important;
+    background: white !important;
+}
+.ui-dialog{
+    border: none !important;
+}
+
+
+
+.ui-button,.ui-dialog-titlebar-close{
+
+    padding: 10px !important;
+    border: none !important;
+}
+.ui-button-icon-space{
+    color: black !important;
+    border: none !important;
+}
+
+.ui-widget-header .ui-icon {
+    background-color: #e22620 !important;
+
+}
+/*Login vs. Switch*/
+.custom-control-label::before, .custom-file-label, .custom-select {
+    -webkit-transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out !important;
+    transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out !important;
+    transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out !important;
+    transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out !important;
+}
+/*Bridge Rengi*/
+.fc-nonbusiness,fc-bgevent{
+    background-color: #34ce57 !important;
+
+
+}
+
+

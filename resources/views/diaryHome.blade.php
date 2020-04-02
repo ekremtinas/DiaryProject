@@ -59,8 +59,9 @@
         <div class="ml-lg-3 ml-3">
             <div style="font-size: 12px !important;" class="row list-group list-group-horizontal-xl pr-lg-2">
                 <div class="col-lg-4 list-group-item ">
-
-                    <select class="custom-select-sm col-6  custom-select rounded-pill shadow-main" id="bridges-selector">
+                    <button id="bridgeListAppointment" type="button" style="padding: 6px !important;" class=" btn btn-dark  fa fa-list " data-toggle="popover"  data-content="
+                            Double-click if you want to see appointment" data-placement="bottom" data-trigger="focus" title="See Appointment in Bridge"  ></button>
+                    <select class="custom-select-sm col-6 ml-lg-2 mr-lg-2 custom-select rounded-pill shadow-main" id="bridges-selector">
                         <option value="Bridge Choose" class="optionStyle">Bridge Choose</option>
                     </select>
 
@@ -70,6 +71,7 @@
                             Double-click if you want to edit bridge" data-placement="bottom" data-trigger="focus" title="Bridge Edit"  ></button>
                     <button id="bridgeDelete" type="button" style="padding: 6px !important;" class=" btn btn-danger  fa fa-trash " data-toggle="popover"  data-content="
                             Double-click if you want to delete bridge" data-placement="bottom" data-trigger="focus" title="Bridge Delete"  ></button>
+
                     <div id="dialogAdd"  title="Bridge Add">
                         <div class="form-group">
                             <form id="bridgeAddForm"  method="post">
@@ -185,50 +187,7 @@
     <script src="/components/diaryHome/js/lodash.min.js"></script>
     <style>
 
-        .ui-widget-header,.ui-state-default, ui-button {
-            font-size: 16px !important;
-            background:#b9cd6d !important;
-        }
-        .ui-dialog-titlebar{
-            background: #22B24C !important;
-            border-color: #22B24C !important;
-        }
-        .ui-dialog-content{
-            font-size: 13px !important;
-            background: white !important;
-        }
-        .ui-dialog{
-            border: none !important;
-        }
 
-
-
-        .ui-button,.ui-dialog-titlebar-close{
-
-            padding: 10px !important;
-            border: none !important;
-        }
-        .ui-button-icon-space{
-            color: black !important;
-            border: none !important;
-        }
-
-        .ui-widget-header .ui-icon {
-             background-color: #e22620 !important;
-
-        }
-        .custom-control-label::before, .custom-file-label, .custom-select {
-            -webkit-transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out !important;
-            transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out !important;
-            transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out !important;
-            transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out !important;
-        }
-
-        .fc-nonbusiness,fc-bgevent{
-            background-color: #34ce57 !important;
-
-
-        }
 
     </style>
 @endsection
@@ -255,7 +214,6 @@
         var timeDiffMoment;//Seçilen iki time arasındaki süre
         var globalRawData;//Event get ile getirilen data
         var globalMaintenance;//Bakım Türünü maintenanceData
-
         var initialLocaleCode = '<?php if(isset(Auth::user()->lang)){ if( Auth::user()->lang==null) {echo 'en';} else{  echo Auth::user()->lang; } } ?>'; // Local olarak default dil seçimi
 
 
@@ -290,7 +248,7 @@
                 }
             });
         }
-        function editBridge(event,renderedConstraint){ // Drop ve Resize Olayları için tarih güncelleme
+        function editBridge(event,renderedConstraint){ // Bridgeler'de Drop ve Resize Olayları için tarih güncelleme
 
             var  start = moment(event.start).format('YYYY-MM-DD HH:mm:ss');
             if(event.end){

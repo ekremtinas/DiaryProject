@@ -124,6 +124,7 @@ $(document).ready(function () {
                         }
                         else
                         {
+                            clickBridge(info);
                         }
                 },
                 events:function(fetchInfo, successCallback, failureCallback) {
@@ -852,5 +853,24 @@ $(document).ready(function () {
                      console.log('clicked', this);
               });
         //Context Menu [End]
+
+        //Bridge Click [Start]
+        function clickBridge(info){
+            console.log(info.event.id)
+
+            $.ajax({
+                url: '/dHome/bridgeJoinAppointment',
+                type: 'get',
+                data: {
+                    id: info.event.id
+                },
+                dataType: 'json',
+                success: function (data) {
+
+
+                }
+            });
+        }
+        //Bridge Click [End]
 });
 

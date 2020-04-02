@@ -94,8 +94,10 @@ Route::get('/dLogout','GetHomeController@logout')->name('homeLogout');
     Route::post('/addBridgeDateTime','Home\BridgesController@bridgeDTAdd')->name('bridgeDTAdd');
     Route::get('/dHome/getBridgeDateTime','Home\BridgesController@bridgeDTGet')->name('bridgeDTGet');
     Route::post('/dHome/bridgeEditTime', 'Home\BridgesController@bridgeEditTime')->name('bridgeEditTime');
+
     //Bridge Datetime
     Route::post('/dHome/bridgeDatetimeDelete', 'Home\BridgeDatetimeController@bridgeDatetimeDelete')->name('bridgeDatetimeDelete');
+    Route::get('/dHome/bridgeJoinAppointment', 'Home\BridgeDatetimeController@bridgeJoinAppointment')->name('bridgeJoinAppointment');
 
 
 });
