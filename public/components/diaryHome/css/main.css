@@ -236,7 +236,7 @@ input{
 /*Bridge Rengi*/
 .fc-nonbusiness,fc-bgevent{
     background-color: #34ce57 !important;
-
+    opacity: 0.2 !important;
 
 }
 

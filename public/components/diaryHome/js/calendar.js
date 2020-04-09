@@ -132,6 +132,10 @@ $(document).ready(function () {
                             url: '/dHome/getEvent?_token=0GTwvcp5NWn7zBVtu6lSH4R5GhTRLaCYDoJvnqNT',
                             type:'get',
                             success:function (rawData ) {
+                                rawData.forEach(function(items){
+                                    items['rendering']='background';
+
+                                });
                                 successCallback(rawData);
                             },
                             error: function() {
@@ -166,7 +170,7 @@ $(document).ready(function () {
 
                         }
                         else {
-                            $(info.el).attr("id", info.event.id).addClass('context-menu-one context-class').css('width','50%');
+                            $(info.el).attr("id", info.event.id).addClass('context-menu-one context-class event-dark');
                         }
                         $(info.el).attr("title",info.event.title);
                         var selectedBridge = bridgesSelector.children("option:selected").val();//Köprülerin tarih-saat aralığını seçmek için global olan selector'ün alınması
@@ -634,31 +638,40 @@ $(document).ready(function () {
                                 gsm:gsm,
                                 country:country,
                                 lang:lang,
-                                maintenance:maintenance
+                                maintenance:maintenance,
+
                             },
                             dataType: 'json',
                             success: function (data) {
-
-                                calendar.addEvent(
-                                    {
-                                        id: data['id'],
-                                        title: data['title'] ,
-                                        start: data['start'],
-                                        end: data['newTime'],
-                                        backgroundColor: 'blue !important',
-                                        borderColor: 'blue !important',
-                                        className:'context-menu-one context-class'
+                                if(data['errorBridge'])
+                                {
+                                    $(".notification-text").html("There is no bridge in this area. Please select another area");
+                                    $('#notificationAlert').addClass('alert-danger').removeClass('alert-success');
+                                    $('#notificationAlert').show();
+                                }
+                                else {
 
 
-                                    });
+                                    calendar.addEvent(
+                                        {
+                                            id: data['id'],
+                                            title: data['title'],
+                                            start: data['start'],
+                                            end: data['newTime'],
+                                            backgroundColor: 'blue !important',
+                                            borderColor: 'blue !important',
+                                            className: 'context-menu-one context-class event-dark',
+                                            rendering: 'background'
 
-                               // calendar.setOption('slotDuration','00:30');
-                                calendar.setOption('selectable',false);
+                                        });
 
-                                $(".notification-text").html("Bridge History Added");
-                                $('#notificationAlert').addClass('alert-success').removeClass('alert-danger');
-                                $('#notificationAlert').show();
+                                    // calendar.setOption('slotDuration','00:30');
+                                    //  calendar.setOption('selectable',false);
 
+                                    $(".notification-text").html("Bridge History Added");
+                                    $('#notificationAlert').addClass('alert-success').removeClass('alert-danger');
+                                    $('#notificationAlert').show();
+                                }
                             }
                             ,
                             error: function () {
@@ -866,8 +879,22 @@ $(document).ready(function () {
                 },
                 dataType: 'json',
                 success: function (data) {
+                    var appointmentInBridge=$('#clickBridgeForm').find('table').find('tbody');
+                    var index=1;
 
 
+                        try {
+                            data.forEach(function (item) {
+                                appointmentInBridge.append(' <tr><th scope="row">'+index+'</th><td>'+item['license_plate']+'</td><td>'+item["fullname"]+'</td><td>'+item["country"]+'</td><td>'+item["lang"]+'</td><td>'+item["gsm"]+'</td><td>'+item["email"]+'</td></tr>');
+                                index++;
+                            });
+                        }
+                        catch (e) {
+                            appointmentInBridge.append(' <tr><th scope="row"> Appointment not in this bridge </th>');
+                        }
+
+
+                 $('#ModalInBridge').modal('show');
                 }
             });
         }

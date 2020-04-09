@@ -166,6 +166,7 @@
                 </div>
             </div>
             @include('Home.Modals.addEventModal')
+            @include('Home.Modals.clickBridgeModal')
             @include('Home.Modals.editEventModal')
             @include('Home.Modals.workplaceSettingsModal')
 
@@ -187,7 +188,10 @@
     <script src="/components/diaryHome/js/lodash.min.js"></script>
     <style>
 
-
+.event-dark{
+    background-color: black !important;
+    border-color: black !important;
+}
 
     </style>
 @endsection

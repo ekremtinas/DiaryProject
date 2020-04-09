@@ -59,10 +59,11 @@ class BridgeDateTimeController extends Controller
                 $bridgeDTEnd=$bridgejoinbridgedatetime->select('end')->first();/*İd'si Gönderilen BridgeDateTime'in End'i Alındı */
 
                 $bridgejoinappointment=$bridgejoinappointment->where('start','>=',$bridgeDTStart->start)->where('end','<=',$bridgeDTEnd->end);/*Bridge DateTime'in Start ve End'inin Arasında Appointment(Randevu) Olanları Getirir*/
-                \DebugBar::info($bridgejoinappointment);
+                $bridgejoinappointmentArray=$bridgejoinappointment->all();
 
 
-                return response($data);
+
+                return response($bridgejoinappointmentArray);
 
         }
     }

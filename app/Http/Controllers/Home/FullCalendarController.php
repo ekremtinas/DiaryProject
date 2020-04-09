@@ -60,43 +60,95 @@ class FullCalendarController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
     public function addSelectAppoinment(Request $request)
     {
 
 
-        $this->validate($request, [
-            'start' => 'required',
-            'end' => 'required',
-            'licensePlate' => 'required',
-            'fullName' => 'required',
-            'email' => 'required|email',
-            'gsm' => 'required',
-            'country' => 'required',
-            'lang' => 'required',
-            'maintenance' => 'required',
-        ]);
+        /*  $this->validate($request, [
+              'start' => 'required',
+              'end' => 'required',
+              'licensePlate' => 'required',
+              'fullName' => 'required',
+              'email' => 'required|email',
+              'gsm' => 'required',
+              'country' => 'required',
+              'lang' => 'required',
+              'maintenance' => 'required',
+          ]);*/
 
         $user_data = array(
-            'license_plate'=>$request->get('licensePlate'),
-            'fullname' =>  $request->get('fullName'),
+            'license_plate' => $request->get('licensePlate'),
+            'fullname' => $request->get('fullName'),
             'email' => $request->get('email'),
             'gsm' => $request->get('gsm'),
             'country' => $request->get('country'),
             'lang' => $request->get('lang'),
         );
-            //User Eklenmesi Start
-             $endUserAdd=EndUsers::create($user_data);
-            //User Eklenmesi End
-             $bridgeDatetime=BridgeDateTime::where('start','<',$request->get('start'))->orderBy('start', 'desc')->first();
 
-             $appointment_data = array(
-            'title' =>  $request->get('licensePlate'),
+        //User Eklenmesi Start
+        $endUserAdd = EndUsers::create($user_data);
+        //User Eklenmesi End
+
+        $appointment_data = array(
+            'title' => $request->get('licensePlate'),
             'start' => $request->get('start'),
             'end' => $request->get('end'),
-            'user_id'=>$endUserAdd['id'],
-            'bridge_id'=>$bridgeDatetime['bridge_id'],
-            );
-                 \DebugBar::info($bridgeDatetime);
+            'user_id' => $endUserAdd['id'],
+
+        );
+
+        $appointmentStart = $request->get('start');
+        $appointmentEnd = $request->get('end');
+        $bridgeDatetime = BridgeDateTime::where('start', '<', $appointmentStart)->where('end', '>', $appointmentEnd)->orderBy('start', 'desc')->get();
+        $temp = array();
+        for ($i = 0; $i < count($bridgeDatetime); $i++) {//Çalıştır Tekrar Gör Şimdi Kim Yazacak
+
+            \DebugBar::info($bridgeDatetime[$i]['id']);
+            $bridgejoinappointment = DB::table('bridge_datetime')
+                ->join('events', 'events.bridge_id', '=', 'bridge_datetime.id')
+                ->select('*', 'bridge_datetime.start as bridge_datetime_start', 'bridge_datetime.end as bridge_datetime_end', 'events.start as events_start', 'events.end as events_end')
+                ->where('events.start', '>=', $appointmentStart)->where('events.end', '<=', $appointmentEnd)
+
+                ->get();
+            array_push($temp,$bridgejoinappointment);
+
+        }
+            $appointmentInBridgeFiltered=$temp[0]->toArray();//Seçilen alanın altındaki randevular
+             $bridgeDatetimeArray = $bridgeDatetime->toArray();//Bu seçilen alanın dışındakidaki tüm bridgeler
+            $diffAppointment= array_diff_key($bridgeDatetimeArray,$appointmentInBridgeFiltered);//İki Array'den key ile çıkarma işlemi
+        foreach ($diffAppointment as $raw)
+        {
+            \Debugbar::info( $raw);
+            if($raw['id']!=null) {
+                $appointment_data += [
+                    'bridge_id' => $raw['id']
+                ];
+            }
+            else{
+                $appointment_data += [
+                    'errorBridge' =>true
+                ];
+                return $appointment_data;
+            }
+        }
+
+       /* foreach ($appointmentInBridgeFiltered as $appointmentJoin)
+            {
+                \Debugbar::info($appointmentJoin->bridge_id);
+                foreach($bridgeDatetimeArray as $raw) {
+                    \Debugbar::info($raw);
+                    if($raw['id']==$appointmentJoin->bridge_id)
+                    {
+                        \Debugbar::info('In'.$raw['id']);
+                    }
+                    else{
+                        \Debugbar::info('Out'.$raw['id']);
+                    }
+                }
+
+            }*/
+
 
 
 
@@ -121,15 +173,6 @@ class FullCalendarController extends Controller
             //Bakım Türünün Idlerinin Alınması End
 
 
-
-            $start=$request->get('start');
-            if (Events::where('start', $start)->first()) {/*Eventlerde Kesişmeyi Engellenmesi*/
-                $appointment_data += [
-
-                    'allDay' => true
-                ];
-                return response($appointment_data);
-            } else {
                 if (Events::create($appointment_data)) {
                     $event = Events::where($appointment_data)->first();
 
@@ -184,7 +227,7 @@ class FullCalendarController extends Controller
                     ];
                     return response($appointment_data);
                 }
-            }
+
 
 
     }

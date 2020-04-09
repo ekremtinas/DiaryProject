@@ -1018,7 +1018,10 @@ $(document).ready(function () {
                 });
 
 
-
-
+                // Appointment In Appointment Close
+            $('.appointmentInAppointmentClose').on('click',function () {
+                var appointmentInBridge=$('#clickBridgeForm').find('table').find('tbody');
+                appointmentInBridge.html('');
+            });
 
 });
