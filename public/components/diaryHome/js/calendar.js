@@ -284,6 +284,18 @@ $(document).ready(function () {
                 addEventForm.trigger("reset");//Formun Resetlenmesi
                 $('#ModalAdd').modal('hide');
 
+
+            //Mouse with popup
+            $(document).mousemove(function(e){
+                $("#mousepopup").css({left:(e.pageX+20) + "px", top:(e.pageY+20) + "px"});
+                $('#mousepopup').html(addEventData[0]+'  '+addEventData[1]+' '+addEventData[4]);
+
+            });
+            $('#mousepopup').show();
+
+
+
+
         });
         //Appointment(Randevu) Eklenmesi [End]
 
@@ -649,6 +661,12 @@ $(document).ready(function () {
                                     $('#notificationAlert').addClass('alert-danger').removeClass('alert-success');
                                     $('#notificationAlert').show();
                                 }
+                                else if(data['errorUser'])
+                                {
+                                    $(".notification-text").html("There is this user. Please,you add dataset repeat");
+                                    $('#notificationAlert').addClass('alert-danger').removeClass('alert-success');
+                                    $('#notificationAlert').show();
+                                }
                                 else {
 
 
@@ -658,8 +676,8 @@ $(document).ready(function () {
                                             title: data['title'],
                                             start: data['start'],
                                             end: data['newTime'],
-                                            backgroundColor: 'blue !important',
-                                            borderColor: 'blue !important',
+                                         /*   backgroundColor: 'blue !important',
+                                            borderColor: 'blue !important',*/
                                             className: 'context-menu-one context-class event-dark',
                                             rendering: 'background'
 
@@ -667,7 +685,8 @@ $(document).ready(function () {
 
                                     // calendar.setOption('slotDuration','00:30');
                                     //  calendar.setOption('selectable',false);
-
+                                        calendar.unselect();
+                                    $('#mousepopup').effect("shake", function(){$(this).hide()});
                                     $(".notification-text").html("Bridge History Added");
                                     $('#notificationAlert').addClass('alert-success').removeClass('alert-danger');
                                     $('#notificationAlert').show();
@@ -779,6 +798,10 @@ $(document).ready(function () {
                         type:'get',
                         success:function (rawData) {
                             calendar.removeAllEvents();
+                            rawData.forEach(function(items){
+                                items['rendering']='background';
+                                items['className']='context-menu-one context-class event-dark ';
+                            });
                             calendar.addEventSource(rawData);
                             calendar.addEventSource(renderedBridges);
                             calendar.setOption('selectable',false);
@@ -899,5 +922,7 @@ $(document).ready(function () {
             });
         }
         //Bridge Click [End]
+
+
 });
 

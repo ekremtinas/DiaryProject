@@ -1006,7 +1006,7 @@ $(document).ready(function () {
                             $("#dialogBridgeDatetimeDelete").dialog("close");
                             var event = calendar.getEventById(bridgeDatetimeId);
                             event.remove();
-                            _.remove(renderedConstraint, function(n) {
+                            _.remove(renderedBridges, function(n) {
                                 return n.id == bridgeDatetimeId;
                             });
                             bridgeDatetimeDeleteSubmit.prop("disabled", false);

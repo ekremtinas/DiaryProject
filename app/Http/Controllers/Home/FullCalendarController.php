@@ -15,7 +15,7 @@ use DebugBar\DebugBar;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-
+use mysql_xdevapi\Exception;
 
 
 class FullCalendarController extends Controller
@@ -85,10 +85,22 @@ class FullCalendarController extends Controller
             'country' => $request->get('country'),
             'lang' => $request->get('lang'),
         );
+        $appointment_data = array();
 
-        //User Eklenmesi Start
-        $endUserAdd = EndUsers::create($user_data);
-        //User Eklenmesi End
+
+            if(EndUsers::where('email',$user_data['email'])->first())
+            {
+                $appointment_data += [
+                    'errorUser' =>true
+                ];
+                return $appointment_data;
+            }
+            else{
+                //User Eklenmesi Start
+                $endUserAdd = EndUsers::create($user_data);
+                //User Eklenmesi End
+            }
+
 
         $appointment_data = array(
             'title' => $request->get('licensePlate'),
@@ -112,122 +124,109 @@ class FullCalendarController extends Controller
 
                 ->get();
             array_push($temp,$bridgejoinappointment);
-
         }
             $appointmentInBridgeFiltered=$temp[0]->toArray();//Seçilen alanın altındaki randevular
              $bridgeDatetimeArray = $bridgeDatetime->toArray();//Bu seçilen alanın dışındakidaki tüm bridgeler
             $diffAppointment= array_diff_key($bridgeDatetimeArray,$appointmentInBridgeFiltered);//İki Array'den key ile çıkarma işlemi
-        foreach ($diffAppointment as $raw)
-        {
-            \Debugbar::info( $raw);
-            if($raw['id']!=null) {
-                $appointment_data += [
-                    'bridge_id' => $raw['id']
-                ];
-            }
-            else{
-                $appointment_data += [
-                    'errorBridge' =>true
-                ];
-                return $appointment_data;
-            }
-        }
-
-       /* foreach ($appointmentInBridgeFiltered as $appointmentJoin)
+            foreach ($diffAppointment as $raw)//Boş olan bridge'e randevu atanması
             {
-                \Debugbar::info($appointmentJoin->bridge_id);
-                foreach($bridgeDatetimeArray as $raw) {
-                    \Debugbar::info($raw);
-                    if($raw['id']==$appointmentJoin->bridge_id)
+                \Debugbar::info( $raw);
+                if($raw['id']!=null) {
+                    $appointment_data += [
+                        'bridge_id' => $raw['id']
+                    ];
+                }
+
+
+            }
+
+                \Debugbar::info(count($appointment_data));
+                if (count($appointment_data) == 5)//Bridgeler dolduktan sonra bilgilendirme mesajı
+                {
+                    //Bakım Türünün Toplanması Start
+                    $minuteSum = 0;
+                    foreach ($request->maintenance as $row) {
+                        $minute = strtotime(substr($row, 1, 5));
+                        $minuteSum = $minuteSum + $minute;
+                    }
+                    $minuteSumFormat = date('H:i:s', $minuteSum);
+                    //Bakım Türünün Toplanması End
+
+                    //Bakım Türünün Idlerinin Alınması Start
+                    $maintenanceTitle = $request->get('maintenance');
+                    $maintenanceId = array();
+                    foreach ($maintenanceTitle as $row) {
+
+                        $maintenanceId[] = Maintenance::where('maintenanceTitle', substr($row, 8))->first();
+                    }
+                    //Bakım Türünün Idlerinin Alınması End
+
+
+                    if (Events::create($appointment_data)) {
+                        $event = Events::where($appointment_data)->first();
+
+                        $appointment_data += [
+
+                            'id' => $event['id']
+                        ];
+
+                        //Bakım Türünün Ara Tabloya Eklenmesi Start
+                        $eventStartJoinMaintenanceTimeFormat = null;
+                        for ($i = 0; $i < count($maintenanceId); $i++) {
+
+
+                            $eventMaintenanceData = array(
+
+                                'eventId' => $event['id'],
+                                'maintenanceId' => $maintenanceId[$i]->id,
+                            );
+
+                            EventsJoinMaintenance::create($eventMaintenanceData);
+
+                        }
+                        //Bakım Türünün Ara Tabloya Eklenmesi End
+                        //Bakım Türünün Toplamının Starttan Sonraya Eklenmesi Start
+                        $newEvent = Events::where($appointment_data)->first();
+
+                        $maintenanceMinuteTime = Carbon::parse($minuteSumFormat, 'UTC');//Bakım Türlerinin Dakikalarının Toplamı Event'in Start'ına Eklenmek Üzere Carbon ile parse ediliyor.
+                        $maintenanceMinuteTimeCarbon = $maintenanceMinuteTime->isoFormat('HH:mm');
+
+
+                        $maintenanceMinuteTimeFormat = strtotime($maintenanceMinuteTimeCarbon);
+                        $maintenanceMinuteTimeFormatHour = date("H", $maintenanceMinuteTimeFormat);//Sadece Saatin alınması
+                        $maintenanceMinuteTimeFormatMin = strtotime($maintenanceMinuteTimeCarbon);
+                        $maintenanceMinuteTimeFormatMinI = date("i", $maintenanceMinuteTimeFormatMin);//Sadece Dakikanın alınması
+
+
+                        $eventStartTime = $newEvent->start;
+                        $eventStartTimeFormat = strtotime($eventStartTime);
+
+                        $eventStartJoinMaintenanceTime = strtotime("+{$maintenanceMinuteTimeFormatHour} hour +{$maintenanceMinuteTimeFormatMinI} minute", $eventStartTimeFormat);
+                        $eventStartJoinMaintenanceTimeFormat = date('Y-m-d H:i:s', $eventStartJoinMaintenanceTime);
+
+
+                        Events::where($appointment_data)->update(['end' => $eventStartJoinMaintenanceTimeFormat]);
+                        //Bakım Türünün Toplamının Starttan Sonraya Eklenmesi End
+
+
+                        $appointment_data += [
+
+                            'newTime' => $eventStartJoinMaintenanceTimeFormat
+                        ];
+                        return response($appointment_data);
+                    }
+                }
+
+                  else
                     {
-                        \Debugbar::info('In'.$raw['id']);
+                        \Debugbar::info( 'boş');
+                        EndUsers::where('id', $appointment_data['user_id'])->delete();
+
+                        $appointment_data += [
+                            'errorBridge' =>true
+                        ];
+                        return $appointment_data;
                     }
-                    else{
-                        \Debugbar::info('Out'.$raw['id']);
-                    }
-                }
-
-            }*/
-
-
-
-
-
-            //Bakım Türünün Toplanması Start
-            $minuteSum=0;
-            foreach ($request->maintenance as $row)
-            {
-                $minute= strtotime(substr($row,1,5));
-                $minuteSum=$minuteSum+$minute;
-            }
-            $minuteSumFormat=date('H:i:s', $minuteSum);
-            //Bakım Türünün Toplanması End
-
-            //Bakım Türünün Idlerinin Alınması Start
-            $maintenanceTitle=$request->get('maintenance');
-            $maintenanceId=array();
-            foreach ($maintenanceTitle as $row) {
-
-                 $maintenanceId[] = Maintenance::where('maintenanceTitle',substr($row,8))->first();
-            }
-            //Bakım Türünün Idlerinin Alınması End
-
-
-                if (Events::create($appointment_data)) {
-                    $event = Events::where($appointment_data)->first();
-
-                    $appointment_data += [
-
-                        'id' => $event['id']
-                    ];
-
-                    //Bakım Türünün Ara Tabloya Eklenmesi Start
-                    $eventStartJoinMaintenanceTimeFormat=null;
-                    for($i=0;$i<count($maintenanceId);$i++) {
-
-
-                    $eventMaintenanceData = array(
-
-                        'eventId' => $event['id'],
-                        'maintenanceId' => $maintenanceId[$i]->id,
-                    );
-
-                    EventsJoinMaintenance::create($eventMaintenanceData);
-
-                    }
-                    //Bakım Türünün Ara Tabloya Eklenmesi End
-                    //Bakım Türünün Toplamının Starttan Sonraya Eklenmesi Start
-                    $newEvent = Events::where($appointment_data)->first();
-
-                    $maintenanceMinuteTime = Carbon::parse($minuteSumFormat, 'UTC');//Bakım Türlerinin Dakikalarının Toplamı Event'in Start'ına Eklenmek Üzere Carbon ile parse ediliyor.
-                    $maintenanceMinuteTimeCarbon = $maintenanceMinuteTime->isoFormat('HH:mm');
-
-
-                    $maintenanceMinuteTimeFormat = strtotime($maintenanceMinuteTimeCarbon);
-                    $maintenanceMinuteTimeFormatHour = date("H", $maintenanceMinuteTimeFormat);//Sadece Saatin alınması
-                    $maintenanceMinuteTimeFormatMin = strtotime($maintenanceMinuteTimeCarbon);
-                    $maintenanceMinuteTimeFormatMinI = date("i", $maintenanceMinuteTimeFormatMin);//Sadece Dakikanın alınması
-
-
-                    $eventStartTime = $newEvent->start;
-                    $eventStartTimeFormat = strtotime($eventStartTime);
-
-                    $eventStartJoinMaintenanceTime = strtotime("+{$maintenanceMinuteTimeFormatHour} hour +{$maintenanceMinuteTimeFormatMinI} minute", $eventStartTimeFormat);
-                    $eventStartJoinMaintenanceTimeFormat = date('Y-m-d H:i:s', $eventStartJoinMaintenanceTime);
-
-
-
-                    Events::where($appointment_data)->update(['end' => $eventStartJoinMaintenanceTimeFormat]);
-                    //Bakım Türünün Toplamının Starttan Sonraya Eklenmesi End
-
-
-                    $appointment_data += [
-
-                        'newTime' => $eventStartJoinMaintenanceTimeFormat
-                    ];
-                    return response($appointment_data);
-                }
-
 
 
     }
@@ -419,10 +418,10 @@ class FullCalendarController extends Controller
             abort(404);
         }
         else {
+             $eventSelect= Events::where('id',$id)->select('user_id')->first();
             if (Events::find($id)->delete($id)) {
                 EventsJoinMaintenance::where('eventId', $id)->delete();
-
-
+                EndUsers::where('id', $eventSelect->user_id)->delete();//Kullanıcı Silinmesi
                 $data[] = array([
                     'id' => $id,
                 ]);

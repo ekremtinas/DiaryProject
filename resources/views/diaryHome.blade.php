@@ -165,6 +165,7 @@
 
                 </div>
             </div>
+         <div style="display: none;" id="mousepopup"></div>
             @include('Home.Modals.addEventModal')
             @include('Home.Modals.clickBridgeModal')
             @include('Home.Modals.editEventModal')
@@ -191,8 +192,22 @@
 .event-dark{
     background-color: black !important;
     border-color: black !important;
+    z-index:2 !important;
 }
-
+#mousepopup{
+    background-color:#9E1C20;
+    color: white;
+    width:auto;
+    height:auto;
+    padding: 30px;
+    text-align:center;
+    font:1.2em Arial;
+    line-height:50px;
+    display:none;
+    position:absolute;
+    z-index:9999;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+}
     </style>
 @endsection
 @section('script')
