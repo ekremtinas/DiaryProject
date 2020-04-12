@@ -3,6 +3,7 @@ var calendarEl = document.getElementById('calendar'); // Calendar idli div'in de
 var renderedBridges;//Bridge'lerin Render Edilmiş Hali için Kullanılan Array
 var renderedBridgesData;//Bridge'ler de Next Prev için Render
 var addEventData=[];//Randevu Eklenmesi İçin Verilerin Alındığı Array
+var appointmentData;
 $(document).ready(function () {
 
             var localeSelectorEl = document.getElementById('locale-selector'); // Dil için seçilen dilin aktarılması için
@@ -56,15 +57,40 @@ $(document).ready(function () {
                 plugins: [ 'bootstrap', 'interaction', 'dayGrid', 'timeGrid', 'list' ], // Calendar'ın kullanacağı pluginleri import edilmesi
                 themeSystem: themeSystem, // Tema sisteminin belirtilmesi
                 header: { // Üst taraftaki alan
-                        left: 'prev,next today custom', // prevYear:önceki yıl,prev:önceki ay,next:sonraki ay,nextYear:sonraki yıl,today: bugün, custom:eğer kendimiz bir buton koymamız gerekirse kullanıcak buton
+                        left: 'prev,next today custom,custom2', // prevYear:önceki yıl,prev:önceki ay,next:sonraki ay,nextYear:sonraki yıl,today: bugün, custom:eğer kendimiz bir buton koymamız gerekirse kullanıcak buton
                         center: 'title', // Ortadaki başlık
                         right: 'timeGridWeek,timeGridDay,listMonth' // dayGridMonth: Günlerin olduğu ay,timeGridWeek:haftanın liste halinde gösterilmesi,timeGridDay:Günün saatlerinin liste(grid) halinde gösterilmesi,listMonth:Belitrilen aydaki tüm eventlerin listelenmesi
                 },
                 customButtons: {
                     custom: {
-                        text: 'Reload',
+                        text: 'Detail',
                         click: function() {
-                           calendar.render();
+                            calendar.removeAllEvents();
+                            appointmentData.forEach(function(items){
+                                items['rendering']='';
+                                items['className']='context-menu-one context-class ';
+                            });
+                            calendar.addEventSource(appointmentData);
+                            calendar.addEventSource(renderedBridges);
+                            calendar.setOption('selectable',false);
+                            calendar.render();
+
+
+                        }
+                    },
+                    custom2: {
+                        text: 'Reverse',
+                        click: function() {
+                            calendar.removeAllEvents();
+                            appointmentData.forEach(function(items){
+                                items['rendering']='background';
+                                items['className']='context-menu-one context-class event-dark ';
+                            });
+                            calendar.addEventSource(appointmentData);
+                            calendar.addEventSource(renderedBridges);
+                            calendar.setOption('selectable',false);
+                            calendar.render();
+
 
                         }
                     }
@@ -136,7 +162,9 @@ $(document).ready(function () {
                                     items['rendering']='background';
 
                                 });
+                                appointmentData=rawData;
                                 successCallback(rawData);
+
                             },
                             error: function() {
                                 alert('There was an error while fetching events.');

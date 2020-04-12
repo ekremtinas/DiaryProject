@@ -385,7 +385,9 @@
       <workItem from="1586441174999" duration="39000" />
       <workItem from="1586441251246" duration="10687000" />
       <workItem from="1586537855062" duration="37000" />
-      <workItem from="1586615908847" duration="9379000" />
+      <workItem from="1586615908847" duration="10404000" />
+      <workItem from="1586704456077" duration="7687000" />
+      <workItem from="1586718655425" duration="5459000" />
     </task>
     <servers />
   </component>
@@ -458,10 +460,10 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="92" y="92" width="1182" height="544" key="com.intellij.history.integration.ui.views.FileHistoryDialog/0.0.1366.728@0.0.1366.728" timestamp="1585605024739" />
-    <state x="378" y="188" key="com.intellij.ide.util.TipDialog" timestamp="1586615916486">
+    <state x="378" y="188" key="com.intellij.ide.util.TipDialog" timestamp="1586721320742">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="378" y="188" key="com.intellij.ide.util.TipDialog/0.0.1366.728/-1920.-153.1920.1040@0.0.1366.728" timestamp="1586615916486" />
+    <state x="378" y="188" key="com.intellij.ide.util.TipDialog/0.0.1366.728/-1920.-153.1920.1040@0.0.1366.728" timestamp="1586721320742" />
     <state x="378" y="188" key="com.intellij.ide.util.TipDialog/0.0.1366.728/1366.0.1920.1040@0.0.1366.728" timestamp="1583443542566" />
     <state x="378" y="188" key="com.intellij.ide.util.TipDialog/0.0.1366.728@0.0.1366.728" timestamp="1586537880552" />
     <state x="374" y="0" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1584459972471">

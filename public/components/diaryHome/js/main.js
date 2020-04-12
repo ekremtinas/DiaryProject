@@ -1024,4 +1024,6 @@ $(document).ready(function () {
                 appointmentInBridge.html('');
             });
 
+
+
 });

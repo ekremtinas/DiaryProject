@@ -208,6 +208,12 @@
     z-index:9999;
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 }
+.fc-today{
+    background: #F0F5FF !important;
+    border: none !important;
+    border-top: 1px solid #ddd !important;
+    font-weight: bold;
+}
     </style>
 @endsection
 @section('script')
