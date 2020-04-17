@@ -4,10 +4,11 @@
     <list default="true" id="4a8e94e8-e1f8-4c09-a043-d33f9a42353f" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/dataSources/4971b7fe-ee86-4461-8e34-92cf21ceb6ff.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/4971b7fe-ee86-4461-8e34-92cf21ceb6ff.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Home/BridgeDateTimeController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Home/BridgeDateTimeController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Home/EventsJoinMaintenanceController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Home/EventsJoinMaintenanceController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Home/FullCalendarController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Home/FullCalendarController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/components/diaryHome/css/main.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/components/diaryHome/css/main.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/components/diaryHome/js/calendar.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/components/diaryHome/js/calendar.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/components/diaryHome/js/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/components/diaryHome/js/main.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/diaryHome.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/diaryHome.blade.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -79,7 +80,17 @@
         <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
         <item name="public: schema" type="983ebcf7:PgImplModel$Schema" />
         <item name="tables" type="d4e8921:DatabaseStructure$FamilyGroup" />
-        <item name="bridge_datetime: table" type="69fad909:PgImplModel$LocalTable" />
+        <item name="end_users: table" type="69fad909:PgImplModel$LocalTable" />
+      </path>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="PostgreSQL - postgres@localhost" type="feb32156:DbDataSourceImpl" />
+        <item name="databases" type="d4e8921:DatabaseStructure$FamilyGroup" />
+        <item name="diary: database" type="162271b6:PgImplModel$Database" />
+        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
+        <item name="public: schema" type="983ebcf7:PgImplModel$Schema" />
+        <item name="tables" type="d4e8921:DatabaseStructure$FamilyGroup" />
+        <item name="events: table" type="69fad909:PgImplModel$LocalTable" />
       </path>
     </expand>
     <select />
@@ -388,6 +399,9 @@
       <workItem from="1586615908847" duration="10404000" />
       <workItem from="1586704456077" duration="7687000" />
       <workItem from="1586718655425" duration="5459000" />
+      <workItem from="1587037273761" duration="7150000" />
+      <workItem from="1587136654778" duration="2750000" />
+      <workItem from="1587142104384" duration="2241000" />
     </task>
     <servers />
   </component>
@@ -460,12 +474,12 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="92" y="92" width="1182" height="544" key="com.intellij.history.integration.ui.views.FileHistoryDialog/0.0.1366.728@0.0.1366.728" timestamp="1585605024739" />
-    <state x="378" y="188" key="com.intellij.ide.util.TipDialog" timestamp="1586721320742">
+    <state x="378" y="188" key="com.intellij.ide.util.TipDialog" timestamp="1587142131334">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="378" y="188" key="com.intellij.ide.util.TipDialog/0.0.1366.728/-1920.-153.1920.1040@0.0.1366.728" timestamp="1586721320742" />
+    <state x="378" y="188" key="com.intellij.ide.util.TipDialog/0.0.1366.728/-1920.-153.1920.1040@0.0.1366.728" timestamp="1587142131334" />
     <state x="378" y="188" key="com.intellij.ide.util.TipDialog/0.0.1366.728/1366.0.1920.1040@0.0.1366.728" timestamp="1583443542566" />
-    <state x="378" y="188" key="com.intellij.ide.util.TipDialog/0.0.1366.728@0.0.1366.728" timestamp="1586537880552" />
+    <state x="378" y="188" key="com.intellij.ide.util.TipDialog/0.0.1366.728@0.0.1366.728" timestamp="1587037273137" />
     <state x="374" y="0" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1584459972471">
       <screen x="0" y="0" width="1366" height="728" />
     </state>

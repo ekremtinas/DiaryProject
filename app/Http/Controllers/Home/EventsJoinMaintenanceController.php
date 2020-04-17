@@ -24,6 +24,7 @@ class EventsJoinMaintenanceController extends Controller
                 $eventsjoinmaintenance = DB::table('events')
                     ->join('eventsjoinmaintenance', 'events.id', '=', 'eventsjoinmaintenance.eventId')
                     ->join('maintenance', 'maintenance.id', '=', 'eventsjoinmaintenance.maintenanceId')
+                    ->join('end_users', 'end_users.id', '=', 'events.user_id')
                     ->where('events.id', $eventId)->get();
 
                 $maintenanceTitle='';
@@ -38,7 +39,12 @@ class EventsJoinMaintenanceController extends Controller
                     'maintenanceMinute' => $maintenanceMinute,
                     'maintenanceTitle' => $maintenanceTitle,
                     'eventStart' => $eventsjoinmaintenance[0]->start,
-                    'eventEnd' => $eventsjoinmaintenance[0]->end
+                    'eventEnd' => $eventsjoinmaintenance[0]->end,
+                    'fullname'=> $eventsjoinmaintenance[0]->fullname,
+                    'country'=> $eventsjoinmaintenance[0]->country,
+                    'lang'=> $eventsjoinmaintenance[0]->lang,
+                    'gsm'=> $eventsjoinmaintenance[0]->gsm,
+                    'email'=> $eventsjoinmaintenance[0]->email,
                 );
 
                 return response($eventsjoinmaintenanceData);

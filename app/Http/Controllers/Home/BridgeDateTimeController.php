@@ -45,17 +45,16 @@ class BridgeDateTimeController extends Controller
 
                 $id=$request->get('id');
 
-                $bridgejoinbridgedatetime = DB::table('bridge_datetime')/*Bridge Date Time İle BridgeNin Join Edilmesi*/
-                    ->join('bridges', 'bridges.id', '=', 'bridge_datetime.bridge_id')->where('bridge_datetime.id', $id);
+                $bridgejoinbridgedatetime = DB::table('bridge_datetime')->where('bridge_datetime.id', $id);
 
                 $bridgejoinappointment = DB::table('bridge_datetime')/*Bridge DateTime İle Bridgenin , Events(Appointment) ve End_Users Tablolarının Join Edilmesi*/
-                     ->join('bridges', 'bridges.id', '=', 'bridge_datetime.bridge_id')
-                     ->join('events', 'events.bridge_id', '=', 'bridges.id')
+
+                     ->join('events', 'events.bridge_id', '=', 'bridge_datetime.id')
                     ->join('end_users', 'events.user_id', '=', 'end_users.id')
                     ->where('bridge_datetime.id', $id)->get();
 
 
-                $bridgeDTStart=$bridgejoinbridgedatetime->select('start')->first();/*İd'si Gönderilen BridgeDateTime'in Start'ı Alındı */
+               $bridgeDTStart=$bridgejoinbridgedatetime->select('start')->first();/*İd'si Gönderilen BridgeDateTime'in Start'ı Alındı */
                 $bridgeDTEnd=$bridgejoinbridgedatetime->select('end')->first();/*İd'si Gönderilen BridgeDateTime'in End'i Alındı */
 
                 $bridgejoinappointment=$bridgejoinappointment->where('start','>=',$bridgeDTStart->start)->where('end','<=',$bridgeDTEnd->end);/*Bridge DateTime'in Start ve End'inin Arasında Appointment(Randevu) Olanları Getirir*/

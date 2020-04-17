@@ -112,7 +112,26 @@ class FullCalendarController extends Controller
 
         $appointmentStart = $request->get('start');
         $appointmentEnd = $request->get('end');
-        $bridgeDatetime = BridgeDateTime::where('start', '<', $appointmentStart)->where('end', '>', $appointmentEnd)->orderBy('start', 'desc')->get();
+        $bridgeDatetime = BridgeDateTime::where('start', '<=', $appointmentStart)->where('end', '>=', $appointmentEnd)->orderBy('start', 'desc')->get();
+
+        $bridgejoinappointmentControlStart = DB::table('bridge_datetime')
+            ->join('events', 'events.bridge_id', '=', 'bridge_datetime.id')
+            ->select('*', 'bridge_datetime.start as bridge_datetime_start', 'bridge_datetime.end as bridge_datetime_end', 'events.start as events_start', 'events.end as events_end')
+            ->where('events.start','>',$appointmentStart)
+            ->where('events.start','<',$appointmentEnd)
+            ->get();
+        $bridgejoinappointmentControlStart=$bridgejoinappointmentControlStart->toArray();
+
+
+        $bridgejoinappointmentControlEnd = DB::table('bridge_datetime')
+            ->join('events', 'events.bridge_id', '=', 'bridge_datetime.id')
+            ->select('*', 'bridge_datetime.start as bridge_datetime_start', 'bridge_datetime.end as bridge_datetime_end', 'events.start as events_start', 'events.end as events_end')
+            ->where('events.end','>',$appointmentStart)
+            ->where('events.end','<',$appointmentEnd)
+            ->get();
+        $bridgejoinappointmentControlEnd=$bridgejoinappointmentControlEnd->toArray();
+
+
 
        $bridgejoinappointmentControl = DB::table('bridge_datetime')
             ->join('events', 'events.bridge_id', '=', 'bridge_datetime.id')
@@ -131,10 +150,23 @@ class FullCalendarController extends Controller
 
         $appointmentInBridgeFiltered=$bridgejoinappointment->toArray();//Seçilen alanın altındaki randevular
         $bridgeDatetimeArray = $bridgeDatetime->toArray();//Bu seçilen alanın dışındakidaki tüm bridgeler
-
         $diffAppointmentSmall= array_diff_key($bridgejoinappointmentControl,$appointmentInBridgeFiltered);//İki Array'den key ile çıkarma işlemi burda event'ten daha küçük olan randevular alındı.
-        $appointmentInBridgeCombine=array_merge($diffAppointmentSmall,$appointmentInBridgeFiltered);//Burda Eventten daha küçük olan randevuları daha önceki randevularla birleştirme işlemi yapıldı
+        $appointmentInBridgeCombine=array_merge($diffAppointmentSmall,$appointmentInBridgeFiltered,$bridgejoinappointmentControlStart,$bridgejoinappointmentControlEnd);//Burda Eventten daha küçük olan randevuları daha önceki randevularla birleştirme işlemi yapıldı.Sonradan start ve end olarak kesişen event eklendi
         $diffAppointment= array_diff_key($bridgeDatetimeArray,$appointmentInBridgeCombine);//İki Array'den key ile çıkarma işlemi
+
+
+        \Debugbar::info('start');
+        \Debugbar::info($bridgejoinappointmentControlStart);
+        \Debugbar::info('end');
+        \Debugbar::info($bridgejoinappointmentControlEnd);
+        \Debugbar::info('ilk');
+        \Debugbar::info($bridgejoinappointmentControl);
+        \Debugbar::info('ikinci');
+        \Debugbar::info($appointmentInBridgeFiltered);
+        \Debugbar::info('son diff');
+        \Debugbar::info($bridgeDatetimeArray);
+
+
 
             foreach ($diffAppointment as $raw)//Boş olan bridge'e randevu atanması
             {

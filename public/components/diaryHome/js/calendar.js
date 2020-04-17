@@ -196,9 +196,26 @@ $(document).ready(function () {
                         if(info.el.className=='fc-nonbusiness fc-bgevent')
                         {
 
+                            $(info.el).attr("id", info.event.id)
+                                .on('dblclick',
+                                function () {
+
+                                       clickBridge(info);
+
+                            }).popover({
+                                animation:true,
+                                delay: 300,
+                                content: 'Double click for bridge detail in '+info.event.title,
+                                trigger: 'hover'
+                            }).attr('title','');
                         }
                         else {
-                            $(info.el).attr("id", info.event.id).addClass('context-menu-one context-class event-dark');
+                            $(info.el).attr("id", info.event.id).addClass('context-menu-one context-class event-dark').popover({
+                                animation:true,
+                                delay: 300,
+                                content: 'Click for appointment detail in '+info.event.title,
+                                trigger: 'hover'
+                            });
                         }
                         $(info.el).attr("title",info.event.title);
                         var selectedBridge = bridgesSelector.children("option:selected").val();//Köprülerin tarih-saat aralığını seçmek için global olan selector'ün alınması
@@ -712,7 +729,7 @@ $(document).ready(function () {
                                         });
 
                                     // calendar.setOption('slotDuration','00:30');
-                                    //  calendar.setOption('selectable',false);
+                                        calendar.setOption('selectable',false);
                                         calendar.unselect();
                                     $('#mousepopup').effect("shake", function(){$(this).hide()});
                                     $(".notification-text").html("Bridge History Added");
@@ -749,7 +766,13 @@ $(document).ready(function () {
                             message = 'No maintenance type assigned';
                         } else {
                             title = info.event.title;
-                            message = 'Maintenance Title: ' + data.maintenanceTitle + '<br>Maintenance Minute: ' + data.maintenanceMinute;
+                            message = 'Full Name: '+data.fullname+'<br>' +
+                                ' Country: '+data.country+'<br>' +
+                                ' Lang: '+data.lang+'<br>' +
+                                'GSM: '+data.gsm+'<br>' +
+                                'E Mail: '+data.email+'<br>' +
+                                'Maintenance Title: ' + data.maintenanceTitle + '<br>' +
+                                'Maintenance Minute: ' + data.maintenanceMinute;
 
                         }
 
@@ -922,7 +945,7 @@ $(document).ready(function () {
         function clickBridge(info){
             console.log(info.event.id)
 
-            $.ajax({
+             $.ajax({
                 url: '/dHome/bridgeJoinAppointment',
                 type: 'get',
                 data: {
@@ -932,8 +955,6 @@ $(document).ready(function () {
                 success: function (data) {
                     var appointmentInBridge=$('#clickBridgeForm').find('table').find('tbody');
                     var index=1;
-
-
                         try {
                             data.forEach(function (item) {
                                 appointmentInBridge.append(' <tr><th scope="row">'+index+'</th><td>'+item['license_plate']+'</td><td>'+item["fullname"]+'</td><td>'+item["country"]+'</td><td>'+item["lang"]+'</td><td>'+item["gsm"]+'</td><td>'+item["email"]+'</td></tr>');
