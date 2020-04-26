@@ -96,42 +96,59 @@ $(document).ready(function () {
                 });
 
 //Edit Modal İn
-                var editTitleFB = $('#editTitle');
-                var editTitleLabel = $('#editTitle-label');
-                editTitleFB.focus(function()
+                var licensePlateEdit = $('#licensePlateEdit');
+                var licensePlateEditLabel = $('#licensePlateEdit-label');
+                 licensePlateEdit.focus(function()
                 {
-                    editTitleLabel.show().animate({top: '-30px'});
+                    licensePlateEditLabel.show().animate({top: '-25px'});
                 }).blur(function () {
-                    editTitleLabel.animate({top: '0px'}).hide();
+                     licensePlateEditLabel.animate({top: '0px'}).hide();
                 });
 
-                var maintenanceEditSelectFB = $('#maintenanceEditSelect');
-                var maintenanceEditSelectLabel = $('#maintenanceEditSelect-label');
-                maintenanceEditSelectFB.focus(function()
+                var fullNameEdit = $('#fullNameEdit');
+                var fullNameEditLabel = $('#fullNameEdit-label');
+                fullNameEdit.focus(function()
                 {
-                    maintenanceEditSelectLabel.show().animate({top: '-30px'});
+                    fullNameEditLabel.show().animate({top: '-25px'});
                 }).blur(function () {
-                    maintenanceEditSelectLabel.animate({top: '0px'}).hide();
+                    fullNameEditLabel.animate({top: '0px'}).hide();
                 });
 
-                var editStartFB = $('#editStart');
-                var editStartLabel = $('#editStart-label');
-                 editStartFB.focus(function()
+                var emailEdit = $('#emailEdit');
+                var emailEditLabel = $('#emailEdit-label');
+                emailEdit.focus(function()
                 {
-                    editStartLabel.show().animate({top: '-30px'});
+                    emailEditLabel.show().animate({top: '-25px'});
                 }).blur(function () {
-                     editStartLabel.animate({top: '0px'}).hide();
+                    emailEditLabel.animate({top: '0px'}).hide();
                 });
 
-                var editEndFB = $('#editEnd');
-                var editEndLabel = $('#editEnd-label');
-                editEndFB.focus(function()
+                var gsmEdit = $('#gsmEdit');
+                var gsmEditLabel = $('#gsmEdit-label');
+                gsmEdit.focus(function()
                 {
-                    editEndLabel.show().animate({top: '-30px'});
+                    gsmEditLabel.show().animate({top: '-25px'});
                 }).blur(function () {
-                    editEndLabel.animate({top: '0px'}).hide();
+                    gsmEditLabel.animate({top: '0px'}).hide();
                 });
 
+                var countryEdit = $('#countryEdit');
+                var countryEditLabel = $('#countryEdit-label');
+                countryEdit.focus(function()
+                {
+                    countryEditLabel.show().animate({top: '-25px'});
+                }).blur(function () {
+                    countryEditLabel.animate({top: '0px'}).hide();
+                });
+
+                var langEdit = $('#langEdit');
+                var langEditLabel = $('#langEdit-label');
+                langEdit.focus(function()
+                {
+                    langEditLabel.show().animate({top: '-25px'});
+                }).blur(function () {
+                    langEditLabel.animate({top: '0px'}).hide();
+                });
 
 // Label End
 
@@ -347,7 +364,7 @@ $(document).ready(function () {
                        $('#maintenanceTable').append( '<tr style="line-height: 1px !important;" class="maintenanceRow" ><td  class="checkboxMaintenance">'+maintenance+'</td> <td >'
                            +
                            '<div class=" custom-switch custom-control ">  <input class="custom-control-input  checkboxMaintenanceInput "  type="checkbox" value="'+maintenance+'" name="maintenance[]" id="maintenance'+j+'" > <label for="maintenance'+j+'" class="custom-control-label   "></label></div></td></tr>');
-                        $('#maintenanceTableEdit').append( '<tr style="line-height: 1px !important;" class="maintenanceEditRow" ><td  class="checkboxEditMaintenance">'+maintenance+'</td> <td ><div class=" custom-switch custom-control ">  <input class="custom-control-input  checkboxEditMaintenanceInput "  type="checkbox" value="'+maintenance+'" name="maintenance[]" id="maintenanceEdit'+j+'" > <label for="maintenance'+j+'" class="custom-control-label   "></label></div></td></tr>');
+
 
                        }
 
@@ -440,7 +457,6 @@ $(document).ready(function () {
 
                            var maintenance  = '('+moment(data["maintenanceMinute"], "HH:mm").format("HH:mm")+') '+data["maintenanceTitle"];
                            $('#maintenanceTable').append('<tr style="line-height: 1px !important;" class="maintenanceRow" ><td  class="checkboxMaintenance">'+maintenance+'</td> <td ><div class=" custom-switch custom-control ">  <input class="custom-control-input  checkboxMaintenanceInput "  type="checkbox" value="'+maintenance+'" name="maintenance[]" id="maintenance'+j+'" > <label for="maintenance'+j+'" class="custom-control-label   "></label></div></td></tr>');
-                           $('#maintenanceTableEdit').append( '<tr style="line-height: 1px !important;" class="maintenanceEditRow" ><td  class="checkboxEditMaintenance">'+maintenance+'</td> <td ><div class=" custom-switch custom-control ">  <input class="custom-control-input  checkboxEditMaintenanceInput "  type="checkbox" value="'+maintenance+'" name="maintenance[]" id="maintenanceEdit'+j+'" > <label for="maintenance'+j+'" class="custom-control-label   "></label></div></td></tr>');
 
 
                            $('#notificationAlert').addClass('alert-success').removeClass('alert-danger');//Bakım eklenmesi notification start
@@ -501,14 +517,7 @@ $(document).ready(function () {
                                     });
                                var maintenance  = '('+moment(data["maintenanceMinute"], "HH:mm").format("HH:mm")+') '+data["maintenanceTitle"];
                                 $('#maintenanceTable').append('<tr style="line-height: 1px !important;" class="maintenanceRow" ><td  class="checkboxMaintenance">'+maintenance+'</td> <td ><div class=" custom-switch custom-control ">  <input class="custom-control-input  checkboxMaintenanceInput "  type="checkbox" value="'+maintenance+'" name="maintenance[]" id="maintenance'+j+'" > <label for="maintenance'+j+'" class="custom-control-label   "></label></div></td></tr>');
-                              $('#maintenanceTableEdit').append( '<tr style="line-height: 1px !important;" class="maintenanceEditRow" ><td  class="checkboxMaintenance">'+maintenance+'</td> <td ><div class=" custom-switch custom-control ">  <input class="custom-control-input  checkboxEditMaintenanceInput "  type="checkbox" value="'+maintenance+'" name="maintenance[]" id="maintenanceEdit'+j+'" > <label for="maintenance'+j+'" class="custom-control-label   "></label></div></td></tr>');/*Edit Form'a Güncellenen verinin eklenmesi*/
-                               $('#maintenanceTableEdit tr:has(td)').each(function() {
 
-                                    if($(this).find('td').text()===maintenanceChekbox)
-                                    {
-                                        $(this).find('td').hide();
-                                    }
-                                });
 
 
                                 $('#notificationAlert').addClass('alert-success').removeClass('alert-danger');//Bakım eklenmesi notification start
@@ -565,13 +574,7 @@ $(document).ready(function () {
                                     });
 
 
-                                    $('#maintenanceTableEdit tr:has(td)').each(function() {
 
-                                        if($(this).find('td').text()===maintenanceChekbox)
-                                        {
-                                            $(this).find('td').hide();
-                                        }
-                                    });
                                     $('#notificationAlert').addClass('alert-success').removeClass('alert-danger');//Bakım eklenmesi notification start
                                     $(".notification-text").html("Maintenance deleted");
                                     $('#notificationAlert').show();//Bakım eklenmesi notification end
@@ -1023,6 +1026,24 @@ $(document).ready(function () {
                 var appointmentInBridge=$('#clickBridgeForm').find('table').find('tbody');
                 appointmentInBridge.html('');
             });
+
+            /*Randevu Ekleme Modalında ki Bakım türü Switchlerinni Seçilip Submit butonunun enable edilmesi [start]*/
+            var addEventSubmit=$('#addEventSubmit');
+            addEventSubmit.attr('disabled',true);
+
+            jQuery(document).on('click', "input[name='maintenance[]']" , function(event){
+
+                addEventSubmit.attr('disabled',true);
+                $.each($("input[name='maintenance[]']:checked"),function () {
+
+                        addEventSubmit.attr('disabled', false);
+
+                });
+
+            });
+             /*Randevu Ekleme Modalında ki Bakım türü Switchlerinni Seçilip Submit butonunun enable edilmesi [end]*/
+
+
 
 
 

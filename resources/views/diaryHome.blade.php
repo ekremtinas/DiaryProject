@@ -59,9 +59,7 @@
         <div class="ml-lg-3 ml-3">
             <div style="font-size: 12px !important;" class="row list-group list-group-horizontal-xl pr-lg-2">
                 <div class="col-lg-4 list-group-item ">
-                    <button id="bridgeListAppointment" type="button" style="padding: 6px !important;" class=" btn btn-dark  fa fa-list " data-toggle="popover"  data-content="
-                            Double-click if you want to see appointment" data-placement="bottom" data-trigger="focus" title="See Appointment in Bridge"  ></button>
-                    <select class="custom-select-sm col-6 ml-lg-2 mr-lg-2 custom-select rounded-pill shadow-main" id="bridges-selector">
+                     <select class="custom-select-sm col-6 ml-lg-2 mr-lg-2 custom-select rounded-pill shadow-main" id="bridges-selector">
                         <option value="Bridge Choose" class="optionStyle">Bridge Choose</option>
                     </select>
 

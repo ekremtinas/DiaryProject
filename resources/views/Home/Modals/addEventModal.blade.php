@@ -16,7 +16,7 @@
                     <div class="form-group">
                         <div class="form-group btn-group-sm mt-2 col-lg-12 offset-lg-1 ">
                             <label id="licensePlate-label"  class="btn-sm scroll-home-label" for="licensePlate">{{ __('License Plate:') }}</label>
-                            <input id="licensePlate"{{-- data-bvalidator="required"--}} type="text" class="form-control btn-sm  border-light shadow-main rounded-pill @error('licensePlate') is-invalid @enderror "  value=""   autocomplete="off"   placeholder="License Plate:"  name="licensePlate"  >
+                            <input id="licensePlate" data-bvalidator="required" type="text" class="form-control btn-sm  border-light shadow-main rounded-pill @error('licensePlate') is-invalid @enderror "  value=""   autocomplete="off"   placeholder="License Plate:"  name="licensePlate"  >
                             @error('licensePlate')
                             <span  id="licensePlate-alert" class="title-alert invalid-feedback alert-size pl-3 ml-2 rounded-pill alert-danger col-10 " role="alert">
                                         <strong>{{ $message }}</strong>
@@ -29,7 +29,7 @@
                     <div class="form-group">
                         <div class="form-group btn-group-sm mt-4 col-lg-12 offset-lg-1 ">
                             <label id="fullName-label"  class="btn-sm scroll-home-label" for="fullName">{{ __('Full Name:') }}</label>
-                            <input id="fullName" {{--data-bvalidator="required,alpha"--}} type="text" class="form-control btn-sm  border-light shadow-main rounded-pill @error('fullName') is-invalid @enderror "  value=""   autocomplete="off"   placeholder="Full Name"  name="fullName"  >
+                            <input id="fullName" data-bvalidator="required" type="text" class="form-control btn-sm  border-light shadow-main rounded-pill @error('fullName') is-invalid @enderror "  value=""   autocomplete="off"   placeholder="Full Name"  name="fullName"  >
                             @error('fullName')
                             <span  id="fullName-alert" class="title-alert invalid-feedback alert-size pl-3 ml-2 rounded-pill alert-danger col-10 " role="alert">
                                         <strong>{{ $message }}</strong>
@@ -42,7 +42,7 @@
                     <div class="form-group">
                         <div class="form-group btn-group-sm mt-4 col-lg-12 offset-lg-1 ">
                             <label id="email-label"  class="btn-sm scroll-home-label" for="email">{{ __('E Mail:') }}</label>
-                            <input id="email" {{--data-bvalidator="required,email"--}} type="text" class="form-control btn-sm  border-light shadow-main rounded-pill @error('email') is-invalid @enderror "  value=""   autocomplete="off"   placeholder="E Mail"  name="email"  >
+                            <input id="email" data-bvalidator="required,email" type="text" class="form-control btn-sm  border-light shadow-main rounded-pill @error('email') is-invalid @enderror "  value=""   autocomplete="off"   placeholder="E Mail"  name="email"  >
                             @error('email')
                             <span  id="email-alert" class="title-alert invalid-feedback alert-size pl-3 ml-2 rounded-pill alert-danger col-10 " role="alert">
                                         <strong>{{ $message }}</strong>
@@ -57,7 +57,7 @@
                     <div class="form-group">
                         <div class="form-group btn-group-sm mt-2 col-lg-12 ">
                             <label id="gsm-label"  class="btn-sm scroll-home-label" for="gsm">{{ __('GSM:') }}</label>
-                            <input id="gsm" {{--data-bvalidator="required,number,alphanum"--}} type="text" class="form-control btn-sm  border-light shadow-main rounded-pill @error('gsm') is-invalid @enderror "  value=""   autocomplete="off"   placeholder="GSM"  name="gsm"  >
+                            <input id="gsm" data-bvalidator="required,number,alphanum" type="text" class="form-control btn-sm  border-light shadow-main rounded-pill @error('gsm') is-invalid @enderror "  value=""   autocomplete="off"   placeholder="GSM"  name="gsm"  >
                             @error('gsm')
                             <span  id="gsm-alert" class="title-alert invalid-feedback alert-size pl-3 ml-2 rounded-pill alert-danger col-10 " role="alert">
                                         <strong>{{ $message }}</strong>
@@ -70,7 +70,7 @@
                     <div class="form-group btn-group-sm mt-4 col-lg-12  ">
                         <label id="country-label" class="btn-sm scroll-label" for="country" >{{__('Country:')}}</label>
                         <div class=" ">
-                            <select id="country" name="country"{{-- data-bvalidator="required"--}} type="text" class="form-control btn-sm  border-light shadow-main rounded-pill @error('gsm') is-invalid @enderror "  value=""   autocomplete="off">
+                            <select id="country" name="country" data-bvalidator="required" type="text" class="form-control btn-sm  border-light shadow-main rounded-pill @error('gsm') is-invalid @enderror "  value=""   autocomplete="off">
                                 <option value="Choose Country">Choose Country</option>
                                 <option value="Afghanistan">Afghanistan</option>
                                 <option value="Åland Islands">Åland Islands</option>
@@ -323,7 +323,7 @@
                         <label id="lang-label" class="btn-sm scroll-label" for="lang" >{{__('Language:')}}</label>
                         <div class=" ">
 
-                            <select  name="lang" {{--data-bvalidator="required" --}}style="width: 100%" class=" form-control btn-sm  border-light rounded-pill shadow-main" id="lang" type="text" placeholder="Language" >
+                            <select  name="lang" data-bvalidator="required" style="width: 100%" class=" form-control btn-sm  border-light rounded-pill shadow-main" id="lang" type="text" placeholder="Language" >
                                 <option selected value="Choose Language">Choose Language</option>
                                 <option value="af">Afrikanns</option>
                                 <option value="sq">Albanian</option>

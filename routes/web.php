@@ -99,6 +99,9 @@ Route::get('/dLogout','GetHomeController@logout')->name('homeLogout');
     Route::post('/dHome/bridgeDatetimeDelete', 'Home\BridgeDatetimeController@bridgeDatetimeDelete')->name('bridgeDatetimeDelete');
     Route::get('/dHome/bridgeJoinAppointment', 'Home\BridgeDatetimeController@bridgeJoinAppointment')->name('bridgeJoinAppointment');
 
+    //User Join Event
+    Route::get('/dHome/userJoinAppointment', 'Home\FullCalendarController@userJoinAppointment')->name('userJoinAppointment');
+
 
 });
 });

@@ -65,7 +65,7 @@ class FullCalendarController extends Controller
     {
 
 
-        /*  $this->validate($request, [
+          $this->validate($request, [
               'start' => 'required',
               'end' => 'required',
               'licensePlate' => 'required',
@@ -75,7 +75,7 @@ class FullCalendarController extends Controller
               'country' => 'required',
               'lang' => 'required',
               'maintenance' => 'required',
-          ]);*/
+          ]);
 
         $user_data = array(
             'license_plate' => $request->get('licensePlate'),
@@ -102,81 +102,99 @@ class FullCalendarController extends Controller
             }
 
 
-        $appointment_data = array(
-            'title' => $request->get('licensePlate'),
-            'start' => $request->get('start'),
-            'end' => $request->get('end'),
-            'user_id' => $endUserAdd['id'],
+                $appointment_data = array(
+                    'title' => $request->get('licensePlate'),
+                    'start' => $request->get('start'),
+                    'end' => $request->get('end'),
+                    'user_id' => $endUserAdd['id'],
 
-        );
+                );
 
-        $appointmentStart = $request->get('start');
-        $appointmentEnd = $request->get('end');
-        $bridgeDatetime = BridgeDateTime::where('start', '<=', $appointmentStart)->where('end', '>=', $appointmentEnd)->orderBy('start', 'desc')->get();
+                $appointmentStart = $request->get('start');
+                $appointmentEnd = $request->get('end');
+                $bridgeDatetime =  DB::table('bridge_datetime')->select('*','id as bridge_id','bridge_id as bridgeName_id')->where('start', '<=', $appointmentStart)->where('end', '>=', $appointmentEnd)->get();
 
-        $bridgejoinappointmentControlStart = DB::table('bridge_datetime')
-            ->join('events', 'events.bridge_id', '=', 'bridge_datetime.id')
-            ->select('*', 'bridge_datetime.start as bridge_datetime_start', 'bridge_datetime.end as bridge_datetime_end', 'events.start as events_start', 'events.end as events_end')
-            ->where('events.start','>',$appointmentStart)
-            ->where('events.start','<',$appointmentEnd)
-            ->get();
-        $bridgejoinappointmentControlStart=$bridgejoinappointmentControlStart->toArray();
-
-
-        $bridgejoinappointmentControlEnd = DB::table('bridge_datetime')
-            ->join('events', 'events.bridge_id', '=', 'bridge_datetime.id')
-            ->select('*', 'bridge_datetime.start as bridge_datetime_start', 'bridge_datetime.end as bridge_datetime_end', 'events.start as events_start', 'events.end as events_end')
-            ->where('events.end','>',$appointmentStart)
-            ->where('events.end','<',$appointmentEnd)
-            ->get();
-        $bridgejoinappointmentControlEnd=$bridgejoinappointmentControlEnd->toArray();
+                $bridgejoinappointmentControlStart = DB::table('bridge_datetime')
+                    ->join('events', 'events.bridge_id', '=', 'bridge_datetime.id')
+                    ->select('*', 'bridge_datetime.start as bridge_datetime_start', 'bridge_datetime.end as bridge_datetime_end', 'events.start as events_start', 'events.end as events_end')
+                    ->where('events.start','>',$appointmentStart)
+                    ->where('events.start','<',$appointmentEnd)
+                    ->get();
+                $bridgejoinappointmentControlStart=$bridgejoinappointmentControlStart->toArray();
 
 
-
-       $bridgejoinappointmentControl = DB::table('bridge_datetime')
-            ->join('events', 'events.bridge_id', '=', 'bridge_datetime.id')
-            ->select('*', 'bridge_datetime.start as bridge_datetime_start', 'bridge_datetime.end as bridge_datetime_end', 'events.start as events_start', 'events.end as events_end')
-            ->where('events.start','>=',$appointmentStart)
-            ->where('events.end', '<=', $appointmentEnd)
-            ->get();
-        $bridgejoinappointmentControl=$bridgejoinappointmentControl->toArray();
-
-        $bridgejoinappointment = DB::table('bridge_datetime')
-        ->join('events', 'events.bridge_id', '=', 'bridge_datetime.id')
-        ->select('*', 'bridge_datetime.start as bridge_datetime_start', 'bridge_datetime.end as bridge_datetime_end', 'events.start as events_start', 'events.end as events_end')
-        ->where('events.start', '<=', $appointmentStart)
-        ->where('events.end', '>=', $appointmentEnd)
-        ->get();
-
-        $appointmentInBridgeFiltered=$bridgejoinappointment->toArray();//Seçilen alanın altındaki randevular
-        $bridgeDatetimeArray = $bridgeDatetime->toArray();//Bu seçilen alanın dışındakidaki tüm bridgeler
-        $diffAppointmentSmall= array_diff_key($bridgejoinappointmentControl,$appointmentInBridgeFiltered);//İki Array'den key ile çıkarma işlemi burda event'ten daha küçük olan randevular alındı.
-        $appointmentInBridgeCombine=array_merge($diffAppointmentSmall,$appointmentInBridgeFiltered,$bridgejoinappointmentControlStart,$bridgejoinappointmentControlEnd);//Burda Eventten daha küçük olan randevuları daha önceki randevularla birleştirme işlemi yapıldı.Sonradan start ve end olarak kesişen event eklendi
-        $diffAppointment= array_diff_key($bridgeDatetimeArray,$appointmentInBridgeCombine);//İki Array'den key ile çıkarma işlemi
-
-
-        \Debugbar::info('start');
-        \Debugbar::info($bridgejoinappointmentControlStart);
-        \Debugbar::info('end');
-        \Debugbar::info($bridgejoinappointmentControlEnd);
-        \Debugbar::info('ilk');
-        \Debugbar::info($bridgejoinappointmentControl);
-        \Debugbar::info('ikinci');
-        \Debugbar::info($appointmentInBridgeFiltered);
-        \Debugbar::info('son diff');
-        \Debugbar::info($bridgeDatetimeArray);
+                $bridgejoinappointmentControlEnd = DB::table('bridge_datetime')
+                    ->join('events', 'events.bridge_id', '=', 'bridge_datetime.id')
+                    ->select('*', 'bridge_datetime.start as bridge_datetime_start', 'bridge_datetime.end as bridge_datetime_end', 'events.start as events_start', 'events.end as events_end')
+                    ->where('events.end','>',$appointmentStart)
+                    ->where('events.end','<',$appointmentEnd)
+                    ->get();
+                $bridgejoinappointmentControlEnd=$bridgejoinappointmentControlEnd->toArray();
 
 
 
-            foreach ($diffAppointment as $raw)//Boş olan bridge'e randevu atanması
-            {
-                if($raw['id']!=null) {
-                    $appointment_data += [
-                        'bridge_id' => $raw['id']
-                    ];
+               $bridgejoinappointmentControl = DB::table('bridge_datetime')
+                    ->join('events', 'events.bridge_id', '=', 'bridge_datetime.id')
+                    ->select('*', 'bridge_datetime.start as bridge_datetime_start', 'bridge_datetime.end as bridge_datetime_end', 'events.start as events_start', 'events.end as events_end')
+                    ->where('events.start','>=',$appointmentStart)
+                    ->where('events.end', '<=', $appointmentEnd)
+                    ->get();
+                $bridgejoinappointmentControl=$bridgejoinappointmentControl->toArray();
+
+                $bridgejoinappointment = DB::table('bridge_datetime')
+                ->join('events', 'events.bridge_id', '=', 'bridge_datetime.id')
+                ->select('*', 'bridge_datetime.start as bridge_datetime_start', 'bridge_datetime.end as bridge_datetime_end', 'events.start as events_start', 'events.end as events_end')
+                ->where('events.start', '<=', $appointmentStart)
+                ->where('events.end', '>=', $appointmentEnd)
+                ->get();
+
+                $appointmentInBridgeFiltered=$bridgejoinappointment->toArray();//Seçilen alanın altındaki randevular
+                $bridgeDatetimeArray = $bridgeDatetime->toArray();//Bu seçilen alanın dışındakidaki tüm bridgeler
+                $diffAppointmentSmall= array_diff_key($bridgejoinappointmentControl,$appointmentInBridgeFiltered);//İki Array'den key ile çıkarma işlemi burda event'ten daha küçük olan randevular alındı.
+                $appointmentInBridgeCombine=array_merge($diffAppointmentSmall,$appointmentInBridgeFiltered,$bridgejoinappointmentControlStart,$bridgejoinappointmentControlEnd);//Burda Eventten daha küçük olan randevuları daha önceki randevularla birleştirme işlemi yapıldı.Sonradan start ve end olarak kesişen event eklendi
+
+                $bridge_array_equal=array();//İki array arasındaki fark için eşit olanlar
+                $bridge_array=array();//İki array arasındaki fark için hepsi diyebiliriz.
+                /*Aşağıda bridgeler den randevu alınmaış olan bridge'in id'sini array'e aktarılması yapılmıştır. Start*/
+
+                foreach ($bridgeDatetimeArray as $row)
+                {
+                foreach ($appointmentInBridgeCombine as $raw)
+                    {
+                        if($row->bridge_id==$raw->bridge_id)
+                        {
+                            array_push($bridge_array_equal,$row->bridge_id);
+                            break;
+                        }
+                        else{
+                            array_push($bridge_array,$row->bridge_id);
+                        }
+                    }
                 }
-            }
+                $bridge_array_diff= array_diff($bridge_array,$bridge_array_equal);
+                /*Aşağıda bridgeler den randevu alınmaış olan bridge'in id'sini array'e aktarılması yapılmıştır. End*/
 
+                $diffAppointment= array_diff_key($bridgeDatetimeArray,$appointmentInBridgeCombine);//İki Array'den key ile çıkarma işlemi
+
+
+                if($bridge_array_diff!=null) {//Burda boş olan bridgelerde randevu varsa randevu alınmıştır.
+                 foreach ($bridge_array_diff as $row) {
+                            $appointment_data += [
+                                'bridge_id' => $row
+                            ];
+                    }
+                }
+                else{
+                    foreach ($diffAppointment as $raw)//Boş olan bridgelerde randevu hiç yoksa randevu atanması
+                    {
+                        if($raw->id!=null)
+                        {
+                            $appointment_data += [
+                                'bridge_id' => $raw->id
+                            ];
+                        }
+                    }
+                }
 
 
 
@@ -303,99 +321,40 @@ class FullCalendarController extends Controller
 
         $this->validate($request, [
             'editId'=>'required',
-            'editTitle' => 'required',
-            'editStart' => 'required',
-            'editEnd' => 'required',
+            'licensePlateEdit' => 'required',
+            'fullNameEdit' => 'required',
+            'emailEdit' => 'required',
+            'gsmEdit' => 'required',
+            'countryEdit' => 'required',
+            'langEdit' => 'required',
 
 
         ]);
         $event_data = array(
             'id'=>$request->get('editId'),
-            'title' => $request->get('editTitle'),
-            'start' => $request->get('editStart'),
-            'end' => $request->get('editEnd'),
+            'title' => $request->get('licensePlateEdit'),
+            'start'=>$request->get('editStart'),
+            'end'=>$request->get('editEnd'),
         );
-        $minuteSum=0;
-        foreach ($request->maintenance as $row){
-            $minute= strtotime(substr($row,1,5));
-            $minuteSum=$minuteSum+$minute;
-        }
-        $minuteSumFormat=date('H:i:s', $minuteSum);
+        $user_data = array(
+            'license_plate' => $request->get('licensePlateEdit'),
+            'fullname' => $request->get('fullNameEdit'),
+            'email' => $request->get('emailEdit'),
+            'gsm' => $request->get('gsmEdit'),
+            'country' => $request->get('countryEdit'),
+            'lang' => $request->get('langEdit'),
+
+        );
 
 
+        $eventUpdate=Events::where('id', $event_data['id'])->update($event_data);
+        $eventSelect=Events::select('*')->where('id', $event_data['id'])->first();
+        $userUpdate=EndUsers::where('id', $eventSelect->user_id)->update($user_data);
 
-        $maintenanceTitle=$request->get('maintenance');
-        $maintenanceId=array();
-        foreach ($maintenanceTitle as $row) {
-
-            $maintenanceId[] = Maintenance::where('maintenanceTitle',substr($row,8))->first();
-        }
-
-
-
-            if (Events::where('id', $event_data['id'])->update($event_data)) {
-
-
-                $EventJoinAll=EventsJoinMaintenance::where('eventId',$event_data['id'])->get();
-
-                $eventStartJoinMaintenanceTimeFormat=null;
-                EventsJoinMaintenance::where('eventId', $event_data['id'])->delete();
-
-                for($i=0;$i<count($maintenanceId);$i++) {
-
-
-                    $eventMaintenanceData = array(
-
-                        'eventId' => $event_data['id'],
-                        'maintenanceId' => "".$maintenanceId[$i]->id."",
-                    );
-                     EventsJoinMaintenance::create($eventMaintenanceData);
-
-
-                }
-
-
-                        $newEvent = Events::where($event_data)->first();
-
-                        $maintenanceMinuteTime = Carbon::parse($minuteSumFormat, 'UTC');//Bakım Türlerinin Dakikalarının Toplamı Event'in Start'ına Eklenmek Üzere Carbon ile parse ediliyor.
-                        $maintenanceMinuteTimeCarbon = $maintenanceMinuteTime->isoFormat('HH:mm');
-
-
-                        $maintenanceMinuteTimeFormat = strtotime($maintenanceMinuteTimeCarbon);
-                        $maintenanceMinuteTimeFormatHour = date("H", $maintenanceMinuteTimeFormat);//Sadece Saatin alınması
-                        $maintenanceMinuteTimeFormatMin = strtotime($maintenanceMinuteTimeCarbon);
-                        $maintenanceMinuteTimeFormatMinI = date("i", $maintenanceMinuteTimeFormatMin);//Sadece Dakikanın alınması
-
-
-                        $eventStartTime = $newEvent->start;
-                        $eventStartTimeFormat = strtotime($eventStartTime);
-
-                        $eventStartJoinMaintenanceTime = strtotime("+{$maintenanceMinuteTimeFormatHour} hour +{$maintenanceMinuteTimeFormatMinI} minute", $eventStartTimeFormat);
-                        $eventStartJoinMaintenanceTimeFormat = date('Y-m-d H:i:s', $eventStartJoinMaintenanceTime);
-
-
-
-                        Events::where($event_data)->update(['end' => $eventStartJoinMaintenanceTimeFormat]);
-
-                        $eventsjoinmaintenance = DB::table('events')->select('maintenance.maintenanceTitle')
-                            ->join('eventsjoinmaintenance', 'events.id', '=', 'eventsjoinmaintenance.eventId')
-                            ->join('maintenance', 'maintenance.id', '=', 'eventsjoinmaintenance.maintenanceId')
-                            ->where('events.id', $event_data['id'])->get();
-                        $maintenanceTitle = $eventsjoinmaintenance->toArray();
-
-                        $event_data += [
-
-                            'newTime' => $eventStartJoinMaintenanceTimeFormat,
-                            'maintenanceTitle'=> $maintenanceTitle
-                        ];
+            if ($eventUpdate&&$userUpdate) {
 
                     return response($event_data);
                 }
-
-
-
-
-
 
              else {
                  $event_data += [
@@ -534,4 +493,36 @@ class FullCalendarController extends Controller
             return back()->with('error','Error');
         }
     }
+
+    public  function  userJoinAppointment(Request $request)
+    {
+        if ($request==null)
+        {
+            abort(404);
+        }
+        else {
+            $this->validate($request, [
+                'id' => 'required',
+            ]);
+            $data = array(
+                'id' => $request->get('id'),
+            );
+
+            $id=$request->get('id');
+
+
+            $eventjoinappointment = DB::table('events')/*Bridge DateTime İle Bridgenin , Events(Appointment) ve End_Users Tablolarının Join Edilmesi*/
+            ->join('end_users', 'events.user_id', '=', 'end_users.id')
+                ->where('events.id', $id)->get();
+
+
+            $eventjoinappointmentArray=$eventjoinappointment->all();
+
+
+
+            return response($eventjoinappointmentArray);
+
+        }
+    }
+
 }

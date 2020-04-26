@@ -34,7 +34,7 @@
                 <div class="modal-footer">
 
                     <button  type="button" class="btn btn-danger btn-sm appointmentInAppointmentClose" data-dismiss="modal">Close</button>
-                    <button id="editEventSubmit" type="submit" class="btn btn-success  btn-sm">Save changes</button>
+
                 </div>
             </form>
         </div>

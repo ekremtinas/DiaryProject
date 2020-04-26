@@ -65,31 +65,38 @@ $(document).ready(function () {
                     custom: {
                         text: 'Detail',
                         click: function() {
-                            calendar.removeAllEvents();
-                            appointmentData.forEach(function(items){
-                                items['rendering']='';
-                                items['className']='context-menu-one context-class ';
-                            });
-                            calendar.addEventSource(appointmentData);
-                            calendar.addEventSource(renderedBridges);
-                            calendar.setOption('selectable',false);
-                            calendar.render();
-
+                            var selectedBridge = bridgesSelector.children("option:selected").val();//Köprülerin tarih-saat aralığını seçmek için global olan selector'ün alınması
+                            if(selectedBridge==null || selectedBridge=='Bridge Choose') {
+                                calendar.removeAllEvents();
+                                appointmentData.forEach(function (items) {
+                                    items['rendering'] = '';
+                                    items['className'] = 'context-menu-one context-class ';
+                                });
+                                calendar.addEventSource(appointmentData);
+                                calendar.addEventSource(renderedBridges);
+                                calendar.setOption('selectable', false);
+                                calendar.setOption('slotDuration', '00:30');
+                                calendar.render();
+                            }
 
                         }
                     },
                     custom2: {
                         text: 'Reverse',
                         click: function() {
-                            calendar.removeAllEvents();
-                            appointmentData.forEach(function(items){
-                                items['rendering']='background';
-                                items['className']='context-menu-one context-class event-dark ';
-                            });
-                            calendar.addEventSource(appointmentData);
-                            calendar.addEventSource(renderedBridges);
-                            calendar.setOption('selectable',false);
-                            calendar.render();
+                            var selectedBridge = bridgesSelector.children("option:selected").val();//Köprülerin tarih-saat aralığını seçmek için global olan selector'ün alınması
+                            if(selectedBridge==null || selectedBridge=='Bridge Choose') {
+                                calendar.removeAllEvents();
+                                appointmentData.forEach(function (items) {
+                                    items['rendering'] = 'background';
+                                    items['className'] = 'context-menu-one context-class event-dark ';
+                                });
+                                calendar.addEventSource(appointmentData);
+                                calendar.addEventSource(renderedBridges);
+                                calendar.setOption('selectable', false);
+                                calendar.setOption('slotDuration', '00:30');
+                                calendar.render();
+                            }
 
 
                         }
@@ -158,10 +165,10 @@ $(document).ready(function () {
                             url: '/dHome/getEvent?_token=0GTwvcp5NWn7zBVtu6lSH4R5GhTRLaCYDoJvnqNT',
                             type:'get',
                             success:function (rawData ) {
-                                rawData.forEach(function(items){
+                               /* rawData.forEach(function(items){
                                     items['rendering']='background';
 
-                                });
+                                });*/
                                 appointmentData=rawData;
                                 successCallback(rawData);
 
@@ -171,6 +178,14 @@ $(document).ready(function () {
                             }
                         });
                   },
+                eventAllow: function(dropInfo, draggedEvent) {
+                    if (draggedEvent.id === '999') {
+                        return dropInfo.start < new Date(2020, 4, 25); // a boolean
+                    }
+                    else {
+                        return true;
+                    }
+                },
                 selectAllow:function(selectInfo){
                         var selectedBridge = bridgesSelector.children("option:selected"). val();//Köprülerin tarih-saat aralığını seçmek için global olan selector'ünün seçili olanının değerinin alınması
                         var bool=[];
@@ -202,20 +217,20 @@ $(document).ready(function () {
 
                                        clickBridge(info);
 
-                            }).popover({
+                            });/*.popover({
                                 animation:true,
                                 delay: 300,
                                 content: 'Double click for bridge detail in '+info.event.title,
                                 trigger: 'hover'
-                            }).attr('title','');
+                            }).attr('title','');*/
                         }
                         else {
-                            $(info.el).attr("id", info.event.id).addClass('context-menu-one context-class event-dark').popover({
+                            $(info.el).attr("id", info.event.id).addClass('context-menu-one context-class event-dark');/*.popover({
                                 animation:true,
                                 delay: 300,
                                 content: 'Click for appointment detail in '+info.event.title,
                                 trigger: 'hover'
-                            });
+                            });*/
                         }
                         $(info.el).attr("title",info.event.title);
                         var selectedBridge = bridgesSelector.children("option:selected").val();//Köprülerin tarih-saat aralığını seçmek için global olan selector'ün alınması
@@ -304,86 +319,9 @@ $(document).ready(function () {
         }
         //Event Resize(Boyutunu Uzatma) [End]
 
-        //Randevu Eklenmesi İçin Kullanılan Submit Burda Veriler Array'e Alınır
-        //Appointment(Randevu) Eklenmesi [Start]
-        var globalTotalTime;
-        var addEventForm = $('#addEventForm');
-        addEventForm.submit(function(e){
-                e.preventDefault();
-                var maintenanceArray= [];
-                addEventData=[];
-                addEventData.push(addEventForm.find('#licensePlate').val());
-                addEventData.push(addEventForm.find('#fullName').val());
-                addEventData.push(addEventForm.find('#email').val());
-                addEventData.push(addEventForm.find('#gsm').val());
-                addEventData.push(addEventForm.find('#country').val());
-                addEventData.push(addEventForm.find('#lang').val());
-
-                //Bakım Türü Dakikalarının Toplanması Start
-                globalTotalTime=maintenanceTimeSum(maintenanceArray);
-               //Bakım Türünün Dakikasının Toplanması End
-                console.log(globalTotalTime)
-                calendar.setOption('slotDuration',globalTotalTime);//Time Grid Aralığının Belirlenmesi
-                calendar.setOption('selectable',true);
-                addEventData.push({maintenance:maintenanceArray});//Dataya Bakım Türünün Eklenmesi
-                addEventForm.trigger("reset");//Formun Resetlenmesi
-                $('#ModalAdd').modal('hide');
-
-
-            //Mouse with popup
-            $(document).mousemove(function(e){
-                $("#mousepopup").css({left:(e.pageX+20) + "px", top:(e.pageY+20) + "px"});
-                $('#mousepopup').html(addEventData[0]+'  '+addEventData[1]+' '+addEventData[4]);
-
-            });
-            $('#mousepopup').show();
 
 
 
-
-        });
-        //Appointment(Randevu) Eklenmesi [End]
-
-        //Appointment(Randevu) Güncellenmesi [Start]
-        var editEventForm = $('#editEventForm');
-        editEventForm.submit(function(e){
-            //  $('#editEventSubmit').prop( "disabled", true );
-            e.preventDefault();
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
-                }
-            });
-            $.ajax({
-                type: 'POST',
-                url: '/dHome/editEvent',
-                dataType:"json",
-                data: editEventForm.serialize() ,
-                success:function (data) {
-                    if(data.errorEdit)
-                    {
-                        $(".notification-text").html("Event not edited ");
-                        $('#notificationAlert').addClass('alert-danger').removeClass('alert-success');
-                    }
-                    else {
-                        var event = calendar.getEventById(data.id);
-                        event.remove();
-                        $('#ModalEdit').modal('hide');
-                        calendar.addEvent(
-                            {
-                                id: data.id,
-                                title:data.title,
-                                start: data.start,
-                                end: data.newTime
-                            });
-                        $(".notification-text").html("Event edited");
-                        $('#notificationAlert').addClass('alert-success').removeClass('alert-danger');
-                    }
-                    $('#notificationAlert').show();
-                }
-            });
-        });
-        //Appointment(Randevu) Güncellenmesi [End]
 
         //Maintenance (Bakım) Türünün Toplanması [Start]
         function maintenanceTimeSum(maintenanceArray) {
@@ -441,60 +379,56 @@ $(document).ready(function () {
             }
         //Seçilen Alanın Farkının Alınması Fonksiyonu [End]
         //Context Edit Function [Start]
-            function contextEdit(event,chooseMessage) {
+            function contextEdit(event) {
                 var selectedBridge = bridgesSelector.children("option:selected").val();//Köprülerin tarih-saat aralığını seçmek için global olan selector'ün alınması
                 if(selectedBridge==null || selectedBridge=='Bridge Choose') {
                     $('#addEventForm').find("input[name='maintenance[]']:checked").prop('checked', false);
                     $('#addEventForm')[0].reset();
-                    chooseMessage.html('');
-
-
                     $('#ModalEdit #editId').val(event.id);
-                    $('#ModalEdit #editTitle').val(event.title);
-                    $('#ModalEdit #editStart').val(moment(event.start).format('YYYY-MM-DD HH:mm:ss'));
-                    $('#ModalEdit #editEnd').val(moment(event.end).format('YYYY-MM-DD HH:mm:ss'));
 
                     $.ajax({
-                        url: '/dHome/getEventsJoinMaintenance',
+                        url: '/dHome/userJoinAppointment',
                         type: 'get',
                         data: {
                             id: event.id
                         },
+                        dataType: 'json',
                         success: function (data) {
 
-                            var maintenanceMinute = moment(data.maintenanceMinute, "HH:mm");//Seçilen time'ın bakım time'larından büyük olması durumumda disable edilmesi
+                            try {
+                                data.forEach(function (item) {
 
-                            var ms = moment(event.end, "HH:mm").diff(moment(event.start, "HH:mm"));
-                            var d = moment.duration(ms);
-                            var s = Math.floor(d.asHours()) + moment.utc(ms).format(":mm");
-                            var timeDiff = '0' + s;
-                            timeDiffMoment = moment(timeDiff, 'HH:mm');
+                                    $('#ModalEdit #licensePlateEdit').val(item['license_plate']);
+                                    $('#ModalEdit #fullNameEdit').val(item['fullname']);
+                                    $('#ModalEdit #emailEdit').val(item['email']);
+                                    $('#ModalEdit #gsmEdit').val(item['gsm']);
+                                    $('#ModalEdit #countryEdit option').each(function(){
+                                        if(this.value==item['country'])
+                                        {
+                                            $(this).prop('selected','selected');
+                                        }
+                                    });
+                                    $('#ModalEdit #langEdit option').each(function(){
+                                        if(this.value==item['lang'])
+                                        {
+                                            $(this).prop('selected','selected');
+                                        }
+                                    });
+                                    $('#ModalEdit #editStart').val(moment(event.start).format('YYYY-MM-DD HH:mm:ss'));
+                                    $('#ModalEdit #editEnd').val(moment(event.end).format('YYYY-MM-DD HH:mm:ss'));
+                                });
+                            }
+                            catch (e) {
 
-                            var optionName = data.maintenanceTitle.split(',');
-
-
-                            $.each($('#maintenanceTableEdit').find("input[name='maintenance[]']"), function () {//Checkbox'ın seçilmesi//Editlenmek istenen bakım türü seçiliyor.
-                                $(this).prop('checked', false);
-
-                                for (var j = 0; j < optionName.length; j++) {
-                                    if ($(this).val().substr(8) == optionName[j]) {
-                                        $(this).prop('checked', true);
-                                        // console.log($(this))
-
-
-                                    }
-                                }
-
-
-                            });
-
-
+                            }
+                            $('#ModalEdit').modal('show');
+                            $('#editEventSubmit').prop("disabled", false);
                         }
                     });
 
 
-                    $('#ModalEdit').modal('show');
-                    $('#editEventSubmit').prop("disabled", false);
+
+
 
 
                 }
@@ -545,8 +479,10 @@ $(document).ready(function () {
                                             $(".notification-text").html("Event deleted");
                                             $('#notificationAlert').show();
                                             event.remove();
+                                            _.remove(appointmentData, function(n) {
+                                                return n.id == eventId;
 
-
+                                            });
                                         }
                                     });
 
@@ -663,6 +599,98 @@ $(document).ready(function () {
         }
         //Bridge DateTime Ekleme Fonksiyonu(Ajax) [End]
 
+        //Appointment(Randevu) Güncellenmesi [Start]
+        var editEventForm = $('#editEventForm');
+        editEventForm.submit(function(e){
+            //  $('#editEventSubmit').prop( "disabled", true );
+            e.preventDefault();
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+                }
+            });
+            $.ajax({
+                type: 'POST',
+                url: '/dHome/editEvent',
+                dataType:"json",
+                data: editEventForm.serialize() ,
+                success:function (data) {
+                    if(data.errorEdit)
+                    {
+                        $(".notification-text").html("Appointment not edited ");
+                        $('#notificationAlert').addClass('alert-danger').removeClass('alert-success');
+                    }
+                    else {
+                        var event = calendar.getEventById(data.id);
+                        event.remove();
+                        $('#ModalEdit').modal('hide');
+                        calendar.addEvent(
+                            {
+                                id: data.id,
+                                title:data.title,
+                                start: data.start,
+                                end: data.end
+                            });
+                        $(".notification-text").html("Appointment edited");
+                        $('#notificationAlert').addClass('alert-success').removeClass('alert-danger');
+                    }
+                    $('#notificationAlert').show();
+                }
+            });
+        });
+        //Appointment(Randevu) Güncellenmesi [End]
+
+        //Randevu Eklenmesi İçin Kullanılan Submit Burda Veriler Array'e Alınır
+        //Appointment(Randevu) Eklenmesi [Start]
+        var globalTotalTime;
+        var addEventForm = $('#addEventForm');
+        addEventForm.submit(function(e){
+            e.preventDefault();
+            var maintenanceArray= [];
+            addEventData=[];
+            addEventData.push(addEventForm.find('#licensePlate').val());
+            addEventData.push(addEventForm.find('#fullName').val());
+            addEventData.push(addEventForm.find('#email').val());
+            addEventData.push(addEventForm.find('#gsm').val());
+            addEventData.push(addEventForm.find('#country').val());
+            addEventData.push(addEventForm.find('#lang').val());
+
+            //Bakım Türü Dakikalarının Toplanması Start
+            globalTotalTime=maintenanceTimeSum(maintenanceArray);
+            //Bakım Türünün Dakikasının Toplanması End
+            console.log(globalTotalTime)
+            calendar.setOption('slotDuration',globalTotalTime);//Time Grid Aralığının Belirlenmesi
+            calendar.setOption('selectable',true);
+            addEventData.push({maintenance:maintenanceArray});//Dataya Bakım Türünün Eklenmesi
+            addEventForm.trigger("reset");//Formun Resetlenmesi
+
+            calendar.removeAllEvents();
+            appointmentData.forEach(function(items){
+                items['rendering']='background';
+                items['className']='context-menu-one context-class event-dark ';
+            });
+            calendar.addEventSource(appointmentData);
+            calendar.addEventSource(renderedBridges);
+            calendar.render();
+
+
+            $('#ModalAdd').modal('hide');
+
+
+            //Mouse with popup
+            $(document).mousemove(function(e){
+                $("#mousepopup").css({left:(e.pageX+20) + "px", top:(e.pageY+20) + "px"});
+                $('#mousepopup').html(addEventData[0]+'  '+addEventData[1]+' '+addEventData[4]);
+
+            });
+            $('#mousepopup').show();
+
+
+
+
+        });
+        //Appointment(Randevu) Eklenmesi [End]
+
         //Randevu Ekleme Fonksiyonu(Ajax) [Start]
             function selectAddAppointment(event,addEventData) {
                         var start=moment(event.start).format('YYYY-MM-DD HH:mm:ss');
@@ -714,6 +742,7 @@ $(document).ready(function () {
                                 }
                                 else {
 
+                                    appointmentData.push(data);
 
                                     calendar.addEvent(
                                         {
@@ -724,13 +753,25 @@ $(document).ready(function () {
                                          /*   backgroundColor: 'blue !important',
                                             borderColor: 'blue !important',*/
                                             className: 'context-menu-one context-class event-dark',
-                                            rendering: 'background'
+                                          /*  rendering: 'background'*/
 
                                         });
 
-                                    // calendar.setOption('slotDuration','00:30');
-                                        calendar.setOption('selectable',false);
-                                        calendar.unselect();
+
+
+
+                                    calendar.removeAllEvents();
+                                    appointmentData.forEach(function(items){
+                                        items['rendering']='';
+                                        items['className']='context-menu-one context-class ';
+                                    });
+                                    calendar.addEventSource(appointmentData);
+                                    calendar.addEventSource(renderedBridges);
+                                    calendar.setOption('selectable',false);
+                                    calendar.setOption('slotDuration','00:30');
+                                    calendar.render();
+
+
                                     $('#mousepopup').effect("shake", function(){$(this).hide()});
                                     $(".notification-text").html("Bridge History Added");
                                     $('#notificationAlert').addClass('alert-success').removeClass('alert-danger');
@@ -751,6 +792,7 @@ $(document).ready(function () {
 
         //Event'e Tıklandığında Bakım türü ve Randevu'nun Join Edilmesi Fonksiyonu [Start]
             function clickEventJoinMaintenance(info) {
+
                 $.ajax({
                     url: '/dHome/getEventsJoinMaintenance',
                     type: 'get',
@@ -850,14 +892,15 @@ $(document).ready(function () {
                         success:function (rawData) {
                             calendar.removeAllEvents();
                             rawData.forEach(function(items){
-                                items['rendering']='background';
                                 items['className']='context-menu-one context-class event-dark ';
                             });
                             calendar.addEventSource(rawData);
                             calendar.addEventSource(renderedBridges);
                             calendar.setOption('selectable',false);
                             calendar.render();
-
+                            $('.fc-custom-button').show();
+                            $('.fc-custom2-button').show();
+                            $('#newAppointment').show();
                         },
                         error: function() {
                             alert('There was an error while fetching events.');
@@ -880,7 +923,9 @@ $(document).ready(function () {
                             calendar.setOption('selectable',true);
                             calendar.setOption('slotDuration','00:30');//Time Grid Aralığının Belirlenmesi
                             calendar.render();
-
+                            $('.fc-custom-button').hide();
+                            $('.fc-custom2-button').hide();
+                            $('#newAppointment').hide();
                         },
                         error: function() {
                             alert('There was an error while fetching events.');
@@ -894,7 +939,7 @@ $(document).ready(function () {
 
         // Next Onclick Render [Start]
              $('.fc-next-button span').on('click',function () {//İleri Butonu ile render etme işlemi
-                 calendar.removeAllEvents();
+
                 // calendar.addEventSource(renderedBridges);
                  console.log(renderedBridgesData);
                  calendar.render();
@@ -904,7 +949,7 @@ $(document).ready(function () {
 
         //Prev Onclick Render [Start]
              $('.fc-prev-button span').on('click',function () {//Geri Butonu ile render etme işlemi
-                 calendar.removeAllEvents();
+
                 // calendar.addEventSource(renderedBridges);
                  console.log(renderedBridgesData);
                  calendar.render();
@@ -919,12 +964,11 @@ $(document).ready(function () {
                     preventSelect: true,
                     callback: function(key, options) {
                         var locale = $('#locale-selector').val();
-                        var chooseMessage=$('.chooseMessage');
                         var eventId=$(this).attr('id');
                         var event = calendar.getEventById(eventId);
                         switch (key) {
                             case 'edit':
-                                contextEdit(event,chooseMessage);
+                                contextEdit(event);
                                 break;
                             case 'delete':
                                 contextDelete(event,locale,eventId);
