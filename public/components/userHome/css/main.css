@@ -187,3 +187,14 @@ primary:not(:disabled):not(.disabled).active {
 .licensePlateInput{
     padding-left:15px;
 }
+.event-dark{
+    background-color: black !important;
+    border-color: black !important;
+    z-index:2 !important;
+}
+/*Bridge Rengi*/
+.fc-nonbusiness,fc-bgevent{
+    background-color: #34ce57 !important;
+    opacity: 0.2 !important;
+
+}

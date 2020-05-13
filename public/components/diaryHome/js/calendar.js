@@ -178,14 +178,6 @@ $(document).ready(function () {
                             }
                         });
                   },
-                eventAllow: function(dropInfo, draggedEvent) {
-                    if (draggedEvent.id === '999') {
-                        return dropInfo.start < new Date(2020, 4, 25); // a boolean
-                    }
-                    else {
-                        return true;
-                    }
-                },
                 selectAllow:function(selectInfo){
                         var selectedBridge = bridgesSelector.children("option:selected"). val();//Köprülerin tarih-saat aralığını seçmek için global olan selector'ünün seçili olanının değerinin alınması
                         var bool=[];
@@ -211,13 +203,7 @@ $(document).ready(function () {
                         if(info.el.className=='fc-nonbusiness fc-bgevent')
                         {
 
-                            $(info.el).attr("id", info.event.id)
-                                .on('dblclick',
-                                function () {
-
-                                       clickBridge(info);
-
-                            });/*.popover({
+                            $(info.el).attr("id", info.event.id);/*.popover({
                                 animation:true,
                                 delay: 300,
                                 content: 'Double click for bridge detail in '+info.event.title,
@@ -989,6 +975,8 @@ $(document).ready(function () {
         function clickBridge(info){
             console.log(info.event.id)
 
+            var appointmentInBridge=$('#clickBridgeForm').find('table').find('tbody');
+
              $.ajax({
                 url: '/dHome/bridgeJoinAppointment',
                 type: 'get',
@@ -997,13 +985,14 @@ $(document).ready(function () {
                 },
                 dataType: 'json',
                 success: function (data) {
-                    var appointmentInBridge=$('#clickBridgeForm').find('table').find('tbody');
+                   var bridgeHtml;
                     var index=1;
                         try {
                             data.forEach(function (item) {
-                                appointmentInBridge.append(' <tr><th scope="row">'+index+'</th><td>'+item['license_plate']+'</td><td>'+item["fullname"]+'</td><td>'+item["country"]+'</td><td>'+item["lang"]+'</td><td>'+item["gsm"]+'</td><td>'+item["email"]+'</td></tr>');
-                                index++;
+                                bridgeHtml +=' <tr><th scope="row">'+index+'</th><td>'+item['license_plate']+'</td><td>'+item["fullname"]+'</td><td>'+item["country"]+'</td><td>'+item["lang"]+'</td><td>'+item["gsm"]+'</td><td>'+item["email"]+'</td></tr>';
+                                 index++;
                             });
+                            appointmentInBridge.html(bridgeHtml);
                         }
                         catch (e) {
                             appointmentInBridge.append(' <tr><th scope="row"> Appointment not in this bridge </th>');

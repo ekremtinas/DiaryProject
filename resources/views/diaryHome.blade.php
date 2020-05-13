@@ -134,7 +134,7 @@
                 </div>
                 <div class="col-lg-2 list-group-item "><b>Before this day: <div style="background-color:#C3C3C3;width: 20px;height: 20px;"></div></b></div>
                 <div class="col-lg-2 list-group-item "><b>Today: <div style="background-color:#D6E0EB;width: 20px;height: 20px;"></div></b></div>
-                <div class="col-lg-2 list-group-item "><b>Available space: <div style="background-color:#FFB3B3;width: 20px;height: 20px;"></div></b></div>
+                <div class="col-lg-2 list-group-item "><b>Available space: <div style="background-color:#9AE6AC;width: 20px;height: 20px;"></div></b></div>
                 <div class="col-lg-2 list-group-item "><button id="newAppointment" class="btn btn-outline-success rounded-pill btn-sm p-lg-2"  data-toggle="popover"  data-content="
                             Double-click if you want to add appointment" data-placement="bottom" data-trigger="focus" title="Appointment Add" ><i class="fa fa-plus-circle"></i> Appointment</button></div>
             </div>
@@ -192,26 +192,8 @@
     border-color: black !important;
     z-index:2 !important;
 }
-#mousepopup{
-    background-color:#9E1C20;
-    color: white;
-    width:auto;
-    height:auto;
-    padding: 30px;
-    text-align:center;
-    font:1.2em Arial;
-    line-height:50px;
-    display:none;
-    position:absolute;
-    z-index:9999;
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
-}
-.fc-today{
-    background: #F0F5FF !important;
-    border: none !important;
-    border-top: 1px solid #ddd !important;
-    font-weight: bold;
-}
+
+
     </style>
 @endsection
 @section('script')

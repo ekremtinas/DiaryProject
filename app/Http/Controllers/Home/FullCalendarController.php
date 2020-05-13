@@ -227,6 +227,7 @@ class FullCalendarController extends Controller
                             'id' => $event['id']
                         ];
 
+
                         //Bakım Türünün Ara Tabloya Eklenmesi Start
                         $eventStartJoinMaintenanceTimeFormat = null;
                         for ($i = 0; $i < count($maintenanceId); $i++) {
@@ -237,7 +238,7 @@ class FullCalendarController extends Controller
                                 'eventId' => $event['id'],
                                 'maintenanceId' => $maintenanceId[$i]->id,
                             );
-
+                            \DebugBar::info($maintenanceId[$i]->id);
                             EventsJoinMaintenance::create($eventMaintenanceData);
 
                         }

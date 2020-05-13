@@ -113,3 +113,17 @@ a{
     text-decoration: none;
     background-color: #f8f9fa;
 }
+#mousepopup{
+    background-color:#9E1C20;
+    color: white;
+    width:auto;
+    height:auto;
+    padding: 30px;
+    text-align:center;
+    font:1.2em Arial;
+    line-height:50px;
+    display:none;
+    position:absolute;
+    z-index:9999;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+}

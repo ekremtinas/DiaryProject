@@ -1,6 +1,7 @@
 var globalTotalTime;
 var globalMaintenance;
 var carInfo={'car':[{'plate':'42 ER 122','carImage':'togg.jpg'},{'plate':'42 ER 123','carImage':'audi.jpg'},{'plate':'42 ER 124','carImage':'audi.jpg'},{'plate':'42 ER 125','carImage':'togg.jpg'}]};
+
 $(document).ready(function () {
 
 
@@ -116,10 +117,58 @@ $(document).ready(function () {
     var licensePlateLabel = $('#licensePlate-label');
     licensePlateFB.focus(function()
     {
-        licensePlateLabel.show().animate({top: '-30px'});
+        licensePlateLabel.show().animate({top: '-25px'});
     }).blur(function () {
         licensePlateLabel.animate({top: '0px'}).hide();
     });
+
+    var fullName = $('#fullName');
+    var fullNameLabel = $('#fullName-label');
+    fullName.focus(function()
+    {
+        fullNameLabel.show().animate({top: '-25px'});
+    }).blur(function () {
+        fullNameLabel.animate({top: '0px'}).hide();
+    });
+
+    var email = $('#email');
+    var emailLabel = $('#email-label');
+    email.focus(function()
+    {
+        emailLabel.show().animate({top: '-25px'});
+    }).blur(function () {
+        emailLabel.animate({top: '0px'}).hide();
+    });
+
+    var gsm = $('#gsm');
+    var gsmLabel = $('#gsm-label');
+    gsm.focus(function()
+    {
+        gsmLabel.show().animate({top: '-25px'});
+    }).blur(function () {
+        gsmLabel.animate({top: '0px'}).hide();
+    });
+
+    var country = $('#country');
+    var countryLabel = $('#country-label');
+    country.focus(function()
+    {
+        countryLabel.show().animate({top: '-25px'});
+    }).blur(function () {
+        countryLabel.animate({top: '0px'}).hide();
+    });
+
+    var lang = $('#lang');
+    var langLabel = $('#lang-label');
+    lang.focus(function()
+    {
+        langLabel.show().animate({top: '-25px'});
+    }).blur(function () {
+        langLabel.animate({top: '0px'}).hide();
+    });
+
+
+
     //Label Kaydırma End
 
 
